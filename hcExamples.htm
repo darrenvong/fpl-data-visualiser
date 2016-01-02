@@ -18,7 +18,8 @@ ${demo.css}
                "Ozil": [2,7,3,0,5,2,15,13,12,5]};
             var graphOptions = {
                 chart: {
-                    renderTo: "container"
+                    renderTo: "container",
+                    height: 500
                 },
                 title: {
                         text: "FPL player's weekly score",
@@ -33,7 +34,8 @@ ${demo.css}
                 yAxis: {
                     title: {
                         text: "Points"
-                    }
+                    },
+                    allowDecimals: false
                 },
                 plotOptions: {
                     line: {
@@ -49,7 +51,7 @@ ${demo.css}
                 },
                 tooltip: {
                     formatter: function() {
-                        return "Week "+this.x+"<br><b>Points: </b>"+this.y
+                        return "Week "+this.x+"<br><b>Points: </b>"+this.y;
                     }
                 },
                 legend: {
@@ -138,7 +140,7 @@ ${demo.css}
             <option value="Ozil">Ozil</option>
         </select>
         <button id="correlate">Correlate players!</button>
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="container" style="min-width: 310px; margin: 0 auto"></div>
 
 	</body>
 </html>
