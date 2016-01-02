@@ -9,7 +9,9 @@
 ${demo.css}
 		</style>
         <script src="js/highcharts.js"></script>
+        <script src="js/highcharts-more.js"></script>
         <script src="js/modules/exporting.js"></script>
+        <script src="js/math.min.js"></script>
 		<script type="text/javascript">
             var chart;
             var playersData = {"Mahrez": [15,10,10,1,11,11,2,0,4,6], "Lukaku": [5,13,2,2,2,2,16,7,1,2],
@@ -69,32 +71,73 @@ ${demo.css}
                     data: playersData[current],
                     name: current
                 });
-                // $('#container').highcharts(graphOptions);
                 chart = new Highcharts.Chart(graphOptions);
             };
 
             function myRedraw() {
                 var current = $('#players').val();
-                console.log(playersData[current]);
                 chart.series[0].update({
-                    data: playersData[current]
+                    data: playersData[current],
+                    type: "line"
+                }, false);
+                chart.setTitle({text: graphOptions.title.text});
+                chart.redraw();
+            }
+
+            function drawBox() {
+                var current = $('#players').val();
+                var currentPlayerData = playersData[current];
+                var median = math.median(currentPlayerData);
+                var lq = math.quantileSeq(currentPlayerData, 0.25);
+                var uq = math.quantileSeq(currentPlayerData, 0.75);
+                var min = math.min(currentPlayerData);
+                var max = math.max(currentPlayerData);
+                // console.log("Median: "+median+"; LQ: "+lq+"; UQ: "+uq+"; min: "+min+"; max: "+max);
+                chart.series[0].update({
+                    type: "boxplot",
+                    data: [[min, lq, median, uq, max]]
                 });
+            }
+
+            function drawCorr() {
+                var current = $('#players').val();
+                var current2 = $('#players2').val();
+                var dataPair = playersData[current].map(function(e, i) {
+                    return [playersData[current][i], playersData[current2][i]];
+                });
+                chart.series[0].update({
+                    type: "scatter",
+                    data: dataPair
+                }, false);
+                chart.setTitle({text: "Relationship between "+current+" and "+current2});
+                chart.redraw();
             }
 
             $(document).ready(draw);
             $(document).ready(function() {
-                document.getElementById("players").addEventListener("change", myRedraw);
-            })
+                document.getElementById("drawline").addEventListener("click", myRedraw);
+                document.getElementById("drawbox").addEventListener("click", drawBox);
+                document.getElementById("correlate").addEventListener("click", drawCorr);
+            });
 		</script>
 	</head>
 	<body>
-        <select id="players">
+        <label for="players">Player's name:</label>
+        <select id="players" name="players">
             <!-- <option value="" hidden></option> -->
             <option value="Mahrez" selected>Mahrez</option>
             <option value="Lukaku">Lukaku</option>
             <option value="Ozil">Ozil</option>
         </select>
-        <!-- <button id="update-btn">Update</button> -->
+        <button id="drawline">Draw line</button>
+        <button id="drawbox">Draw box</button><br>
+        <label for="players2">Player 2's name:</label>
+        <select id="players2" name="players2">
+            <option value="Mahrez" selected>Mahrez</option>
+            <option value="Lukaku">Lukaku</option>
+            <option value="Ozil">Ozil</option>
+        </select>
+        <button id="correlate">Correlate players!</button>
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 	</body>
