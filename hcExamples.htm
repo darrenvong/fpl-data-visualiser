@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<style type="text/css">
+${demo.css}
+		</style>
+        <script src="js/highcharts.js"></script>
+        <script src="js/modules/exporting.js"></script>
+		<script type="text/javascript">
+            var chart;
+            var playersData = {"Mahrez": [15,10,10,1,11,11,2,0,4,6], "Lukaku": [5,13,2,2,2,2,16,7,1,2],
+               "Ozil": [2,7,3,0,5,2,15,13,12,5]};
+            var graphOptions = {
+                chart: {
+                    renderTo: "container"
+                },
+                title: {
+                        text: "FPL player's weekly score",
+                        x: -20 //center
+                },
+                xAxis: {
+                    title: {
+                        text: "Game weeks"
+                    },
+                    minTickInterval: 1
+                },
+                yAxis: {
+                    title: {
+                        text: "Points"
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        pointStart: 1
+                    }
+                },
+                exporting: {
+                    buttons: {
+                        contextButton: {
+                            enabled: false
+                        }
+                    }
+                },
+                tooltip: {
+                    formatter: function() {
+                        return "Week "+this.x+"<br><b>Points: </b>"+this.y
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0,
+                    enabled: false
+                },
+                series: [],
+                credits: {
+                    enabled: false //Removes the highchart.com label at bottom right of graph
+                }
+            };
+
+            function draw() {
+                var current = $('#players').val();
+                graphOptions.series.push({
+                    data: playersData[current],
+                    name: current
+                });
+                // $('#container').highcharts(graphOptions);
+                chart = new Highcharts.Chart(graphOptions);
+            };
+
+            function myRedraw() {
+                var current = $('#players').val();
+                console.log(playersData[current]);
+                chart.series[0].update({
+                    data: playersData[current]
+                });
+            }
+
+            $(document).ready(draw);
+            $(document).ready(function() {
+                document.getElementById("players").addEventListener("change", myRedraw);
+            })
+		</script>
+	</head>
+	<body>
+        <select id="players">
+            <!-- <option value="" hidden></option> -->
+            <option value="Mahrez" selected>Mahrez</option>
+            <option value="Lukaku">Lukaku</option>
+            <option value="Ozil">Ozil</option>
+        </select>
+        <!-- <button id="update-btn">Update</button> -->
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+	</body>
+</html>
