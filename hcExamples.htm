@@ -14,8 +14,8 @@ ${demo.css}
         <script src="js/math.min.js"></script>
 		<script type="text/javascript">
             var chart;
-            var playersData = {"Mahrez": [15,10,10,1,11,11,2,0,4,6], "Lukaku": [5,13,2,2,2,2,16,7,1,2],
-               "Ozil": [2,7,3,0,5,2,15,13,12,5]};
+            var playersData = {"Mahrez": [15,10,10,1,11,11,2,0,4,6,15,2,9,2,21,13,15,2,3,1], "Lukaku": [5,13,2,2,2,2,16,7,1,2,14,8,12,6,8,9,6,2,13,6],
+               "Ozil": [2,7,3,0,5,2,15,13,12,5,10,8,8,10,6,6,11,2,14,2], "Vardy": [5,1,5,8,6,6,12,9,13,5,7,9,7,9,5,7,8,2,2,2]};
             var graphOptions = {
                 chart: {
                     renderTo: "container",
@@ -80,9 +80,12 @@ ${demo.css}
                 var current = $('#players').val();
                 chart.series[0].update({
                     data: playersData[current],
-                    type: "line"
+                    type: "line",
+                    pointStart: 1
                 }, false);
                 chart.setTitle({text: graphOptions.title.text});
+                chart.xAxis[0].setTitle({text: graphOptions.xAxis.title.text});
+                chart.yAxis[0].setTitle({text: graphOptions.yAxis.title.text});
                 chart.redraw();
             }
 
@@ -98,7 +101,10 @@ ${demo.css}
                 chart.series[0].update({
                     type: "boxplot",
                     data: [[min, lq, median, uq, max]]
-                });
+                }, false);
+                chart.xAxis[0].setTitle({text: current});
+                chart.yAxis[0].setTitle({text: graphOptions.yAxis.title.text});
+                chart.redraw();
             }
 
             function drawCorr() {
@@ -112,6 +118,8 @@ ${demo.css}
                     data: dataPair
                 }, false);
                 chart.setTitle({text: "Relationship between "+current+" and "+current2});
+                chart.xAxis[0].setTitle({text: current+"'s point"});
+                chart.yAxis[0].setTitle({text: current2+"'s point"});
                 chart.redraw();
             }
 
@@ -130,6 +138,7 @@ ${demo.css}
             <option value="Mahrez" selected>Mahrez</option>
             <option value="Lukaku">Lukaku</option>
             <option value="Ozil">Ozil</option>
+            <option value="Vardy">Vardy</option>
         </select>
         <button id="drawline">Draw line</button>
         <button id="drawbox">Draw box</button><br>
@@ -138,6 +147,7 @@ ${demo.css}
             <option value="Mahrez" selected>Mahrez</option>
             <option value="Lukaku">Lukaku</option>
             <option value="Ozil">Ozil</option>
+            <option value="Vardy">Vardy</option>
         </select>
         <button id="correlate">Correlate players!</button>
     <div id="container" style="min-width: 310px; margin: 0 auto"></div>
