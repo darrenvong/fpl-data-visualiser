@@ -1,6 +1,4 @@
 var chart;
-var playersData = {"Mahrez": [15,10,10,1,11,11,2,0,4,6,15,2,9,2,21,13,15,2,3,1], "Lukaku": [5,13,2,2,2,2,16,7,1,2,14,8,12,6,8,9,6,2,13,6],
-               "Ozil": [2,7,3,0,5,2,15,13,12,5,10,8,8,10,6,6,11,2,14,2], "Vardy": [5,1,5,8,6,6,12,9,13,5,7,9,7,9,5,7,8,2,2,2]};
 var graphOptions = {
     chart: {
         renderTo: "container",
@@ -52,6 +50,10 @@ var graphOptions = {
     }
 };
 
+// For both draw and redraw, player names with space don't work and to be fixed...
+// Also, correlate needs significant revamp for it to work.
+// However as significant progress has been made on at least getting js to work
+// with Python, Bottle and MongoDB, this buggy shall be pushed to a dev branch...
 function draw() {
     var current = $('#players').val();
         graphOptions.series.push({
@@ -112,5 +114,5 @@ $(document).ready(draw);
 $(document).ready(function() {
     document.getElementById("drawline").addEventListener("click", myRedraw);
     document.getElementById("drawbox").addEventListener("click", drawBox);
-    document.getElementById("correlate").addEventListener("click", drawCorr);
+    // document.getElementById("correlate").addEventListener("click", drawCorr);
 });
