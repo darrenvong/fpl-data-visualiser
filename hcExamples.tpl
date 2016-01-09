@@ -12,12 +12,7 @@ ${demo.css}
         <script src="js/highcharts-more.js"></script>
         <script src="js/modules/exporting.js"></script>
         <script src="js/math.min.js"></script>
-        % from scrapper import getPoints
         % import json
-        % playData = {}
-        % for points, weeks, name in getPoints():
-        %   playData[name] = map(list, zip(weeks, points))
-        % end
         <script type="text/javascript">
         var playersData = {{!json.dumps(playData)}};
         </script>
@@ -27,7 +22,7 @@ ${demo.css}
         <label for="players">Player's name:</label>
         <select id="players" name="players">
             % for player in playData:
-            <option value={{player}}>{{player}}</option>
+            <option value={{player}}>{{player if player.count("_")==0 else player.replace("_", " ")}}</option>
             % end
         </select>
         <button id="drawline">Draw line</button>

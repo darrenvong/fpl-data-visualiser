@@ -50,10 +50,6 @@ var graphOptions = {
     }
 };
 
-// For both draw and redraw, player names with space don't work and to be fixed...
-// Also, correlate needs significant revamp for it to work.
-// However as significant progress has been made on at least getting js to work
-// with Python, Bottle and MongoDB, this buggy code shall be pushed to a dev branch...
 function draw() {
     var current = $('#players').val();
         graphOptions.series.push({
@@ -94,6 +90,7 @@ function drawBox() {
     chart.redraw();
 }
 
+// TODO: this needs to be fixed
 function drawCorr() {
     var current = $('#players').val();
     var current2 = $('#players2').val();

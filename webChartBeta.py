@@ -1,8 +1,13 @@
 from bottle import route, run, template, static_file, debug
+from scrapper import getPoints
 
 @route('/graphs')
-def root():
-    return template("hcExamples")
+def show_graph():
+    playData = {}
+    for points, weeks, name in getPoints():
+        nameVal = name if name.count(" ")==0 else name.replace(" ", "_")
+        playData[nameVal] = map(list, zip(weeks, points))
+    return template("hcExamples", playData=playData)
 
 @route('/<name>')
 def index(name):
