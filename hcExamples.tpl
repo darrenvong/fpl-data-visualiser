@@ -12,7 +12,7 @@ ${demo.css}
         <script src="js/highcharts-more.js"></script>
         <script src="js/modules/exporting.js"></script>
         <script src="js/math.min.js"></script>
-		<script type="text/javascript" src="fpl_graphs.js"></script>
+		<script type="text/javascript" src="js/fpl_graphs.js"></script>
 	</head>
 	<body>
         <label for="players">Player's name:</label>
