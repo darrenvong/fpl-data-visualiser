@@ -29,14 +29,13 @@ ${demo.css}
 
 
         <button id="drawbox">Draw box</button><br>
-        <!-- <label for="players2">Player 2's name:</label>
+        <label for="players2">Player 2's name:</label>
         <select id="players2" name="players2">
-            <option value="Mahrez" selected>Mahrez</option>
-            <option value="Lukaku">Lukaku</option>
-            <option value="Ozil">Ozil</option>
-            <option value="Vardy">Vardy</option>
+            % for player in playData:
+            <option value={{player}}>{{player if player.count("_")==0 else player.replace("_", " ")}}</option>
+            % end
         </select>
-        <button id="correlate">Correlate players!</button> -->
+        <button id="correlate">Correlate players!</button>
     <div id="container" style="min-width: 310px; margin: 0 auto"></div>
 
 	</body>
