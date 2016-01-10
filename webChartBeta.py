@@ -1,5 +1,7 @@
-from bottle import route, run, template, static_file, debug
+from bottle import route, run, template, static_file, debug, post, redirect
 from scrapper import getPoints
+
+i = 0
 
 @route('/graphs')
 def show_graph():
@@ -8,6 +10,13 @@ def show_graph():
         nameVal = name if name.count(" ")==0 else name.replace(" ", "_")
         playData[nameVal] = map(list, zip(weeks, points))
     return template("hcExamples", playData=playData)
+
+@post('/secret')
+def secret():
+    players_list = ["Kante", "Lukaku", "Vardy"]
+    global i
+    i = i+1 if i<2 else 0
+    return players_list[i]
 
 @route('/<name>')
 def index(name):
