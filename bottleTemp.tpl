@@ -5,14 +5,24 @@
         <title>{{name}}</title>
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
         <script>
-            $(document).ready(function() {
-                $('#j').text("This is some text from JavaScript! Yo!");
-                $('#clicky').on("click", function() {
-                    $.post("/secret", function(data) {
-                        console.log(data);
-                    });
-                });
+            var x;
+            console.log("before: "+ x);
+            
+            $.ajax({
+              type: "POST",
+              url: "/secret",
+              success: function(data) {
+                console.log(data);
+                x = data;
+              },
+              async: false
             });
+            // $.post("/secret", function(data) {console.log(data);}); //this works!
+            $(document).ready(function(call) {
+                $('#j').text("This is some text from JavaScript! Yo!");
+            });
+            console.log("After...");
+            console.log(x);
         </script>
     </head>
     <body>

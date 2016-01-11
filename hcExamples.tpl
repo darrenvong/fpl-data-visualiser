@@ -12,11 +12,6 @@ ${demo.css}
         <script src="js/highcharts-more.js"></script>
         <script src="js/modules/exporting.js"></script>
         <script src="js/math.min.js"></script>
-        % import json
-        <script type="text/javascript">
-        var playersData = {{!json.dumps(playData)}};
-        </script>
-		<script type="text/javascript" src="js/fpl_graphs.js"></script>
 	</head>
 	<body>
         <label for="players">Player's name:</label>
@@ -39,4 +34,5 @@ ${demo.css}
     <div id="container" style="min-width: 310px; margin: 0 auto"></div>
 
 	</body>
+    <script type="text/javascript" src="js/fpl_graphs.js"></script>
 </html>

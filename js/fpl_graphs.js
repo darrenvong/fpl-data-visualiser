@@ -1,4 +1,13 @@
 var chart;
+var playersData;
+$.ajax({
+      type: "POST",
+      url: "/graphs",
+      success: function(data) {
+        playersData = data;
+      },
+      async: false
+});
 var graphOptions = {
     chart: {
         renderTo: "container",
@@ -34,7 +43,7 @@ var graphOptions = {
     },
     tooltip: {
         formatter: function() {
-            return "Week: "+this.x+"<br><b>Points: </b>"+this.y;
+            return "Week "+this.x+"<br><b>Points: </b>"+this.y;
         }
     },
     legend: {
@@ -73,9 +82,7 @@ function myRedraw() {
             type: "line",
             pointStart: 1
         }, false);
-        chart.options.tooltip.formatter = function() {
-            return "Week: "+this.x+"<br><b>Points: </b>"+this.y;
-        };
+        chart.options.tooltip.formatter = graphOptions.tooltip.formatter;
     }
     chart.setTitle({text: graphOptions.title.text});
     chart.xAxis[0].setTitle({text: graphOptions.xAxis.title.text});
