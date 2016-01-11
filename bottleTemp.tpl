@@ -9,7 +9,7 @@
                 $('#j').text("This is some text from JavaScript! Yo!");
                 $('#clicky').on("click", function() {
                     $.post("/secret", function(data) {
-                        $('#players').val(data);
+                        console.log(data);
                     });
                 });
             });

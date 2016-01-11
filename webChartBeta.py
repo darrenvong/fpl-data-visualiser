@@ -1,8 +1,6 @@
 from bottle import route, run, template, static_file, debug, post, redirect
 from scrapper import getPoints
 
-i = 0
-
 @route('/graphs')
 def show_graph():
     playData = {}
@@ -13,10 +11,8 @@ def show_graph():
 
 @post('/secret')
 def secret():
-    players_list = ["Kante", "Lukaku", "Vardy"]
-    global i
-    i = i+1 if i<2 else 0
-    return players_list[i]
+    player_obj = {"Vardy": [5,8,5,9], "Lukaku": [1,1,2,5], "Oz": [1,5,15,8]}
+    return player_obj
 
 @route('/<name>')
 def index(name):
