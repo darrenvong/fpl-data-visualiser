@@ -82,8 +82,8 @@ def insertPlayers():
     results = players.insert_many(players_list)
     client.close()
 
-def getPoints():
-    client, players = connect()
+def getPoints(client, players):
+    # client, players = connect()
     cursor = players.find({"web_name": {"$exists": 1}},
                           {"_id": 0, "web_name": 1, "fixture_history": 1})
     # List of fixtures with players' names
@@ -91,7 +91,7 @@ def getPoints():
     # Players' scores, weeks they got the scores in together with their names
     players_list = [([f[-1] for f in player[0]], [f[1] for f in player[0]], player[1])
                     for player in players_list]
-    client.close()
+    # client.close()
     return players_list
 
 if __name__ == "__main__":

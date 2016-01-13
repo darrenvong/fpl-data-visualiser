@@ -1,8 +1,9 @@
 from bottle import route, run, template, static_file, debug, post, redirect
-from scrapper import getPoints
+from scrapper import getPoints, connect
 
+client, players = connect()
 playData = {}
-for points, weeks, name in getPoints():
+for points, weeks, name in getPoints(client, players):
     nameVal = name if name.count(" ")==0 else name.replace(" ", "_")
     playData[nameVal] = map(list, zip(weeks, points))
 
