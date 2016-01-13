@@ -7,21 +7,6 @@ from time import sleep
 from collections import OrderedDict
 from pymongo import MongoClient
 
-# address = ("http://www.whoscored.com/StatisticsFeed/1/GetPlayerStatistics?category=summary"
-#            "&subcategory=all&statsAccumulationType=0&isCurrent=true&playerId=&teamIds=&matchId="
-#            "&stageId=12496&tournamentOptions=2&sortBy=Rating&sortAscending=&age=&ageComparisonType="
-#            "&appearances=&appearancesComparisonType=&field=Overall&nationality=&positionOptions="
-#            "&timeOfTheGameEnd=&timeOfTheGameStart=&isMinApp=true&page=&includeZeroValues="
-#            "&numberOfPlayersToPick=10"
-#            )
-# trickAddress = ("http://www.whoscored.com/Regions/252/Tournaments/2/Seasons/5826/Stages/12496/"
-#                 "PlayerStatistics/England-Premier-League-2015-2016")
-# webbrowser.open(trickAddress)
-# sleep(10)
-# stream = urllib2.urlopen(address).read()
-# print stream
-
-
 ####################### Main scrapping code ###########################
 
 # def checkInactivePlayer(d):
@@ -83,7 +68,6 @@ def insertPlayers():
     client.close()
 
 def getPoints(client, players):
-    # client, players = connect()
     cursor = players.find({"web_name": {"$exists": 1}},
                           {"_id": 0, "web_name": 1, "fixture_history": 1})
     # List of fixtures with players' names
@@ -91,7 +75,6 @@ def getPoints(client, players):
     # Players' scores, weeks they got the scores in together with their names
     players_list = [([f[-1] for f in player[0]], [f[1] for f in player[0]], player[1])
                     for player in players_list]
-    # client.close()
     return players_list
 
 if __name__ == "__main__":
