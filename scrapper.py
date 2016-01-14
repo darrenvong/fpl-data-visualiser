@@ -32,13 +32,13 @@ def scrapePlayers():
             sleep(10)
             continue
         try:
-            player = loads(data)
+            loads(data)
             wtf.write(data+"\n")
             i += 1
         except ValueError:
             print "Invalid JSON, try again!"
         except SyntaxError:
-            player = loads(data,encoding="latin_1")
+            loads(data,encoding="latin_1")
             i += 1
         
         if (i%50 == 0):
@@ -60,11 +60,10 @@ def insertPlayers():
     client = MongoClient()
     db = client.test
     players = db.players
-    players_list = []
     with open("FPLdata.json", "r") as data:
         players_list = [loads(p, object_pairs_hook=OrderedDict) for p in data]
         
-    results = players.insert_many(players_list)
+    players.insert_many(players_list)
     client.close()
 
 def getPoints(client, players):
