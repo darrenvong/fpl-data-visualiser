@@ -5,7 +5,7 @@ class WebChartProg(Bottle):
 
     def __init__(self, *args, **kwargs):
         super(WebChartProg, self).__init__(*args, **kwargs)
-        self.client, self.players = connect()
+        self.client = self.players = None
         self.playerData = {}
         self._route()
     
@@ -18,6 +18,8 @@ class WebChartProg(Bottle):
         self.route('/<path:path>', callback=lambda path: self.get_js(path))
     
     def show_graph(self):
+        if self.client is None and self.players is None:
+            self.client, self.players = connect()
         for points, weeks, name in getPoints(self.client, self.players):
             nameVal = name if name.count(" ")==0 else name.replace(" ", "_")
             self.playerData[nameVal] = map(list, zip(weeks, points))
