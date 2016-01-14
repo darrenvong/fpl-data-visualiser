@@ -4,15 +4,15 @@ from scrapper import getPoints, connect
 class WebChartProg(Bottle):
 
     def __init__(self, *args, **kwargs):
-        Bottle.__init__(self, *args, **kwargs)
+        super(WebChartProg, self).__init__(*args, **kwargs)
         self.client, self.players = connect()
         self.playerData = {}
         self._route()
     
     def _route(self):
         self.route('/graphs', callback=self.show_graph)
-        self.route('/graphs', method="POST", callback=self.get_player_data)
-        self.route('/secret', method="POST", callback=self.secret)
+        self.post('/graphs', callback=self.get_player_data)
+        self.post('/secret', callback=self.secret)
         self.route('/<n>', callback=lambda n: self.index(n))
         self.route('/favicon.ico', callback=self.get_icon)
         self.route('/<path:path>', callback=lambda path: self.get_js(path))
