@@ -1,11 +1,10 @@
 from bottle import *
 from scrapper import getPoints, connect
 
-class webChartProg(Bottle):
+class WebChartProg(Bottle):
 
     def __init__(self, *args, **kwargs):
         Bottle.__init__(self, *args, **kwargs)
-#         self.bottle_ = Bottle(*args, **kwargs)
         self.client, self.players = connect()
         self.playerData = {}
         self._route()
@@ -41,5 +40,5 @@ class webChartProg(Bottle):
         return static_file(path, root="./")
 
 if __name__ == '__main__':
-    app = webChartProg()
+    app = WebChartProg()
     app.run(host='localhost', port=8080, reloader=True, debug=True)
