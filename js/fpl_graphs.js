@@ -61,10 +61,10 @@ var graphOptions = {
 
 function draw() {
     var current = $('#players').val();
-        graphOptions.series.push({
-            data: playersData[current],
-            name: current
-        });
+    graphOptions.series.push({
+        data: playersData[current],
+        name: current
+    });
     chart = new Highcharts.Chart(graphOptions);
 };
 
