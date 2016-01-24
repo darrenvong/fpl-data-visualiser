@@ -1,4 +1,4 @@
-# FPL Statistics Visualiser
+## FPL Statistics Visualiser
 
 A graphical visualisation on Fantasy Premier League players' various raw statistics such as their weekly point score,
 as well as slightly more sophisticated statistics such as the standard deviation of their scores to highlight consistency
