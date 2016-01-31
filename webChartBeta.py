@@ -1,14 +1,19 @@
-from bottle import route, run, template, static_file, debug, post, redirect
+from bottle import route, run, template, static_file, debug, post, request
 from scrapper import getPoints, connect
 
-client, players = connect()
+client = players = None
 playData = {}
-for points, weeks, name in getPoints(client, players):
-    nameVal = name if name.count(" ")==0 else name.replace(" ", "_")
-    playData[nameVal] = map(list, zip(weeks, points))
+
 
 @route('/graphs')
 def show_graph():
+    global client, players, playData
+    if client is None or players is None:
+        client, players = connect()
+    if len(playData) == 0:
+        for points, weeks, name in getPoints(client, players):
+            nameVal = name if name.count(" ")==0 else name.replace(" ", "_")
+            playData[nameVal] = map(list, zip(weeks, points))
     return template("hcExamples", playData=playData)
 
 @post('/graphs')

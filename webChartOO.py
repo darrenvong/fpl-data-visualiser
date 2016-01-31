@@ -12,7 +12,6 @@ class WebChartProg(Bottle):
     def _route(self):
         self.route('/graphs', callback=self.show_graph)
         self.post('/graphs', callback=self.get_player_data)
-        self.post('/secret', callback=self.secret)
         self.route('/<n>', callback=lambda n: self.index(n))
         self.route('/favicon.ico', callback=self.get_icon)
         self.route('/<path:path>', callback=lambda path: self.get_js(path))
@@ -20,20 +19,17 @@ class WebChartProg(Bottle):
     def show_graph(self):
         if self.client is None and self.players is None:
             self.client, self.players = connect()
-        for points, weeks, name in getPoints(self.client, self.players):
-            nameVal = name if name.count(" ")==0 else name.replace(" ", "_")
-            self.playerData[nameVal] = map(list, zip(weeks, points))
+        if len(self.playerData) == 0:
+            for points, weeks, name in getPoints(self.client, self.players):
+                nameVal = name if name.count(" ")==0 else name.replace(" ", "_")
+                self.playerData[nameVal] = map(list, zip(weeks, points))
         return template("hcExamples", playData=self.playerData)
     
     def get_player_data(self):
         return self.playerData
     
-    def secret(self):
-        player_obj = {"Vardy": [5,8,5,9], "Lukaku": [1,1,2,5], "Oz": [1,5,15,8]}
-        return player_obj
-    
     def index(self, n):
-        return template("bottleTemp", name=n)
+        return "<!DOCTYPE html><html><head></head><body>Hello "+n+"</body></html>"
     
     def get_icon(self):
         return static_file("favicon.ico", root="../")
