@@ -33,6 +33,6 @@ ${demo.css}
         <button id="correlate">Correlate players!</button>
     <div id="container" style="min-width: 310px; margin: 0 auto"></div>
 
-	</body>
     <script type="text/javascript" src="js/fpl_graphs.js"></script>
+    </body>
 </html>
