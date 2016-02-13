@@ -75,11 +75,4 @@ def getPoints(client, players):
     players_list = [([f[-1] for f in player[0]], [f[1] for f in player[0]], player[1])
                     for player in players_list]
     return players_list
-
-if __name__ == "__main__":
-    p_s = getPoints()
-    print len(p_s)
-    for p in p_s[:10]:
-        print p
-    
     
