@@ -17,7 +17,7 @@ class WebChartProg(Bottle):
         self.route('/<path:path>', callback=lambda path: self.get_js(path))
     
     def show_graph(self):
-        if self.client is None and self.players is None:
+        if self.client is None or self.players is None:
             self.client, self.players = connect()
         if len(self.playerData) == 0:
             for points, weeks, name in getPoints(self.client, self.players):
@@ -39,4 +39,4 @@ class WebChartProg(Bottle):
 
 if __name__ == '__main__':
     app = WebChartProg()
-    app.run(host='localhost', port=8080, reloader=True, debug=True)
+    app.run(host='localhost', port=80, reloader=True, debug=True)
