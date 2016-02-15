@@ -32,7 +32,24 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="index.html">FPL Player Data Visualiser</a>
+          <a class="navbar-brand" href="index.html">Data Visualiser</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li class="dropdown">
+              <a href="#" id="tools-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                Tools
+                <span class="caret" />
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Player profiles</a></li>
+                <li><a href="#">Head-to-head comparator</a></li>
+                <li><a href="#">Multi-player comparator</a></li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -40,9 +57,9 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>FPL Player Stat Visualiser</h1>
+        <h1>FPL Player Data Visualiser</h1>
         <p>The tool to help you pick out the top-notch players and boost your ranking in Fantasy Premier League!</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        <p><a class="btn btn-success btn-lg" href="#" role="button">Learn more &raquo;</a></p>
       </div>
     </div>
 
@@ -54,7 +71,6 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Rank</th>
                 <th>Name</th>
                 <th>Club</th>
                 <th>Value</th>
@@ -63,14 +79,12 @@
             </thead>
             <tbody>
               <tr>
-                <td>1</td>
                 <td>Vardy</td>
                 <td>Leicester</td>
                 <td>£7.4M</td>
                 <td>156</td>
               </tr>
               <tr>
-                <td>2</td>
                 <td>Aguero</td>
                 <td>Manchester City</td>
                 <td>£13.6M</td>
@@ -84,7 +98,6 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Rank</th>
                 <th>Name</th>
                 <th>Club</th>
                 <th>Value</th>
@@ -93,14 +106,12 @@
             </thead>
             <tbody>
               <tr>
-                <td>1</td>
                 <td>Vardy</td>
                 <td>Leicester</td>
                 <td>£7.4M</td>
                 <td>156</td>
               </tr>
               <tr>
-                <td>2</td>
                 <td>Aguero</td>
                 <td>Manchester City</td>
                 <td>£13.6M</td>
@@ -110,31 +121,31 @@
           </table>
        </div>
         <div class="col-md-4">
-          <h2>Top dogs</h2>
+          <h2>Most popular this week</h2>
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Rank</th>
                 <th>Name</th>
                 <th>Club</th>
                 <th>Value</th>
                 <th>Points</th>
+                <th>Net Transfer</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>1</td>
                 <td>Vardy</td>
                 <td>Leicester</td>
                 <td>£7.4M</td>
                 <td>156</td>
+                <td>+59258</td>
               </tr>
               <tr>
-                <td>2</td>
                 <td>Aguero</td>
                 <td>Manchester City</td>
                 <td>£13.6M</td>
                 <td>106</td>
+                <td>+48987</td>
               </tr>
             </tbody>
           </table>
