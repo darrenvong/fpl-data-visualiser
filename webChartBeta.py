@@ -30,8 +30,8 @@ def index(name):
     return template("bottleTemp", name=name)
 
 @route('/favicon.ico')
-def get_icon(path="favicon.ico"):
-    return static_file(path, root="../")
+def get_icon():
+    return static_file("favicon.ico", root="../")
 
 @route('/<path:path>')
 def get_js(path):
