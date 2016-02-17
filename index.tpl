@@ -32,6 +32,12 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
           <a class="navbar-brand" href="index.html">Data Visualiser</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
@@ -70,7 +76,7 @@
           <h2>Hottest players</h2>
           <table class="table table-bordered">
             <thead>
-              <tr>
+              <tr class="thead-row-color">
                 <th>Name</th>
                 <th>Club</th>
                 <th>Value</th>
@@ -97,7 +103,7 @@
           <h2>Pound stretchers</h2>
           <table class="table table-bordered">
             <thead>
-              <tr>
+              <tr class="thead-row-color">
                 <th>Name</th>
                 <th>Club</th>
                 <th>Value</th>
@@ -124,7 +130,7 @@
           <h2>Most popular this week</h2>
           <table class="table table-bordered">
             <thead>
-              <tr>
+              <tr class="thead-row-color">
                 <th>Name</th>
                 <th>Club</th>
                 <th>Value</th>

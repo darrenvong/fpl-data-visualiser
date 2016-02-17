@@ -23,3 +23,11 @@ body {
 .jumbotron .container {
   text-align: center;
 }
+
+.thead-row-color {
+  background-color: #8cbde0;
+}
+
+.thead-row-color > th {
+  color: #e6e6e6;
+}
