@@ -19,7 +19,7 @@ def scrapePlayers():
     AGENT_NAME = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0"
     headers = {"User-Agent": AGENT_NAME}
      
-    while True:    
+    while True:
         try:
             request = urllib2.Request(address+str(i)+"/", None, headers)
             feed = urllib2.urlopen(request)
