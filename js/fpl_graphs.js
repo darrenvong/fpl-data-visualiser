@@ -21,7 +21,8 @@ var graphOptions = {
         title: {
             text: "Game weeks"
         },
-        minTickInterval: 1
+        minTickInterval: 1,
+        allowDecimals: false
     },
     yAxis: {
         title: {

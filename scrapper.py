@@ -15,7 +15,7 @@ from pymongo import MongoClient
 def scrapePlayers():
     address = "http://fantasy.premierleague.com/web/api/elements/"
     i = 1
-    wtf = open("FPLdata2.json", "w") # wtf = " write to file :) "
+    wtf = open("FPLdata.json", "w") # wtf = " write to file :) "
     AGENT_NAME = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0"
     headers = {"User-Agent": AGENT_NAME}
      
@@ -37,11 +37,11 @@ def scrapePlayers():
             i += 1
         except ValueError:
             print "Invalid JSON, try again!"
-        except SyntaxError:
-            loads(data,encoding="latin_1")
-            i += 1
+        # except SyntaxError:
+        #     loads(data,encoding="latin_1")
+        #     i += 1
         
-        if (i%50 == 0):
+        if (i%5 == 0):
             print "Flushing to file..."
             wtf.flush()
             print data[:30]
@@ -75,4 +75,7 @@ def getPoints(client, players):
     players_list = [([f[-1] for f in player[0]], [f[1] for f in player[0]], player[1])
                     for player in players_list]
     return players_list
-    
+
+if __name__ == '__main__':
+    scrapePlayers()
+    insertPlayers()
