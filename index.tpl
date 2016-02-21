@@ -48,7 +48,7 @@
             <li class="dropdown">
               <a href="#" id="tools-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 Tools
-                <span class="caret" />
+                <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="#">Player profiles</a></li>
@@ -61,7 +61,7 @@
       </div>
     </nav>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <!-- Main jumbotron -->
     <div class="jumbotron">
       <div class="container">
         <h1>FPL Player Data Visualiser</h1>
@@ -71,7 +71,7 @@
     </div>
 
     <div class="container">
-      <!-- Example row of columns -->
+      <!-- Tables of the most wanted players -->
       <div class="row">
         <div class="col-md-4">
           <h2>Hottest players</h2>
@@ -162,7 +162,7 @@
       <hr>
 
       <footer class="footer">
-        <p>Application written by Darren Vong &copy; 2016</p>
+        <p>&copy; Darren Vong 2016</p>
       </footer>
     </div> <!-- /container -->
 
