@@ -39,7 +39,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">Data Visualiser</a>
+          <a class="navbar-brand" href="index">Data Visualiser</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -51,7 +51,7 @@
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="#">Player profiles</a></li>
+                <li><a href="profiles.tpl">Player profiles</a></li>
                 <li><a href="#">Head-to-head comparator</a></li>
                 <li><a href="#">Multi-player comparator</a></li>
               </ul>
@@ -82,21 +82,19 @@
                 <th>Club</th>
                 <th>Value</th>
                 <th>Points</th>
+                <th>Form Score</th>
               </tr>
             </thead>
             <tbody>
+              % for player in hot_players:
               <tr>
-                <td>Vardy</td>
-                <td>Leicester</td>
-                <td>£7.4M</td>
-                <td>156</td>
+                <td>{{ player["web_name"] }}</td>
+                <td>{{ player["team_name"] }}</td>
+                <td>£{{ player["now_cost"]/10.0 }}M</td>
+                <td>{{ player["total_points"] }}</td>
+                <td>{{ player["form"] }}</td>
               </tr>
-              <tr>
-                <td>Aguero</td>
-                <td>Manchester City</td>
-                <td>£13.6M</td>
-                <td>106</td>
-              </tr>
+              % end
             </tbody>
           </table>
         </div>
@@ -112,18 +110,14 @@
               </tr>
             </thead>
             <tbody>
+              % for player in pound_stretchers:
               <tr>
-                <td>Vardy</td>
-                <td>Leicester</td>
-                <td>£7.4M</td>
-                <td>156</td>
+                <td>{{ player["web_name"] }}</td>
+                <td>{{ player["team_name"] }}</td>
+                <td>£{{ player["now_cost"]/10.0 }}M</td>
+                <td>{{ player["total_points"] }}</td>
               </tr>
-              <tr>
-                <td>Aguero</td>
-                <td>Manchester City</td>
-                <td>£13.6M</td>
-                <td>106</td>
-              </tr>
+              % end
             </tbody>
           </table>
        </div>
@@ -140,20 +134,15 @@
               </tr>
             </thead>
             <tbody>
+              % for player in popular_players:
               <tr>
-                <td>Vardy</td>
-                <td>Leicester</td>
-                <td>£7.4M</td>
-                <td>156</td>
-                <td>+59258</td>
+                <td>{{ player["web_name"] }}</td>
+                <td>{{ player["team_name"] }}</td>
+                <td>£{{ player["now_cost"]/10.0 }}M</td>
+                <td>{{ player["total_points"] }}</td>
+                <td>{{ "+"+str(player["net_transfers"]) if player["net_transfers"]>0 else "-"+str(player["net_transfers"]) }}</td>
               </tr>
-              <tr>
-                <td>Aguero</td>
-                <td>Manchester City</td>
-                <td>£13.6M</td>
-                <td>106</td>
-                <td>+48987</td>
-              </tr>
+              % end
             </tbody>
           </table>
         </div>

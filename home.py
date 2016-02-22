@@ -3,9 +3,8 @@ Created on 21 Feb 2016
 
 @author: Darren
 """
-from pymongo import MongoClient
+from pymongo import MongoClient, DESCENDING
 from bson import SON
-import pymongo
 
 def connect():
     client = MongoClient()
@@ -14,8 +13,9 @@ def connect():
 
 def get_hot_players(col):
     query = {"total_points": {"$gt": 0}}
-    projection = {"_id": 0, "web_name": 1, "team_name": 1, "now_cost": 1, "total_points": 1}
-    cursor = col.find(query, projection, sort=[("form", pymongo.DESCENDING)], limit=5)
+    projection = {"_id": 0, "web_name": 1, "team_name": 1, "now_cost": 1, "total_points": 1,
+                  "form": 1}
+    cursor = col.find(query, projection, sort=[("form", DESCENDING)], limit=5)
     return [player for player in cursor]
 
 def pound_stretchers(col):
@@ -23,7 +23,7 @@ def pound_stretchers(col):
     avg_cost = 50
     query = {"now_cost": {"$lte": avg_cost}, "total_points": {"$gte": avg_points}}
     projection = {"_id": 0, "web_name": 1, "team_name": 1, "now_cost": 1, "total_points": 1}
-    cursor = col.find(query, projection, sort=[("total_points", pymongo.DESCENDING)], limit=5)
+    cursor = col.find(query, projection, sort=[("total_points", DESCENDING)], limit=5)
     return [player for player in cursor]
         
 def find_key_averages(col):
@@ -43,6 +43,11 @@ def most_popular(col):
     cursor = col.aggregate(pipeline)
     return [player for player in cursor]
 
-_, players = connect()
-# players_list = get_hot_players(players)
-print most_popular(players)
+if __name__ == "__main__":
+    _, players = connect()
+    hot, ps, mp = get_hot_players(players), pound_stretchers(players), most_popular(players)
+    print hot
+    print ps
+    for p in mp:
+        print p["web_name"], p["net_transfers"]
+    
