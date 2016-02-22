@@ -73,6 +73,7 @@
     <div class="container">
       <!-- Tables of the most wanted players -->
       <div class="row">
+        % import home
         <div class="col-md-4">
           <h2>Hottest players</h2>
           <table class="table table-bordered">
@@ -86,15 +87,7 @@
               </tr>
             </thead>
             <tbody>
-              % for player in hot_players:
-              <tr>
-                <td>{{ player["web_name"] }}</td>
-                <td>{{ player["team_name"] }}</td>
-                <td>£{{ player["now_cost"]/10.0 }}M</td>
-                <td>{{ player["total_points"] }}</td>
-                <td>{{ player["form"] }}</td>
-              </tr>
-              % end
+              {{ !home.generate_tables(hot_players, 8, table_type="hot_players") }}
             </tbody>
           </table>
         </div>
@@ -110,14 +103,7 @@
               </tr>
             </thead>
             <tbody>
-              % for player in pound_stretchers:
-              <tr>
-                <td>{{ player["web_name"] }}</td>
-                <td>{{ player["team_name"] }}</td>
-                <td>£{{ player["now_cost"]/10.0 }}M</td>
-                <td>{{ player["total_points"] }}</td>
-              </tr>
-              % end
+              {{ !home.generate_tables(pound_stretchers, 8) }}
             </tbody>
           </table>
        </div>
@@ -134,15 +120,7 @@
               </tr>
             </thead>
             <tbody>
-              % for player in popular_players:
-              <tr>
-                <td>{{ player["web_name"] }}</td>
-                <td>{{ player["team_name"] }}</td>
-                <td>£{{ player["now_cost"]/10.0 }}M</td>
-                <td>{{ player["total_points"] }}</td>
-                <td>{{ "+"+str(player["net_transfers"]) if player["net_transfers"]>0 else "-"+str(player["net_transfers"]) }}</td>
-              </tr>
-              % end
+              {{ !home.generate_tables(popular_players, 8, table_type="popular_players") }}
             </tbody>
           </table>
         </div>
