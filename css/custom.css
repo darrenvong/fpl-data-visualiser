@@ -6,6 +6,10 @@ body {
   padding-bottom: 20px;
 }
 
+figure {
+  padding: 20px 0px;
+}
+
 /* Custom footer */
 .footer {
   padding-top: 19px;
@@ -30,4 +34,12 @@ body {
 
 .thead-row-color > th {
   color: #e6e6e6;
+}
+
+.profile-body {
+  padding-top: 30px;
+}
+
+#time-frame-input {
+  padding: 0 10px;
 }

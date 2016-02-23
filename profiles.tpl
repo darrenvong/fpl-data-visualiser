@@ -13,7 +13,11 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.structure.min.css">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -62,9 +66,73 @@
     </nav>
 
     <!-- Main part of the body to be filled -->
-    <div class="container">
-      <p>This is the page which will dynamically generate player profiles. Coming soon.</p>
-    </div>
+    <div class="container profile-body">
+      <div class="row">
+        <div class="col-md-6">
+          <label for="player-names">Player's name: </label>
+          <input id="player-names" type="text" size="20">
+          <button type="button" class="btn btn-default">
+            <span class="sr-only">Search</span>
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+          <figure>
+            <img src="img/Mahrez.jpg" alt="Mahrez">
+          </figure>
+          <table class="table table-bordered">
+            <thead>
+              <tr class="thead-row-color">
+                <th>Attribute</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td>Mahrez</td>
+              </tr>
+              <tr>
+                <td>Points</td>
+                <td>135</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <!-- <div class="dropdown">
+            <button id="performance-metric" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true">
+              <span class="caret pull-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#">Consistency</a></li>
+              <li><a href="">Mean score</a></li>
+              <li><a href="">Cumulative total</a></li>
+            </ul>
+          </div> -->
+          <div class="row">
+            <div class="col-md-4">
+              <p><b>Performance metric:</b></p>
+              <select>
+                <option value="1">Consistency</option>
+                <option value="2">Mean Score</option>
+                <option value="3">Cumulative Total</option>
+              </select>
+            </div>
+            <div class="col-md-8">
+              <p><b>Time:</b></p>
+              <select>
+                <option value="x">Between</option>
+              </select>
+              <span id="time-frame-input">
+                <input type="text" size="5"> AND 
+                <input type="text" size="5">
+              </span>
+            </div>
+          </div>
+            <figure>
+              <img src="img/Mahrez_stats.jpeg" width="500" height="500">
+            </figure>
+        </div> <!-- end of col-md-6 (aka the right column) -->
+      </div>
 
       <footer class="footer">
         <p>&copy; Darren Vong 2016</p>
@@ -78,7 +146,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/jquery-2.1.4.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+      var player_names = ["Mahrez", "Vardy", "Kane", "Sánchez"];
+      $("#player-names").autocomplete({
+        source: player_names,
+        minLength: 0
+      });
+    </script>
   </body>
 </html>
