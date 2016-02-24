@@ -76,7 +76,7 @@
             <span class="glyphicon glyphicon-search"></span>
           </button>
           <figure>
-            <img src="img/Mahrez.jpg" alt="Mahrez">
+            <img src="img/Mahrez.jpg" class="img-responsive center-block" alt="Mahrez">
           </figure>
           <table class="table table-bordered">
             <thead>
