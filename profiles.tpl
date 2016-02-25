@@ -98,36 +98,27 @@
           </table>
         </div>
         <div class="col-md-6">
-          <!-- <div class="dropdown">
-            <button id="performance-metric" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true">
-              <span class="caret pull-right"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="#">Consistency</a></li>
-              <li><a href="">Mean score</a></li>
-              <li><a href="">Cumulative total</a></li>
-            </ul>
-          </div> -->
-          <div class="row">
-            <div class="col-md-4">
-              <p><b>Performance metric:</b></p>
-              <select>
+          <form class="form-inline">
+            <div class="form-group">
+              <label for="performance-metric">Performance metric: </label>
+              <select class="form-control">
                 <option value="1">Consistency</option>
                 <option value="2">Mean Score</option>
                 <option value="3">Cumulative Total</option>
               </select>
             </div>
-            <div class="col-md-8">
-              <p><b>Time:</b></p>
-              <select>
-                <option value="x">Between</option>
+            <div class="form-group">
+              <label for="time-frame">Time: </label>
+              <select class="form-control">
+                <option value="between">Between</option>
               </select>
-              <span id="time-frame-input">
-                <input type="text" size="5"> AND 
-                <input type="text" size="5">
-              </span>
+              <input type="text" class="form-control sm-screen" id="startTime" size="5"> AND 
+              <input type="text" class="form-control sm-screen" id="endTime" size="5">
+              <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span> Update graph</button>
+              <!-- Do this feature if there's spare time... leaving it out for now -->
+              <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button> -->
             </div>
-          </div>
+          </form>
             <figure>
               <img src="img/Mahrez_stats.jpeg" width="500" height="500">
             </figure>

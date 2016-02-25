@@ -40,6 +40,12 @@ figure {
   padding-top: 30px;
 }
 
-#time-frame-input {
-  padding: 0 10px;
+div.form-group {
+  margin: 5px 0px;
+}
+
+@media (max-width: 768px) {
+  .sm-screen {
+    margin: 10px 0px;
+  }
 }
