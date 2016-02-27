@@ -66,7 +66,7 @@
     <!-- Main part of the body to be filled -->
     <div class="container profile-body">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
           <label for="player-names">Player's name: </label>
           <input id="player-names" type="text" size="20">
           <button type="button" class="btn btn-default">
@@ -74,7 +74,7 @@
             <span class="glyphicon glyphicon-search"></span>
           </button>
           <figure>
-            <img src="img/Mahrez.jpg" class="img-responsive center-block" alt="Mahrez">
+            <img src="faces/Mahrez.jpg" class="img-responsive center-block" alt="Mahrez">
           </figure>
           <table class="table table-bordered">
             <thead>
@@ -95,32 +95,52 @@
             </tbody>
           </table>
         </div>
-        <div class="col-md-6">
-          <form class="form-inline">
-            <div class="form-group">
-              <label for="performance-metric">Performance metric: </label>
-              <select class="form-control">
-                <option value="1">Consistency</option>
-                <option value="2">Mean Score</option>
-                <option value="3">Cumulative Total</option>
+        <div class="col-md-7">
+          <form class="form-inline center-block">
+            <div class="form-group center-block" id="gameweek">
+              <label for="time-frame">From Game Week: </label>
+              <select id="startTime" class="form-control sm-screen">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>&nbsp;&nbsp;TO&nbsp;&nbsp;
+              <select id="endTime" class="form-control sm-screen">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="time-frame">Time: </label>
-              <select class="form-control">
-                <option value="between">Between</option>
-              </select>
-              <input type="text" class="form-control sm-screen" id="startTime" size="5"> AND 
-              <input type="text" class="form-control sm-screen" id="endTime" size="5">
-              <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span> Update graph</button>
+            <div class="form-group center-block">
+              <label class="radio-inline">
+                <input type="radio" name="performance_metric" id="consistency"> Consistency
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="performance_metric" id="mean"> Mean
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="performance_metric" id="accum_total"> Accumulative total
+              </label>
+              <button type="button" class="btn btn-default" id="update_graph"><span class="glyphicon glyphicon-refresh"></span> Update graph</button>
               <!-- Do this feature if there's spare time... leaving it out for now -->
               <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button> -->
             </div>
           </form>
-            <figure>
-              <img src="img/Mahrez_stats.jpeg" width="500" height="500">
-            </figure>
-        </div> <!-- end of col-md-6 (aka the right column) -->
+            <div id="graph_container"></div>
+        </div> <!-- end of col-md-7 (aka the right column) -->
       </div>
 
       <footer class="footer">
@@ -138,11 +158,69 @@
     <script src="js/jquery-ui.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/highcharts-more.js"></script>
     <script>
-      var player_names = ["Mahrez", "Vardy", "Kane", "Sánchez"];
+      var playerNames = ["Mahrez", "Vardy", "Kane", "Sánchez"];
+      var chart;
       $("#player-names").autocomplete({
-        source: player_names,
+        source: playerNames,
         minLength: 0
+      });
+      $(document).ready(function() {
+        var graphOptions = {
+          chart: {
+              renderTo: "graph_container",
+              height: 500
+          },
+          title: {
+              text: "FPL player's weekly score"
+          },
+          xAxis: {
+              title: {
+                  text: "Game weeks"
+              },
+              minTickInterval: 1,
+              allowDecimals: false
+          },
+          yAxis: {
+              title: {
+                  text: "Points"
+              },
+              allowDecimals: false
+          },
+          plotOptions: {
+              line: {
+                  pointStart: 1
+              }
+          },
+          exporting: {
+              buttons: {
+                  contextButton: {
+                      enabled: false
+                  }
+              }
+          },
+          tooltip: {
+              formatter: function() {
+                  return "Week "+this.x+"<br><b>Points: </b>"+this.y;
+              }
+          },
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle',
+              borderWidth: 0,
+              enabled: false
+          },
+          series: [{
+              data: [15,10,10,1,11,11,2,15,10,10,1,11,11,2,15,10,10,1,11,11,2,21,15,8,3,2]
+          }],
+          credits: {
+              enabled: false //Removes the highchart.com label at bottom right of graph
+          }
+        };
+        chart = new Highcharts.Chart(graphOptions);
       });
     </script>
   </body>
