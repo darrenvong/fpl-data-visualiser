@@ -96,8 +96,8 @@
           </table>
         </div>
         <div class="col-md-7">
-          <form class="form-inline center-block">
-            <div class="form-group center-block" id="gameweek">
+          <form class="form-inline">
+            <div class="form-group" id="gameweek">
               <label for="time-frame">From Game Week: </label>
               <select id="startTime" class="form-control sm-screen">
                 <option value="1">1</option>
@@ -123,8 +123,9 @@
                 <option value="9">9</option>
                 <option value="10">10</option>
               </select>
+              <button type="button" class="btn btn-default" id="update_graph"><span class="glyphicon glyphicon-refresh"></span> Update graph</button>
             </div>
-            <div class="form-group center-block">
+            <div class="form-group">
               <label class="radio-inline">
                 <input type="radio" name="performance_metric" id="consistency"> Consistency
               </label>
@@ -134,7 +135,6 @@
               <label class="radio-inline">
                 <input type="radio" name="performance_metric" id="accum_total"> Accumulative total
               </label>
-              <button type="button" class="btn btn-default" id="update_graph"><span class="glyphicon glyphicon-refresh"></span> Update graph</button>
               <!-- Do this feature if there's spare time... leaving it out for now -->
               <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button> -->
             </div>
@@ -163,6 +163,15 @@
     <script>
       var playerNames = ["Mahrez", "Vardy", "Kane", "Sánchez"];
       var chart;
+
+      function centerFormElement() {
+        var inlineFormWidth = $('form.form-inline').width();
+        $('.form-group').css("left", function(i, v) {
+          return ( inlineFormWidth - $(this).width() )/2;
+        });
+      }
+      centerFormElement();
+
       $("#player-names").autocomplete({
         source: playerNames,
         minLength: 0
@@ -221,6 +230,8 @@
           }
         };
         chart = new Highcharts.Chart(graphOptions);
+
+        $(window).resize(centerFormElement);
       });
     </script>
   </body>
