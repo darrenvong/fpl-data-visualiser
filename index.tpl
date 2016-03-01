@@ -50,7 +50,7 @@
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="profiles.tpl">Player profiles</a></li>
+                <li><a href="profiles">Player profiles</a></li>
                 <li><a href="#">Head-to-head comparator</a></li>
                 <li><a href="#">Multi-player comparator</a></li>
               </ul>

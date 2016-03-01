@@ -22,6 +22,7 @@ class Router(Bottle):
         
         self.route("/", callback=self.re_route)
         self.route("/index", callback=self.root)
+        self.route("/profiles", callback=self.profiles)
         self.route("<path:path>", callback=lambda path: self.get_resources(path))
     
     def _establish_db_connection(self):
@@ -40,6 +41,9 @@ class Router(Bottle):
         """Redirects the 'true' root to the /index end point where a root page is
         actually defined."""
         redirect("/index")
+
+    def profiles(self):
+        return template("profiles")
     
     def get_resources(self, path):
         return static_file(path, root="./")

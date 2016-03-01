@@ -100,28 +100,14 @@
             <div class="form-group" id="gameweek">
               <label for="time-frame">From Game Week: </label>
               <select id="startTime" class="form-control sm-screen">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
+                % for wk in xrange(1,28):
+                <option value={{wk}}>{{wk}}</option>
+                % end
               </select>&nbsp;&nbsp;TO&nbsp;&nbsp;
               <select id="endTime" class="form-control sm-screen">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
+                % for wk in xrange(1,28):
+                <option value={{wk}}>{{wk}}</option>
+                % end
               </select>
               <button type="button" class="btn btn-default" id="update_graph"><span class="glyphicon glyphicon-refresh"></span> Update graph</button>
             </div>
@@ -212,7 +198,7 @@
           },
           tooltip: {
               formatter: function() {
-                  return "Week "+this.x+"<br><b>Points: </b>"+this.y;
+                  return "Week "+Math.floor(this.x)+"<br><b>Points: </b>"+this.y;
               }
           },
           legend: {
@@ -223,7 +209,8 @@
               enabled: false
           },
           series: [{
-              data: [15,10,10,1,11,11,2,15,10,10,1,11,11,2,15,10,10,1,11,11,2,21,15,8,3,2]
+              // data: [15,10,10,1,11,11,2,15,10,10,1,11,11,2,15,10,10,1,11,11,2,21,15,8,3,2]
+              data: [[1, 15],[2, 10],[3, 10],[4, 1],[5, 11],[6, 11],[7, 2],[8, 0],[9, 4],[10, 6],[11, 15],[12, 2],[13, 9],[14, 2],[15, 21],[16, 13],[17, 15],[18, 2],[19, 3],[20, 1],[21, 3],[22, 1],[23, 6],[24, 6],[25, 14],[26, 1], [26.000001, 18]]
           }],
           credits: {
               enabled: false //Removes the highchart.com label at bottom right of graph
