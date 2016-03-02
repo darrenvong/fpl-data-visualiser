@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
-"""
-Created on 21 Feb 2016
 
+"""
 @author: Darren
 """
-from pymongo import MongoClient, DESCENDING
-from bson import SON
 
-def connect():
-    client = MongoClient()
-    players = client.players.current_gw
-    return client, players
+import helpers
+from pymongo import DESCENDING
+from bson import SON
 
 def get_hot_players(col):
     query = {"total_points": {"$gt": 0}}
@@ -68,7 +64,7 @@ def generate_tables(players_list, indent_level, table_type="pound_stretchers"):
     return table_html
 
 if __name__ == "__main__":
-    _, players = connect()
+    _, players = helpers.connect()
     hot, ps, mp = get_hot_players(players), pound_stretchers(players), most_popular(players)
     hot_table = generate_tables(hot, "hot_players")
     ps_table = generate_tables(ps)

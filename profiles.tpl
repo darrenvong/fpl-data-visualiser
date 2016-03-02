@@ -76,7 +76,9 @@
           <figure>
             <img src="faces/Mahrez.jpg" class="img-responsive center-block" alt="Mahrez">
           </figure>
-          <table class="table table-bordered">
+          <p class="text-center"><b>Mahrez</b></p>
+          <caption>Click on a row to project more details to the graph.</caption>
+          <table class="table table-bordered table-hover">
             <thead>
               <tr class="thead-row-color">
                 <th>Attribute</th>
@@ -84,13 +86,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Name</td>
-                <td>Mahrez</td>
-              </tr>
-              <tr>
+              <tr id="points">
                 <td>Points</td>
                 <td>135</td>
+              </tr>
+              <tr id="goals">
+                <td>Goals</td>
+                <td>14</td>
+              </tr>
+              <tr id="assists">
+                <td>Assists</td>
+                <td>18</td>
               </tr>
             </tbody>
           </table>
@@ -110,17 +116,41 @@
                 % end
               </select>
               <button type="button" class="btn btn-default" id="update_graph"><span class="glyphicon glyphicon-refresh"></span> Update graph</button>
+              <a role="button" id="graph_info" class="btn" data-toggle="popover" title="Performance Metrics" data-content="The number of radio buttons feature set available below corresponds to the attributes you've selected in the table. Each feature (corresponding to an attribute) aims to provide you more details on how the player is performing over the selected game week range." data-trigger="hover" data-placement="auto"><span class="glyphicon glyphicon-info-sign"></span></a>
             </div>
             <div class="form-group">
+              <span><b>Points:</b></span>
               <label class="radio-inline">
-                <input type="radio" name="performance_metric" id="consistency"> Consistency
+                <input type="radio" name="points_metric" id="points-over_time"> Over selected game weeks
               </label>
               <label class="radio-inline">
-                <input type="radio" name="performance_metric" id="mean"> Mean
+                <input type="radio" name="points_metric" id="points-consistency"> Consistency
               </label>
               <label class="radio-inline">
-                <input type="radio" name="performance_metric" id="accum_total"> Accumulative total
+                <input type="radio" name="points_metric" id="points-mean"> Mean
               </label>
+              <label class="radio-inline">
+                <input type="radio" name="points_metric" id="points-accum_total"> Cumulative total
+              </label>
+              <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+              <!-- Do this feature if there's spare time... leaving it out for now -->
+              <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button> -->
+            </div>
+            <div class="form-group hidden" id="goals_group">
+              <span><b>Goals:</b></span>
+              <label class="radio-inline">
+                <input type="radio" name="goals_metric" id="goals-over_time"> Over selected game weeks
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="goals_metric" id="goals-home_vs_away"> Home vs Away
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="goals_metric" id="goals-accum_total"> Cumulative total
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="goals_metric" id="goals-running_mean"> Running mean
+              </label>
+              <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
               <!-- Do this feature if there's spare time... leaving it out for now -->
               <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button> -->
             </div>
@@ -210,7 +240,7 @@
           },
           series: [{
               // data: [15,10,10,1,11,11,2,15,10,10,1,11,11,2,15,10,10,1,11,11,2,21,15,8,3,2]
-              data: [[1, 15],[2, 10],[3, 10],[4, 1],[5, 11],[6, 11],[7, 2],[8, 0],[9, 4],[10, 6],[11, 15],[12, 2],[13, 9],[14, 2],[15, 21],[16, 13],[17, 15],[18, 2],[19, 3],[20, 1],[21, 3],[22, 1],[23, 6],[24, 6],[25, 14],[26, 1], [26.000001, 18]]
+              data: [[1, 15],[2, 10],[3, 10],[4, 1],[5, 11],[6, 11],[7, 2],[8, 0],[9, 4],[10, 6],[11, 15],[12, 2],[13, 9],[14, 2],[15, 21],[16, 13],[17, 15],[18, 2],[19, 3],[20, 1],[21, 3],[22, 1],[23, 6],[24, 6],[25, 14],[26, 1], [28, 18]]
           }],
           credits: {
               enabled: false //Removes the highchart.com label at bottom right of graph
@@ -219,6 +249,14 @@
         chart = new Highcharts.Chart(graphOptions);
 
         $(window).resize(centerFormElement);
+        $("table.table-hover > tbody > tr").click(function() {
+          $(this).toggleClass("info");
+        });
+        $("#goals").click(function() {
+          $("#goals_group").toggleClass("hidden");
+          centerFormElement();
+        })
+        $('#graph_info').popover();
       });
     </script>
   </body>

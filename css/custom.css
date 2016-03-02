@@ -10,12 +10,6 @@ figure {
   padding: 20px 0px;
 }
 
-/* Custom footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
 
 .jumbotron {
   background: url("../img/stadium-with-crowd-filtered.jpg") no-repeat center center;
@@ -51,7 +45,7 @@ div#graph_container {
   padding-top: 10px;
 }
 
-#update_graph {
+#update_graph, div.form-group button.btn-danger {
   margin-left: 5px;
 }
 
@@ -59,8 +53,28 @@ div#graph_container {
   margin-bottom: 5px;
 }
 
+.table-hover tbody {
+  cursor: pointer;
+}
+
+.table-hover > tbody > tr:hover {
+  background-color: #dbe9f2;
+}
+
+.table-hover > tbody > tr.no-bg, .table-hover > tbody > tr.no-bg:hover {
+  background-color: transparent;
+  cursor: default;
+}
+
 @media (max-width: 768px) {
   .sm-screen {
     margin: 10px 0px;
   }
+}
+
+/* Custom footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
 }

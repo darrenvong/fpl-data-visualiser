@@ -1,9 +1,9 @@
 """
-Created on 21 Feb 2016
 @author: Darren Vong
 """
+
 from bottle import Bottle, static_file, template, redirect
-import home
+import home, helpers
 
 class Router(Bottle):
     """This class is responsible for directing requests to callback handler functions
@@ -27,7 +27,7 @@ class Router(Bottle):
     
     def _establish_db_connection(self):
         if self.client is None:
-            self.client, self.players_col = home.connect()
+            self.client, self.players_col = helpers.connect()
     
     def root(self):
         self._establish_db_connection()
