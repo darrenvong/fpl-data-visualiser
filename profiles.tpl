@@ -119,40 +119,26 @@
               <a role="button" id="graph_info" class="btn" data-toggle="popover" title="Performance Metrics" data-content="The number of radio buttons feature set available below corresponds to the attributes you've selected in the table. Each feature (corresponding to an attribute) aims to provide you more details on how the player is performing over the selected game week range." data-trigger="hover" data-placement="auto"><span class="glyphicon glyphicon-info-sign"></span></a>
             </div>
             <div class="form-group">
-              <span><b>Points:</b></span>
-              <label class="radio-inline">
-                <input type="radio" name="points_metric" id="points-over_time"> Over selected game weeks
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="points_metric" id="points-consistency"> Consistency
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="points_metric" id="points-mean"> Mean
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="points_metric" id="points-accum_total"> Cumulative total
-              </label>
+              <label class="labels">Points:</label>
+              <select class="form-control">
+                <option id="points-over_time">Over selected game weeks</option>
+                <option id="points-consistency">Consistency</option>
+                <option id="points-mean">Mean</option>
+                <option id="points-accum_total">Cumulative total</option>
+              </select>
               <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
               <!-- Do this feature if there's spare time... leaving it out for now -->
               <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button> -->
-            </div>
+            </div><br>
             <div class="form-group hidden" id="goals_group">
-              <span><b>Goals:</b></span>
-              <label class="radio-inline">
-                <input type="radio" name="goals_metric" id="goals-over_time"> Over selected game weeks
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="goals_metric" id="goals-home_vs_away"> Home vs Away
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="goals_metric" id="goals-accum_total"> Cumulative total
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="goals_metric" id="goals-running_mean"> Running mean
-              </label>
+              <label class="labels">Goals:</label>
+              <select class="form-control">
+                  <option id="goals-over_time"> Over selected game weeks</option>
+                  <option id="goals-home_vs_away"> Home vs Away</option>
+                  <option id="goals-accum_total"> Cumulative total</option>
+                  <option id="goals-running_mean"> Running mean</option>
+              </select>
               <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
-              <!-- Do this feature if there's spare time... leaving it out for now -->
-              <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button> -->
             </div>
           </form>
             <div id="graph_container"></div>
@@ -179,14 +165,15 @@
     <script>
       var playerNames = ["Mahrez", "Vardy", "Kane", "Sánchez"];
       var chart;
-
-      function centerFormElement() {
+      
+      function centElement(elements) {
         var inlineFormWidth = $('form.form-inline').width();
-        $('.form-group').css("left", function(i, v) {
-          return ( inlineFormWidth - $(this).width() )/2;
+        elements.css("left", function(i,v) {
+          return ( inlineFormWidth - $(this).width() ) / 2;
         });
       }
-      centerFormElement();
+
+      centElement($('.form-group'));
 
       $("#player-names").autocomplete({
         source: playerNames,
@@ -248,14 +235,16 @@
         };
         chart = new Highcharts.Chart(graphOptions);
 
-        $(window).resize(centerFormElement);
+        $(window).resize(function() {
+          centElement($('.form-group')); 
+        });
         $("table.table-hover > tbody > tr").click(function() {
           $(this).toggleClass("info");
         });
         $("#goals").click(function() {
           $("#goals_group").toggleClass("hidden");
-          centerFormElement();
-        })
+          centElement($('.form-group'));
+        });
         $('#graph_info').popover();
       });
     </script>

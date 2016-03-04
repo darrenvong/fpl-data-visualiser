@@ -2,6 +2,11 @@ nav.navbar {
   margin-bottom: 0px;
 }
 
+/* So that drop down menu on nav bar appears on mouse hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
 body {
   padding-bottom: 20px;
 }
@@ -77,4 +82,8 @@ div#graph_container {
   padding-top: 19px;
   color: #777;
   border-top: 1px solid #e5e5e5;
+}
+
+label.labels {
+  width: 55px;
 }
