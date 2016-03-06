@@ -50,6 +50,10 @@ div#graph_container {
   padding-top: 10px;
 }
 
+div.form-group > a {
+  color: #1d1d1d;
+}
+
 #update_graph, div.form-group button.btn-danger {
   margin-left: 5px;
 }
@@ -86,4 +90,12 @@ div#graph_container {
 
 label.labels {
   width: 55px;
+}
+
+/* Overriding jQuery's default */
+li.ui-menu-item.ui-state-focus {
+  border: 1px solid #dbe9f2;
+  background: #dbe9f2 !important;
+  font-weight: normal;
+  color: #2b2b2b;
 }
