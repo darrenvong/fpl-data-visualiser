@@ -65,7 +65,7 @@
       <div class="container">
         <h1>FPL Player Data Visualiser</h1>
         <p>A set of tools which help you find top-notch players and boost your ranking in Fantasy Premier League!</p>
-        <p><a class="btn btn-success btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        <!-- <p><a class="btn btn-success btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
       </div>
     </div>
 
