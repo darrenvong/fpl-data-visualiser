@@ -86,7 +86,7 @@
               </tr>
             </thead>
             <tbody>
-              {{ !home.generate_tables(hot_players, 8, table_type="hot_players") }}
+              {{ !home.generate_tables(hot_players, table_type="hot_players") }}
             </tbody>
           </table>
         </div>
@@ -102,7 +102,7 @@
               </tr>
             </thead>
             <tbody>
-              {{ !home.generate_tables(pound_stretchers, 8) }}
+              {{ !home.generate_tables(pound_stretchers) }}
             </tbody>
           </table>
        </div>
@@ -119,7 +119,7 @@
               </tr>
             </thead>
             <tbody>
-              {{ !home.generate_tables(popular_players, 8, table_type="popular_players") }}
+              {{ !home.generate_tables(popular_players, table_type="popular_players") }}
             </tbody>
           </table>
         </div>

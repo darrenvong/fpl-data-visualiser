@@ -40,27 +40,22 @@ def most_popular(col):
     cursor = col.aggregate(pipeline)
     return [player for player in cursor]
 
-def generate_tables(players_list, indent_level, table_type="pound_stretchers"):
+def generate_tables(players_list, table_type="pound_stretchers"):
     table_html = u""
-    INDENT_SPACE = (indent_level - 1) * 2 # Since first level (beginning of line) has 0 space
-    CHILD_SPACE = INDENT_SPACE + 2
-    first_line = True
+    
     for player in players_list:
-        if first_line:
-            table_html += u"<tr>\n"
-            first_line = False
-        else:
-            table_html += u" "*INDENT_SPACE+u"<tr>\n"
-        table_html += u" "*CHILD_SPACE+u"<td>"+player["web_name"]+u"</td>\n"
-        table_html += u" "*CHILD_SPACE+u"<td>"+player["team_name"]+u"</td>\n"
-        table_html += u" "*CHILD_SPACE+u"<td>£"+unicode(player["now_cost"]/10.0)+u"M</td>\n"
-        table_html += u" "*CHILD_SPACE+u"<td>"+unicode(player["total_points"])+u"</td>\n"
+        table_html += u"<tr>\n"
+        table_html += u"<td>"+player["web_name"]+u"</td>\n"
+        table_html += u"<td>"+player["team_name"]+u"</td>\n"
+        table_html += u"<td>£"+unicode(player["now_cost"]/10.0)+u"M</td>\n"
+        table_html += u"<td>"+unicode(player["total_points"])+u"</td>\n"
+        
         if table_type == "hot_players":
-            table_html += u" "*CHILD_SPACE+u"<td>"+player["form"]+u"</td>\n"
+            table_html += u"<td>"+player["form"]+u"</td>\n"
         elif table_type == "popular_players":
             transfer_sign = u"+" if player["net_transfers"]>0 else u"-"
-            table_html += u" "*CHILD_SPACE+u"<td>"+transfer_sign+unicode(player["net_transfers"])+u"</td>\n"
-        table_html += u" "*INDENT_SPACE+u"</tr>\n"
+            table_html += u"<td>"+transfer_sign+unicode(player["net_transfers"])+u"</td>\n"
+        table_html += u"</tr>\n"
     return table_html
 
 if __name__ == "__main__":

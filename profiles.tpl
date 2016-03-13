@@ -77,7 +77,7 @@
             <img src="faces/Mahrez.jpg" class="img-responsive center-block" alt="Mahrez">
           </figure>
           <p class="text-center"><b>Mahrez</b></p>
-          <caption>Click on a row to project more details to the graph.</caption>
+          <caption>Click on a row to begin projecting more details to the graph.</caption>
           <table class="table table-bordered table-hover">
             <thead>
               <tr class="thead-row-color">
