@@ -1,4 +1,3 @@
-var playerNames = ["Mahrez", "Vardy", "Kane", "Sánchez"];
 var chart;
 var playersData = [[1, 15],[2, 10],[3, 10],[4, 1],[5, 11],[6, 11],[7, 2],[8, 0],[9, 4],[10, 6],[11, 15],[12, 2],[13, 9],[14, 2],[15, 21],[16, 13],[17, 15],[18, 2],[19, 3],[20, 1],[21, 3],[22, 1],[23, 6],[24, 6],[25, 14],[26, 1], [27, 18]];
 var initOptions = {
@@ -151,76 +150,9 @@ function clearGraph() {
     chart.series[0].remove();
 }
 
-centElement($('.form-group'));
-
-$("#player-names").autocomplete({
-  source: playerNames,
-  minLength: 0
-});
-
 function masterDraw(metric, start, end) {
   if (metric === "points-consistency")
     drawConsBox(start, end);
   else if (metric === "points-over_time")
     drawLineGraph(start, end);
 }
-
-$(document).ready(function() {
-  Highcharts.setOptions({
-    lang: {noData: "Select a row on the table to begin!"}
-  });
-  chart = new Highcharts.Chart(initOptions);
-
-  $(window).resize(function() {
-    centElement($('.form-group')); 
-  });
-  // Switches the table rows between selected and unselected states
-  $("table.table-hover > tbody > tr").click(function() {
-    $(this).toggleClass("info");
-  });
-  $("table.table-bordered > tbody > tr").each(function(){
-    $(this).click(function() {
-      var group_id = "#"+$(this).attr("id")+"_group";
-      $(group_id).toggleClass("hidden");
-      centElement($(group_id));           
-    });
-  });
-  // An example of clicking a specific row which updates the metric options
-  // $("#goals").click(function() {
-  //   $("#goals_group").toggleClass("hidden");
-  //   centElement($('.form-group'));
-  // });
-
-  // Example of clicking a specific attribute (i.e. goals, assists etc)
-  $("#points_group > button").click(clearGraph);
-  // Example of updating the graph to a different type when different metric selected AND "update graph" button clicked
-  $("#update_graph").click(function() {
-    var start = parseInt($("#startTime").val());
-    var end = parseInt($("#endTime").val());
-    if (start > end) {
-      alert("Can't have start time later than end time!");
-      return;
-    }
-    
-    var optionsSuffix = ["-over_time", "-consistency"];
-    $("div.performance_metrics > .form-group:not(.hidden)").each(function() {
-      var valsToCheck = [];
-      // Foreach loop is 'for.. of' in js because it is weird... 
-      for (suffix of optionsSuffix) {
-        valsToCheck.push($(this).attr("id").split("_")[0]+suffix);
-      }
-      for (v of valsToCheck) {
-        var selectedValue = $("select.form-control", this).val();
-        if ( selectedValue === v ) {
-          masterDraw(v, start, end);
-          return; //can only have one val, so quit loop when val found
-        }
-      }
-    });
-
-    // This is a specific example
-    // if ( $("#points_group > select.form-control").val() === "points-consistency" )
-    //   drawConsBox(start, end);
-  });
-  $('[data-toggle="popover"]').popover();
-});

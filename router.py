@@ -2,8 +2,9 @@
 @author: Darren Vong
 """
 
-from bottle import Bottle, static_file, template, redirect
+from bottle import Bottle, static_file, template, redirect, response
 import home, helpers
+import json
 
 class Router(Bottle):
     """This class is responsible for directing requests to callback handler functions
@@ -13,7 +14,7 @@ class Router(Bottle):
         """Starts the visualiser application."""
         
         super(Router, self).__init__(*args, **kwargs)
-        self.client = self.players_col = None
+        self.client, self.players_col = helpers.connect()
         self._route()
     
     def _route(self):
@@ -23,14 +24,10 @@ class Router(Bottle):
         self.route("/", callback=self.re_route)
         self.route("/index", callback=self.root)
         self.route("/profiles", callback=self.profiles)
+        self.post("/player_names", callback=self.get_player_names)
         self.route("<path:path>", callback=lambda path: self.get_resources(path))
     
-    def _establish_db_connection(self):
-        if self.client is None:
-            self.client, self.players_col = helpers.connect()
-    
     def root(self):
-        self._establish_db_connection()
         hot_players = home.get_hot_players(self.players_col)
         pound_stretchers = home.pound_stretchers(self.players_col)
         popular_players = home.most_popular(self.players_col)
@@ -42,6 +39,12 @@ class Router(Bottle):
         actually defined."""
         redirect("/index")
 
+    def get_player_names(self):
+        cursor = self.players_col.find({}, {"_id": 0, "web_name": 1})
+        player_names = [player_obj["web_name"] for player_obj in cursor]
+        response.content_type = "application/json"
+        return json.dumps(player_names)
+    
     def profiles(self):
         return template("profiles_home")
     

@@ -67,10 +67,10 @@
     <!-- Main "body" of the page -->
     <div class="container profile-body">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 center-searchbar">
           <label for="player-names">Player's name: </label>
-          <input id="player-names" type="text" size="20" placeholder="Type part of a player's name to begin">
-          <button type="button" class="btn btn-default">
+          <input id="player-names" type="text" size="30" placeholder="Type part of a player's name to begin">
+          <button type="button" class="btn btn-default large-searchbar-btn">
             <span class="sr-only">Search</span>
             <span class="glyphicon glyphicon-search"></span>
           </button>
@@ -92,12 +92,10 @@
     <script src="js/jquery-ui.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script src="js/accent_map.js"></script>
+    <script src="js/profiles_searchbar.js"></script>
     <script>
-      var playerNames = ["Mahrez", "Vardy", "Kane", "Sánchez"];
-      $("#player-names").autocomplete({
-        source: playerNames,
-        minLength: 0
-      });
+      $(document).ready(initPlayerSearchBar);
     </script>
   </body>
 </html>
