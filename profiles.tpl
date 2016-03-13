@@ -21,7 +21,8 @@
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/general.css" rel="stylesheet">
+    <link href="css/profiles.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -53,7 +54,7 @@
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="#">Player profiles</a></li>
+                <li><a href="profiles">Player profiles</a></li>
                 <li><a href="#">Head-to-head comparator</a></li>
                 <li><a href="#">Multi-player comparator</a></li>
               </ul>
@@ -68,7 +69,7 @@
       <div class="row">
         <div class="col-md-5">
           <label for="player-names">Player's name: </label>
-          <input id="player-names" type="text" size="20">
+          <input id="player-names" type="text" size="20" placeholder="Type part of a player's name to begin">
           <button type="button" class="btn btn-default">
             <span class="sr-only">Search</span>
             <span class="glyphicon glyphicon-search"></span>

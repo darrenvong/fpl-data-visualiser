@@ -1,38 +1,9 @@
-nav.navbar {
-  margin-bottom: 0px;
-}
-
-/* So that drop down menu on nav bar appears on mouse hover */
-.dropdown:hover .dropdown-menu {
-  display: block;
-}
-
-body {
-  padding-bottom: 20px;
-}
-
 figure {
   padding: 20px 0px;
 }
 
-
-.jumbotron {
-  background: url("../img/stadium-with-crowd-filtered.jpg") no-repeat center center;
-  background-size: cover;
-  color: white;
-}
-
-/* Centralise text in jumbotron */
-.jumbotron .container {
-  text-align: center;
-}
-
-.thead-row-color {
-  background-color: #dbe9f2;
-}
-
-.thead-row-color > th {
-  color: #639EC8;
+label.labels {
+  width: 55px;
 }
 
 .profile-body {
@@ -75,27 +46,16 @@ div.form-group > a {
   cursor: default;
 }
 
-@media (max-width: 768px) {
-  .sm-screen {
-    margin: 10px 0px;
-  }
-}
-
-/* Custom footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
-
-label.labels {
-  width: 55px;
-}
-
 /* Overriding jQuery's default */
 li.ui-menu-item.ui-state-focus {
   border: 1px solid #dbe9f2;
   background: #dbe9f2;
   font-weight: normal;
   color: #2b2b2b;
+}
+
+@media (max-width: 768px) {
+  .sm-screen {
+    margin: 10px 0px;
+  }
 }

@@ -43,7 +43,7 @@ class Router(Bottle):
         redirect("/index")
 
     def profiles(self):
-        return template("profiles")
+        return template("profiles_home")
     
     def get_resources(self, path):
         return static_file(path, root="./")

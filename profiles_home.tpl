@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="player profiles">
+    <meta name="author" content="Darren Vong">
     <link rel="icon" href="img/favicon.ico">
 
     <title>Fantasy Premier League player Data Visualiser</title>
@@ -14,12 +14,15 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/general.css" rel="stylesheet">
-    <link href="css/home.css" rel="stylesheet">
+    <link href="css/profiles.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -43,7 +46,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#">Home</a></li>
+            <li><a href="index">Home</a></li>
             <li><a href="#">About</a></li>
             <li class="dropdown">
               <a href="#" id="tools-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -51,7 +54,7 @@
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="profiles">Player profiles</a></li>
+                <li><a href="#">Player profiles</a></li>
                 <li><a href="#">Head-to-head comparator</a></li>
                 <li><a href="#">Multi-player comparator</a></li>
               </ul>
@@ -61,69 +64,17 @@
       </div>
     </nav>
 
-    <!-- Main jumbotron -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>FPL Player Data Visualiser</h1>
-        <p>A set of tools which help you find top-notch players and boost your ranking in Fantasy Premier League!</p>
-        <!-- <p><a class="btn btn-success btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
-      </div>
-    </div>
-
-    <div class="container">
-      <!-- Tables of the most wanted players -->
+    <!-- Main "body" of the page -->
+    <div class="container profile-body">
       <div class="row">
-        % import home
-        <div class="col-md-4">
-          <h2>Hottest players</h2>
-          <table class="table table-bordered">
-            <thead>
-              <tr class="thead-row-color">
-                <th>Name</th>
-                <th>Club</th>
-                <th>Value</th>
-                <th>Points</th>
-                <th>Form Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{ !home.generate_tables(hot_players, table_type="hot_players") }}
-            </tbody>
-          </table>
-        </div>
-        <div class="col-md-4">
-          <h2>Pound stretchers</h2>
-          <table class="table table-bordered">
-            <thead>
-              <tr class="thead-row-color">
-                <th>Name</th>
-                <th>Club</th>
-                <th>Value</th>
-                <th>Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{ !home.generate_tables(pound_stretchers) }}
-            </tbody>
-          </table>
-       </div>
-        <div class="col-md-4">
-          <h2>Most popular this week</h2>
-          <table class="table table-bordered">
-            <thead>
-              <tr class="thead-row-color">
-                <th>Name</th>
-                <th>Club</th>
-                <th>Value</th>
-                <th>Points</th>
-                <th>Net Transfer</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{ !home.generate_tables(popular_players, table_type="popular_players") }}
-            </tbody>
-          </table>
-        </div>
+        <div class="col-md-12">
+          <label for="player-names">Player's name: </label>
+          <input id="player-names" type="text" size="20" placeholder="Type part of a player's name to begin">
+          <button type="button" class="btn btn-default">
+            <span class="sr-only">Search</span>
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </div> <!-- div.col-md-12 -->
       </div>
 
       <footer class="footer">
@@ -138,7 +89,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/jquery-2.1.4.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+      var playerNames = ["Mahrez", "Vardy", "Kane", "Sánchez"];
+      $("#player-names").autocomplete({
+        source: playerNames,
+        minLength: 0
+      });
+    </script>
   </body>
 </html>
