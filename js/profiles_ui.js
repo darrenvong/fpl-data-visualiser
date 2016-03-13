@@ -1,6 +1,6 @@
 var playerNames = ["Mahrez", "Vardy", "Kane", "Sánchez"];
 var chart;
-var playersData = [[1, 15],[2, 10],[3, 10],[4, 1],[5, 11],[6, 11],[7, 2],[8, 0],[9, 4],[10, 6],[11, 15],[12, 2],[13, 9],[14, 2],[15, 21],[16, 13],[17, 15],[18, 2],[19, 3],[20, 1],[21, 3],[22, 1],[23, 6],[24, 6],[25, 14],[26, 1], [28, 18]];
+var playersData = [[1, 15],[2, 10],[3, 10],[4, 1],[5, 11],[6, 11],[7, 2],[8, 0],[9, 4],[10, 6],[11, 15],[12, 2],[13, 9],[14, 2],[15, 21],[16, 13],[17, 15],[18, 2],[19, 3],[20, 1],[21, 3],[22, 1],[23, 6],[24, 6],[25, 14],[26, 1], [27, 18]];
 var initOptions = {
     chart: {
         renderTo: "graph_container",
@@ -21,6 +21,13 @@ var initOptions = {
             text: null
         },
         allowDecimals: false
+    },
+    plotOptions: {
+      line: {
+        marker: {
+          symbol: "circle"
+        }
+      }
     },
     exporting: {
         buttons: {
@@ -100,9 +107,9 @@ function drawLineGraph(start, end) {
   var reformedData = playersData.filter(function(e) {
     return e[0] >= start && e[0] <= end;
   }).map(function(e) {
-    return e[1];
+    return [e[0],e[1]];
   });
-
+  console.log(reformedData);
   if (chart.series.length === 0) {
     chart.addSeries({
       data: reformedData,
