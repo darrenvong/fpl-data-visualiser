@@ -75,10 +75,12 @@
             <span class="glyphicon glyphicon-search"></span>
           </button>
           <figure>
-            <img src="faces/Mahrez.jpg" class="img-responsive center-block" alt="Mahrez">
+            <!-- this needs to be generic -->
+            <img src={{contents["img_url"]}} class="img-responsive center-block" alt={{name}}>
           </figure>
-          <p class="text-center"><b>Mahrez</b></p>
+          <p class="text-center"><b>{{name}}</b></p> <!-- this needs to be generic -->
           <caption>Click on a row to begin projecting more details to the graph.</caption>
+          <!-- this needs to be generic -->
           <table class="table table-bordered table-hover">
             <thead>
               <tr class="thead-row-color">
@@ -89,15 +91,41 @@
             <tbody>
               <tr id="points">
                 <td>Points</td>
-                <td>135</td>
+                <td>{{contents["total_points"]}}</td>
+              </tr>
+              <tr id="price">
+                <td>Price</td>
+                <td>£{{unicode(contents["now_cost"]/10.0)}}M</td>
               </tr>
               <tr id="goals">
                 <td>Goals</td>
-                <td>14</td>
+                <td>{{contents["goals_scored"]}}</td>
               </tr>
               <tr id="assists">
                 <td>Assists</td>
-                <td>18</td>
+                <td>{{contents["assists"]}}</td>
+              </tr>
+              % if contents["type_name"] == "Goalkeeper" or contents["type_name"] == "Defender":
+              <tr id="clean_sheets">
+                <td>Clean sheets</td>
+                <td>{{contents["clean_sheets"]}}</td>
+              </tr>
+              % end
+              <tr id="net_transfers">
+                <td>Net transfers</td>
+                <td>{{contents["net_transfers"]}}</td>
+              </tr>
+              <tr id="minutes_played">
+                <td>Minutes Played</td>
+                <td>{{contents["minutes"]}}</td>
+              </tr>
+              <tr id="yellow_cards">
+                <td>Yellow cards</td>
+                <td>{{contents["yellow_cards"]}}</td>
+              </tr>
+              <tr id="chance_of_playing_next_round">
+                <td>Probability of playing in next game</td>
+                <td>{{contents["chance_of_playing_next_round"]}}%</td>
               </tr>
             </tbody>
           </table>
@@ -107,7 +135,7 @@
             <div class="form-group" id="gameweek">
               <label for="time-frame">From Game Week: </label>
               <select id="startTime" class="form-control sm-screen">
-                % latest_gw = 27
+                % latest_gw = contents["current_gw"]
                 % for wk in xrange(1,latest_gw+1):
                 %   if wk == 1:
                 <option value={{wk}} selected>{{wk}}</option>

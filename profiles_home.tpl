@@ -68,12 +68,14 @@
     <div class="container profile-body">
       <div class="row">
         <div class="col-md-12 center-searchbar">
-          <label for="player-names">Player's name: </label>
-          <input id="player-names" type="text" size="30" placeholder="Type part of a player's name to begin">
-          <button type="button" class="btn btn-default large-searchbar-btn">
-            <span class="sr-only">Search</span>
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
+          <form method="post">
+            <label for="player-names">Player's name: </label>
+            <input id="player-names" name="player_name" type="text" size="30" placeholder="Type part of a player's name to begin">
+            <button type="submit" class="btn btn-default large-searchbar-btn">
+              <span class="sr-only">Search</span>
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </form>
         </div> <!-- div.col-md-12 -->
       </div>
 

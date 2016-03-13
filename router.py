@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
+
 """
 @author: Darren Vong
 """
 
-from bottle import Bottle, static_file, template, redirect, response
-import home, helpers
+from bottle import Bottle, static_file, template, redirect, request, response
+import home
+import helpers
+import profiles
 import json
 
 class Router(Bottle):
@@ -24,6 +28,7 @@ class Router(Bottle):
         self.route("/", callback=self.re_route)
         self.route("/index", callback=self.root)
         self.route("/profiles", callback=self.profiles)
+        self.post("/profiles", callback=self.get_player_profile)
         self.post("/player_names", callback=self.get_player_names)
         self.route("<path:path>", callback=lambda path: self.get_resources(path))
     
@@ -47,6 +52,11 @@ class Router(Bottle):
     
     def profiles(self):
         return template("profiles_home")
+    
+    def get_player_profile(self):
+        player_name = request.forms.getunicode("player_name")
+        contents = profiles.get_profile_contents(player_name, self.players_col)
+        return template("profiles", contents=contents, name=player_name)
     
     def get_resources(self, path):
         return static_file(path, root="./")
