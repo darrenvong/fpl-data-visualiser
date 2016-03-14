@@ -68,15 +68,17 @@
     <div class="container profile-body">
       <div class="row">
         <div class="col-md-5">
-          <label for="player-names">Player's name: </label>
-          <input id="player-names" type="text" size="20">
-          <button type="button" class="btn btn-default">
-            <span class="sr-only">Search</span>
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
+          <form method="post">
+            <label for="player-names">Player's name: </label>
+            <input id="player-names" name="player_name" type="text" size="20">
+            <button type="submit" class="btn btn-default">
+              <span class="sr-only">Search</span>
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </form>
           <figure>
             <!-- this needs to be generic -->
-            <img src={{contents["img_url"]}} class="img-responsive center-block" alt={{name}}>
+            <img src={{u"faces/"+contents["photo"]}} class="img-responsive center-block" alt={{name}}>
           </figure>
           <p class="text-center"><b>{{name}}</b></p> <!-- this needs to be generic -->
           <caption>Click on a row to begin projecting more details to the graph.</caption>
@@ -123,9 +125,9 @@
                 <td>Yellow cards</td>
                 <td>{{contents["yellow_cards"]}}</td>
               </tr>
-              <tr id="chance_of_playing_next_round">
-                <td>Probability of playing in next game</td>
-                <td>{{contents["chance_of_playing_next_round"]}}%</td>
+              <tr id="chance_of_playing_next_round" class="no-bg">
+                <td>Probability of playing</td>
+                <td>{{0 if contents["chance_of_playing_next_round"] is None else contents["chance_of_playing_next_round"]}}%</td>
               </tr>
             </tbody>
           </table>
@@ -233,7 +235,7 @@
           centElement($('.form-group')); 
         });
         // Switches the table rows between selected and unselected states
-        $("table.table-hover > tbody > tr").click(function() {
+        $("table.table-hover > tbody > tr:not(.no-bg)").click(function() {
           $(this).toggleClass("info");
         });
         $("table.table-bordered > tbody > tr").each(function(){
