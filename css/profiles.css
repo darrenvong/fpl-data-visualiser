@@ -12,7 +12,8 @@ figure {
 }
 
 label.labels {
-  width: 55px;
+  width: 70px;
+  margin-top: 5px;
 }
 
 .profile-body {
@@ -50,9 +51,13 @@ div.form-group > a {
   background-color: #dbe9f2;
 }
 
-.table-hover > tbody > tr.no-bg, .table-hover > tbody > tr.no-bg:hover {
+.table-hover > tbody > tr.no-extra-info, .table-hover > tbody > tr.no-extra-info:hover {
   background-color: transparent;
   cursor: default;
+}
+
+div.performance_metrics select.form-control {
+  width: 250px;
 }
 
 /* Overriding jQuery's default */

@@ -77,12 +77,10 @@
             </button>
           </form>
           <figure>
-            <!-- this needs to be generic -->
             <img src={{u"faces/"+contents["photo"]}} class="img-responsive center-block" alt={{name}}>
           </figure>
-          <p class="text-center"><b>{{name}}</b></p> <!-- this needs to be generic -->
+          <p class="text-center"><b>{{name}}</b></p>
           <caption>Click on a row to begin projecting more details to the graph.</caption>
-          <!-- this needs to be generic -->
           <table class="table table-bordered table-hover">
             <thead>
               <tr class="thead-row-color">
@@ -113,20 +111,24 @@
                 <td>{{contents["clean_sheets"]}}</td>
               </tr>
               % end
-              <tr id="net_transfers">
+              <tr id="netTransfers">
                 <td>Net transfers</td>
                 <td>{{contents["net_transfers"]}}</td>
               </tr>
-              <tr id="minutes_played">
-                <td>Minutes Played</td>
+              <tr id="selectedBy" class="no-extra-info">
+                <td>Selected by</td>
+                <td>{{contents["selected_by_percent"]}}%</td>
+              </tr>
+              <tr id="minutesPlayed">
+                <td>Minutes played</td>
                 <td>{{contents["minutes"]}}</td>
               </tr>
-              <tr id="yellow_cards">
+              <tr id="yellowCards" class="no-extra-info">
                 <td>Yellow cards</td>
                 <td>{{contents["yellow_cards"]}}</td>
               </tr>
-              <tr id="chance_of_playing_next_round" class="no-bg">
-                <td>Probability of playing</td>
+              <tr id="chanceOfPlayingNextRound" class="no-extra-info">
+                <td>Chance of playing</td>
                 <td>{{0 if contents["chance_of_playing_next_round"] is None else contents["chance_of_playing_next_round"]}}%</td>
               </tr>
             </tbody>
@@ -160,20 +162,29 @@
             <div class="performance_metrics">
               <div class="form-group hidden" id="points_group">
                 <label class="labels">Points:</label>
-                <select class="form-control">
+                <select class="form-control sm-screen">
                   <option value="points-over_time">Over selected game weeks</option>
                   <option value="points-consistency">Consistency</option>
-                  <!-- <option value="points-mean">Mean</option> -->
-                  <!-- <option value="points-accum_total">Cumulative total</option> -->
+                  <option value="points-mean">Mean</option>
+                  <option value="points-accum_total">Cumulative total</option>
+                  <option value="points-events_breakdown">Point scoring events breakdown</option>
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Points" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
                 <!-- Do this feature if there's spare time... leaving it out for now -->
                 <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button> -->
-              </div><br> <!-- #points_group -->
+              </div> <!-- #points_group -->
+              <div class="form-group hidden" id="price_group">
+                <label class="labels">Price:</label>
+                <select class="form-control sm-screen">
+                  <option value="price-over_time">Over selected game weeks</option>
+                </select>
+                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <a role="button" class="btn" data-toggle="popover" title="Price" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+              </div><br> <!-- #price_group -->
               <div class="form-group hidden" id="goals_group">
                 <label class="labels">Goals:</label>
-                <select class="form-control">
+                <select class="form-control sm-screen">
                     <option value="goals-over_time"> Over selected game weeks</option>
                     <option value="goals-home_vs_away"> Home vs Away</option>
                     <option value="goals-accum_total"> Cumulative total</option>
@@ -181,10 +192,10 @@
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Goals" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
-              </div><br> <!-- #goals_group -->
+              </div> <!-- #goals_group -->
               <div class="form-group hidden" id="assists_group">
                 <label class="labels">Assists:</label>
-                <select class="form-control">
+                <select class="form-control sm-screen">
                     <option value="assists-over_time"> Over selected game weeks</option>
                     <option value="assists-home_vs_away"> Home vs Away</option>
                     <option value="assists-accum_total"> Cumulative total</option>
@@ -193,6 +204,22 @@
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Assists" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #assist_group -->
+              <div class="form-group hidden" id="netTransfers_group">
+                <label class="labels">Net transfers:</label>
+                <select class="form-control sm-screen">
+                  <option value="netTransfers-over_time">Over selected game weeks</option>
+                </select>
+                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <a role="button" class="btn" data-toggle="popover" title="Net Transfers" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+              </div> <!-- #netTransfers_group -->
+              <div class="form-group hidden" id="minutesPlayed_group">
+                <label class="labels">Minutes played:</label>
+                <select class="form-control sm-screen">
+                  <option value="minutesPlayed-over_time">Over selected game weeks</option>
+                </select>
+                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <a role="button" class="btn" data-toggle="popover" title="Minutes Played" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+              </div>
             </div>
           </form>
             <div id="graph_container"></div>
@@ -216,7 +243,6 @@
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script src="js/highcharts.js"></script>
     <script src="js/highcharts-more.js"></script>
-    <script src="js/modules/no-data-to-display.js"></script>
     <script src="js/math.min.js"></script>
     <script src="js/accent_map.js"></script>
     <script src="js/profiles_searchbar.js"></script>
@@ -227,29 +253,23 @@
         initPlayerSearchBar();
 
         Highcharts.setOptions({
-          lang: {noData: "Select a row on the table to begin!"}
+          lang: {loading: "Select a row on the table to begin!"}
         });
         chart = new Highcharts.Chart(initOptions);
+        chart.showLoading();
 
         $(window).resize(function() {
           centElement($('.form-group')); 
         });
-        // Switches the table rows between selected and unselected states
-        $("table.table-hover > tbody > tr:not(.no-bg)").click(function() {
-          $(this).toggleClass("info");
-        });
-        $("table.table-bordered > tbody > tr").each(function(){
+        $("table.table-hover > tbody > tr:not(.no-extra-info)").each(function(){
           $(this).click(function() {
+            // Switches the table rows between selected and unselected states
+            $(this).toggleClass("info");
             var group_id = "#"+$(this).attr("id")+"_group";
             $(group_id).toggleClass("hidden");
             centElement($(group_id));           
           });
         });
-        // An example of clicking a specific row which updates the metric options
-        // $("#goals").click(function() {
-        //   $("#goals_group").toggleClass("hidden");
-        //   centElement($('.form-group'));
-        // });
 
         // Example of clicking a specific attribute (i.e. goals, assists etc)
         $("#points_group > button").click(clearGraph);
@@ -273,6 +293,7 @@
               var selectedValue = $("select.form-control", this).val();
               if ( selectedValue === v ) {
                 masterDraw(v, start, end);
+                chart.hideLoading();
                 return; //can only have one val, so quit loop when val found
               }
             }

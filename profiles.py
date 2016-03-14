@@ -12,7 +12,7 @@ def get_profile_contents(player_name, col):
                   "clean_sheets": 1,
                   "net_transfers": {"$subtract": ["$transfers_in_event", "$transfers_out_event"]},
                   "minutes": 1, "yellow_cards": 1, "chance_of_playing_next_round": 1,
-                  "fixture_history": 1, "type_name": 1, "photo": 1}
+                  "fixture_history": 1, "type_name": 1, "photo": 1, "selected_by_percent": 1}
     pipeline = [{"$match": query}, {"$project": projection}]
     cursor = col.aggregate(pipeline)
     profile_contents = cursor.next()
