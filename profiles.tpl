@@ -29,7 +29,7 @@
     <!--[if IE]>
       <script src="js/array_polyfill.js"></script>
     <![endif]-->
-    
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -83,9 +83,9 @@
             </button>
           </form>
           <figure>
-            <img src={{u"faces/"+contents["photo"]}} class="img-responsive center-block" alt={{name}}>
+            <img src={{u"faces/"+contents["photo"]}} class="img-responsive center-block" alt={{contents["web_name"]}}>
           </figure>
-          <p class="text-center"><b>{{name}}</b></p>
+          <p class="text-center"><b>{{contents["web_name"]}}</b></p>
           <caption>Click on a row to begin projecting more details to the graph.</caption>
           <table class="table table-bordered table-hover">
             <thead>

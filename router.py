@@ -59,7 +59,7 @@ class Router(Bottle):
             contents = profiles.get_profile_contents(player_name, self.players_col)
         except StopIteration:
             redirect("/profiles")
-        return template("profiles", contents=contents, name=player_name)
+        return template("profiles", contents=contents)
     
     def get_resources(self, path):
         return static_file(path, root="./")

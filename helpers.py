@@ -4,8 +4,9 @@
 @author: Darren
 """
 
-from pymongo import MongoClient
+from pymongo import MongoClient, UpdateMany
 from collections import OrderedDict
+from accent_fold import accent_fold
 
 # idea adapted from Pringle's (2014) code
 FIXTURE_KEY_MAP = {
@@ -61,3 +62,16 @@ def update_db(col, fix_hist_list):
         result = col.update_one(query, update)
         counter += result.modified_count
     print str(counter)+" affected!"
+    
+def normalise_names(col):
+    cursor = col.find({}, {"_id": 0, "web_name": 1})
+    player_names = [player_obj["web_name"] for player_obj in cursor]
+    normalised = [accent_fold(name).capitalize() for name in player_names]
+    updates = [UpdateMany({"web_name": name}, {"$set": {"normalised_name": normalised[i]}})
+                for i, name in enumerate(player_names)]
+    result = col.bulk_write(updates)
+    print result.inserted_count, result.modified_count
+
+if __name__ == '__main__':
+    c, col = connect()
+    normalise_names(col)
