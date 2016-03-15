@@ -11,10 +11,13 @@ function normalise(input) {
 }
 
 function initPlayerSearchBar() {
+  var playerNames;
   $.ajax({
     type: "POST",
     url: "/player_names",
+    async: false,
     success: function(data) {
+      playerNames = data;
       $('#player-names').autocomplete({
         // Adapted from https://jqueryui.com/autocomplete/#folding example
         source: function(request, response) {
@@ -30,4 +33,5 @@ function initPlayerSearchBar() {
       });
     }
   });
+  return playerNames;
 }

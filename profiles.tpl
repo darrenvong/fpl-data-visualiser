@@ -24,6 +24,12 @@
     <link href="css/general.css" rel="stylesheet">
     <link href="css/profiles.css" rel="stylesheet">
 
+    <!-- Array.prototype.includes (polyfill) support for IE,
+    taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes#Polyfill -->
+    <!--[if IE]>
+      <script src="js/array_polyfill.js"></script>
+    <![endif]-->
+    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -251,7 +257,13 @@
       $(document).ready(function() {
         centElement($('.form-group'));
         initPlayerSearchBar();
-
+        $("button").click(function() {
+          $(this).blur();
+        });
+        $('button[type="submit"]').click(function(e) {
+          if ($("#player-names").val() === "")
+            e.preventDefault(); //Prevents search if user types in nothing!
+        });
         Highcharts.setOptions({
           lang: {loading: "Select a row on the table to begin!"}
         });

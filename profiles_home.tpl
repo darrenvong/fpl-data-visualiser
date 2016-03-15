@@ -24,6 +24,12 @@
     <link href="css/general.css" rel="stylesheet">
     <link href="css/profiles.css" rel="stylesheet">
 
+    <!-- Array.prototype.includes (polyfill) support for IE,
+    taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes#Polyfill -->
+    <!--[if IE]>
+      <script src="js/array_polyfill.js"></script>
+    <![endif]-->
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -97,7 +103,17 @@
     <script src="js/accent_map.js"></script>
     <script src="js/profiles_searchbar.js"></script>
     <script>
-      $(document).ready(initPlayerSearchBar);
+      $(document).ready(function() {
+        var playerNames = initPlayerSearchBar();
+        $("button").click(function() {
+          $(this).blur();
+        });
+        $("button.large-searchbar-btn").click(function(e) {
+          var inputVal = $('#player-names').val().trim();
+          if (inputVal === "")
+            e.preventDefault(); //prevents search if user types in nothing!
+        });
+      });
     </script>
   </body>
 </html>

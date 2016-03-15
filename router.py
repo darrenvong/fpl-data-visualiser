@@ -54,8 +54,11 @@ class Router(Bottle):
         return template("profiles_home")
     
     def get_player_profile(self):
-        player_name = request.forms.getunicode("player_name")
-        contents = profiles.get_profile_contents(player_name, self.players_col)
+        player_name = request.forms.getunicode("player_name").capitalize()
+        try:
+            contents = profiles.get_profile_contents(player_name, self.players_col)
+        except StopIteration:
+            redirect("/profiles")
         return template("profiles", contents=contents, name=player_name)
     
     def get_resources(self, path):
