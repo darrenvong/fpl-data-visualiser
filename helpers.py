@@ -6,7 +6,6 @@
 
 from pymongo import MongoClient, UpdateMany
 from collections import OrderedDict
-from accent_fold import accent_fold
 
 # idea adapted from Pringle's (2014) code
 FIXTURE_KEY_MAP = {
