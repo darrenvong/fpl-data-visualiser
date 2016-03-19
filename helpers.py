@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: Darren
+This module contains group of related auxiliary (helper) functions which aids the
+collection and maintenance of data for the project's MongoDB database.
+@author: Darren Vong
 """
-
-from pymongo import MongoClient, UpdateMany
+import urllib2
+import json
+from time import sleep
 from collections import OrderedDict
+
+from bson.json_util import dumps, loads
+from pymongo import MongoClient, UpdateMany
 
 # idea adapted from Pringle's (2014) code
 FIXTURE_KEY_MAP = {
@@ -50,22 +56,15 @@ def connect():
     players = client.players.current_gw
     return client, players
 
-def restructure_data(col):
-    query = {}
-    projection = {"_id": 0, "web_name": 1, "fixture_history": 1}
-    cursor = col.find(query, projection)
-    fix_hist_list = [OrderedDict(name=history["web_name"],
-                        fixture_history=history["fixture_history"]["all"]) for history in cursor]
-    for fixture_list in fix_hist_list: # fixture_list = dictionary with name and fixture history
-        fixture_objects_list = []
-        # goes through each fixture and convert to objects
-        for fixture in fixture_list["fixture_history"]:
-            fixture_object = OrderedDict()
-            for i in xrange(20):
-                fixture_object[FIXTURE_KEY_MAP[i]] = fixture[i]
-            fixture_objects_list.append(fixture_object)
-        fixture_list["fixture_history"] = fixture_objects_list
-    return fix_hist_list
+def restructure_fixture_data(player_data):
+    fixture_objects_list = []
+    for fixture in player_data["fixture_history"]["all"]:
+        fixture_object = OrderedDict()
+        for i in xrange(20):
+            fixture_object[FIXTURE_KEY_MAP[i]] = fixture[i]
+        fixture_objects_list.append(fixture_object)
+    player_data["fixture_history"] = fixture_objects_list
+    return player_data
 
 def update_db(col, fix_hist_list):
     counter = 0
@@ -76,15 +75,83 @@ def update_db(col, fix_hist_list):
         counter += result.modified_count
     print str(counter)+" affected!"
     
-def normalise_names(col):
-    cursor = col.find({}, {"_id": 0, "web_name": 1})
-    player_names = [player_obj["web_name"] for player_obj in cursor]
-    normalised = [accent_fold(name).capitalize() for name in player_names]
-    updates = [UpdateMany({"web_name": name}, {"$set": {"normalised_name": normalised[i]}})
-                for i, name in enumerate(player_names)]
-    result = col.bulk_write(updates)
-    print result.inserted_count, result.modified_count
+def normalise_names(player_data):
+    normalised = accent_fold(player_data["web_name"]).capitalize()
+    player_data["normalised_name"] = normalised
+    return player_data
+
+def restructure_players_schema(player_data):
+    player_data = normalise_names( restructure_fixture_data(player_data) )
+    return player_data
+
+def scrapePlayers(outFile=False):
+    """Collects players data from the Fantasy Premier League unofficial API.
+    If outFile is set to True, the collected data is written to a JSON file instead.
+    @return: players - a list of players data collected. This list is empty if outFile
+    is set to True.
+    """
+    
+    address = "http://fantasy.premierleague.com/web/api/elements/"
+    i = 1
+    players = []
+    allFetched = False
+    AGENT_NAME = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0"
+    headers = {"User-Agent": AGENT_NAME}
+    if outFile: output_file = open("FPLdata.json", "wb")
+    
+    while not allFetched:
+        try:
+            request = urllib2.Request(address+str(i)+"/", None, headers)
+            feed = urllib2.urlopen(request)
+            player_data = json.load(feed, object_pairs_hook=OrderedDict)
+            player_data = restructure_players_schema(player_data)
+            if outFile:
+                json_string_data = dumps(player_data)
+                output_file.write(json_string_data+"\n")
+            else:
+                players.append(player_data)
+        except urllib2.HTTPError:
+            print "All players fetched"
+            allFetched = True
+        except urllib2.URLError:
+            print "No internet connection available.", \
+                "Please try again later when you are connected to the internet!"
+            sleep(10)
+            continue
+        except ValueError:
+            print "Invalid JSON, try again!"
+            continue
+        else:
+            i += 1
+        
+        if i%5 == 0:
+            print "%d players scraped" % (i-1)
+            if outFile: output_file.flush()
+            sleep(3)
+       
+    if outFile: output_file.close()
+    print "Data collection... done!"
+    return players
+
+def insert_players(col, players, file_input=False):
+    """Insert the players data into the database.
+    @param col: the MongoDB database collection to insert the player into.
+    @param players: this may either be provided as a Python list of players, or a string path
+    which points to the JSON file containing the players' data. If a string path is used,
+    the keyword argument file_input must be set to True.
+    @keyword file_input: indicates whether the players data provided comes from a (JSON) file. 
+    """
+    
+    if isinstance(players, (str, unicode)): # Read from file if file path string is given
+        with open(players, "rb") as data:
+            players_list = [loads(p) for p in data]
+    elif isinstance(players, list):
+        players_list = players
+    else:
+        raise RuntimeError("Unknown type passed to param players - "+
+                           "should be a list or string path instead")
+    col.insert_many(players_list)
 
 if __name__ == '__main__':
     c, col = connect()
-    normalise_names(col)
+    insert_players(col, scrapePlayers())

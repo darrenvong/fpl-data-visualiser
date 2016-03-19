@@ -11,8 +11,9 @@ import profiles
 import json
 
 class Router(Bottle):
-    """This class is responsible for directing requests to callback handler functions
-    and subsequently return the appropriate contents."""
+    """This class is responsible for directing HTTP requests to the
+    appropriate callback handler functions which in turn return the
+    appropriate contents (HTML pages)."""
 
     def __init__(self, *args, **kwargs):
         """Starts the visualiser application."""

@@ -4,9 +4,10 @@
 @author: Darren Vong
 """
 
-import helpers
 from pymongo import DESCENDING
 from bson import SON
+
+import helpers
 
 def get_hot_players(col):
     query = {"total_points": {"$gt": 0}}
