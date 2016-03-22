@@ -7,7 +7,7 @@
 import helpers
 
 def get_profile_contents(player_name, col):
-    query = {"web_name": player_name}
+    query = {"normalised_name": player_name}
     projection = {"_id": 0, "web_name": 1,"total_points": 1, "now_cost": 1, "goals_scored": 1,
                   "assists": 1, "clean_sheets": 1,
                   "net_transfers": {"$subtract": ["$transfers_in_event", "$transfers_out_event"]},
@@ -18,6 +18,11 @@ def get_profile_contents(player_name, col):
     profile_contents = cursor.next()
     profile_contents["current_gw"] = profile_contents["fixture_history"][-1]["gameweek"]
     return profile_contents
+
+def get_player_names(col):
+    cursor = col.find({}, {"_id": 0, "normalised_name": 1})
+    player_names = [player_obj["normalised_name"] for player_obj in cursor]
+    return player_names
 
 if __name__ == '__main__':
     client, players = helpers.connect()

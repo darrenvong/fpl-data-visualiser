@@ -24,8 +24,8 @@
     <link href="css/general.css" rel="stylesheet">
     <link href="css/profiles.css" rel="stylesheet">
 
-    <!-- Array.prototype.includes (polyfill) support for IE,
-    taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes#Polyfill -->
+    <!-- New native Array API polyfill for IE by Mozilla Developer Network (2016)
+    (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/) -->
     <!--[if IE]>
       <script src="js/array_polyfill.js"></script>
     <![endif]-->
@@ -101,17 +101,20 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script src="js/accent_map.js"></script>
+    <script src="js/profiles_helpers.js"></script>
     <script src="js/profiles_searchbar.js"></script>
     <script>
+      var searchBar;
       $(document).ready(function() {
-        var playerNames = initPlayerSearchBar();
+        searchBar = new PlayerSearchBar();
+        searchBar.init();
+
         $("button").click(function() {
           $(this).blur();
         });
+
         $("button.large-searchbar-btn").click(function(e) {
-          var inputVal = $('#player-names').val().trim();
-          if (inputVal === "")
-            e.preventDefault(); //prevents search if user types in nothing!
+          searchBar.onSearch(e);
         });
       });
     </script>

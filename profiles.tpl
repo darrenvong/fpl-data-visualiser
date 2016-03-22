@@ -24,8 +24,8 @@
     <link href="css/general.css" rel="stylesheet">
     <link href="css/profiles.css" rel="stylesheet">
 
-    <!-- Array.prototype.includes (polyfill) support for IE,
-    taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes#Polyfill -->
+    <!-- New native Array API polyfill for IE by Mozilla Developer Network (2016)
+    (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/) -->
     <!--[if IE]>
       <script src="js/array_polyfill.js"></script>
     <![endif]-->
@@ -251,22 +251,27 @@
     <script src="js/highcharts-more.js"></script>
     <script src="js/math.min.js"></script>
     <script src="js/accent_map.js"></script>
+    <script src="js/profiles_helpers.js"></script>
     <script src="js/profiles_searchbar.js"></script>
     <script src="js/profiles_ui.js"></script>
     <script>
       $(document).ready(function() {
         centElement($('.form-group'));
-        initPlayerSearchBar();
+        var searchBar = new PlayerSearchBar();
+        searchBar.init();
+
         $("button").click(function() {
           $(this).blur();
         });
+
         $('button[type="submit"]').click(function(e) {
-          if ($("#player-names").val() === "")
-            e.preventDefault(); //Prevents search if user types in nothing!
+          searchBar.onSearch(e);
         });
+
         Highcharts.setOptions({
           lang: {loading: "Select a row on the table to begin!"}
         });
+        
         chart = new Highcharts.Chart(initOptions);
         chart.showLoading();
 

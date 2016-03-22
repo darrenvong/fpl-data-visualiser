@@ -3,12 +3,13 @@
 """
 @author: Darren Vong
 """
+import json
 
 from bottle import Bottle, static_file, template, redirect, request, response
+
 import home
 import helpers
 import profiles
-import json
 
 class Router(Bottle):
     """This class is responsible for directing HTTP requests to the
@@ -46,8 +47,7 @@ class Router(Bottle):
         redirect("/index")
 
     def get_player_names(self):
-        cursor = self.players_col.find({}, {"_id": 0, "web_name": 1})
-        player_names = [player_obj["web_name"] for player_obj in cursor]
+        player_names = profiles.get_player_names(self.players_col)
         response.content_type = "application/json"
         return json.dumps(player_names)
     
@@ -55,7 +55,7 @@ class Router(Bottle):
         return template("profiles_home")
     
     def get_player_profile(self):
-        player_name = request.forms.getunicode("player_name").capitalize()
+        player_name = helpers.accent_fold(request.forms.getunicode("player_name")).capitalize()
         try:
             contents = profiles.get_profile_contents(player_name, self.players_col)
         except StopIteration:

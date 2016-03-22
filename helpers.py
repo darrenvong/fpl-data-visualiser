@@ -84,7 +84,7 @@ def restructure_players_schema(player_data):
     player_data = normalise_names( restructure_fixture_data(player_data) )
     return player_data
 
-def scrapePlayers(outFile=False):
+def scrape_players(outFile=False):
     """Collects players data from the Fantasy Premier League unofficial API.
     If outFile is set to True, the collected data is written to a JSON file instead.
     @return: players - a list of players data collected. This list is empty if outFile
@@ -154,4 +154,4 @@ def insert_players(col, players, file_input=False):
 
 if __name__ == '__main__':
     c, col = connect()
-    insert_players(col, scrapePlayers())
+    insert_players(col, scrape_players())
