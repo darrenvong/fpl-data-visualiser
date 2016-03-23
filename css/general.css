@@ -11,10 +11,6 @@ body {
   padding-bottom: 20px;
 }
 
-input[type="text"] {
-  padding-left: 7px;
-}
-
 .thead-row-color {
   background-color: #dbe9f2;
 }

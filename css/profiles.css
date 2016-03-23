@@ -2,6 +2,16 @@ figure {
   padding: 20px 0px;
 }
 
+@media (min-width: 1200px) {
+  caption.profile_caption {
+    font-size: 13px;
+  } 
+}
+
+.profile_caption {
+  text-align: center;
+}
+
 .center-searchbar {
   text-align: center;
   font-size: 20px;
@@ -64,6 +74,11 @@ div.form-group > a {
 
 .table-hover tbody {
   cursor: pointer;
+}
+
+.extras {
+  padding-left: 10px;
+  font-weight: bold;
 }
 
 .table-hover > tbody > tr:hover {

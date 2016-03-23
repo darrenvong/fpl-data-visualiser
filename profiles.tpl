@@ -86,8 +86,8 @@
             <img src={{u"faces/"+contents["photo"]}} class="img-responsive center-block" alt={{contents["web_name"]}}>
           </figure>
           <p class="text-center"><b>{{contents["web_name"]}}</b></p>
-          <caption>Click on a row to begin projecting more details to the graph.</caption>
           <table class="table table-bordered table-hover">
+            <caption class="profile_caption">Click on a row to reveal more options for projecting more details to the graph.</caption>
             <thead>
               <tr class="thead-row-color">
                 <th>Attribute</th>
@@ -96,12 +96,20 @@
             </thead>
             <tbody>
               <tr id="points">
-                <td>Points</td>
+                <td><span class="glyphicon glyphicon-chevron-right"></span> Points</td>
                 <td>{{contents["total_points"]}}</td>
               </tr>
+              <tr id="points_extra" class="no-extra-info hidden">
+                <td><span class="extras">per minute</span></td>
+                <td>{{round( contents["minutes"]/float(contents["total_points"]), 1 )}}</td>
+              </tr>
               <tr id="price">
-                <td>Price</td>
+                <td><span class="glyphicon glyphicon-chevron-right"></span> Price</td>
                 <td>£{{unicode(contents["now_cost"]/10.0)}}M</td>
+              </tr>
+              <tr id="price_extra" class="no-extra-info hidden">
+                <td><span class="extras">per million</span></td>
+                <td>{{round( contents["total_points"]/(contents["now_cost"]/10.0), 1 )}}</td>
               </tr>
               <tr id="goals">
                 <td>Goals</td>
@@ -112,7 +120,7 @@
                 <td>{{contents["assists"]}}</td>
               </tr>
               % if contents["type_name"] == "Goalkeeper" or contents["type_name"] == "Defender":
-              <tr id="clean_sheets">
+              <tr id="cleanSheets">
                 <td>Clean sheets</td>
                 <td>{{contents["clean_sheets"]}}</td>
               </tr>
@@ -171,7 +179,6 @@
                 <select class="form-control sm-screen">
                   <option value="points-over_time">Over selected game weeks</option>
                   <option value="points-consistency">Consistency</option>
-                  <option value="points-mean">Mean</option>
                   <option value="points-accum_total">Cumulative total</option>
                   <option value="points-events_breakdown">Point scoring events breakdown</option>
                 </select>
@@ -187,14 +194,14 @@
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Price" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
-              </div><br> <!-- #price_group -->
+              </div> <!-- #price_group -->
               <div class="form-group hidden" id="goals_group">
                 <label class="labels">Goals:</label>
                 <select class="form-control sm-screen">
                     <option value="goals-over_time"> Over selected game weeks</option>
                     <option value="goals-home_vs_away"> Home vs Away</option>
                     <option value="goals-accum_total"> Cumulative total</option>
-                    <option value="goals-running_mean"> Running mean</option>
+                    <option value="goals-moving_average"> Moving average</option>
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Goals" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
@@ -205,11 +212,24 @@
                     <option value="assists-over_time"> Over selected game weeks</option>
                     <option value="assists-home_vs_away"> Home vs Away</option>
                     <option value="assists-accum_total"> Cumulative total</option>
-                    <option value="assists-running_mean"> Running mean</option>
+                    <option value="assists-moving_average"> Moving average</option>
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Assists" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #assist_group -->
+              % if contents["type_name"] == "Goalkeeper" or contents["type_name"] == "Defender":
+              <div class="form-group hidden" id="cleanSheets_group">
+                <label class="labels">Clean sheets:</label>
+                <select class="form-control sm-screen">
+                    <option value="cleanSheets-over_time"> Over selected game weeks</option>
+                    <option value="cleanSheets-home_vs_away"> Home vs Away</option>
+                    <option value="cleanSheets-accum_total"> Cumulative total</option>
+                    <option value="cleanSheets-moving_average"> Moving average</option>
+                </select>
+                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <a role="button" class="btn" data-toggle="popover" title="Clean Sheets" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+              </div> <!-- #cleanSheets_group -->
+              % end
               <div class="form-group hidden" id="netTransfers_group">
                 <label class="labels">Net transfers:</label>
                 <select class="form-control sm-screen">
@@ -282,9 +302,15 @@
           $(this).click(function() {
             // Switches the table rows between selected and unselected states
             $(this).toggleClass("info");
-            var group_id = "#"+$(this).attr("id")+"_group";
-            $(group_id).toggleClass("hidden");
-            centElement($(group_id));           
+            var thisRowId = $(this).attr("id");
+            var groupId = "#"+thisRowId+"_group";
+            $(groupId).toggleClass("hidden");
+            centElement($(groupId));
+            if (thisRowId === "points" || thisRowId === "price") {
+              var extrasId = "#"+thisRowId+"_extra";
+              $(extrasId).toggleClass("hidden");
+              $("span.glyphicon", this).toggleClass("glyphicon-chevron-right glyphicon-chevron-down");
+            }
           });
         });
 
