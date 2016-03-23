@@ -76,7 +76,7 @@
         <div class="col-md-5">
           <form method="post">
             <label for="player-names">Player's name: </label>
-            <input id="player-names" name="player_name" type="text" size="20">
+            <input id="player-names" name="player_name" class="form-control" type="text" size="20">
             <button type="submit" class="btn btn-default">
               <span class="sr-only">Search</span>
               <span class="glyphicon glyphicon-search"></span>

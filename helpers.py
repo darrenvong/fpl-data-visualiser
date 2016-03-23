@@ -10,8 +10,9 @@ import json
 from time import sleep
 from collections import OrderedDict
 
+from bson import SON
 from bson.json_util import dumps, loads
-from pymongo import MongoClient, UpdateMany
+from pymongo import MongoClient, UpdateOne
 
 # idea adapted from Pringle's (2014) code
 FIXTURE_KEY_MAP = {
@@ -84,6 +85,30 @@ def restructure_players_schema(player_data):
     player_data = normalise_names( restructure_fixture_data(player_data) )
     return player_data
 
+def enforce_injective_name_mapping(col):
+    pipeline = [{"$group": {"_id": "$normalised_name", "total": {"$sum": 1}}},
+                {"$match": {"total": {"$gt": 1}}}, {"$sort": SON([("total", -1)])}]
+    inj_names_pointer = col.aggregate(pipeline)
+    new_norm_names = []
+    for non_inj_name_obj in inj_names_pointer:
+        query = {"normalised_name": non_inj_name_obj["_id"]}
+        projection = {"_id": 0, "normalised_name": 1, "first_name": 1}
+        # For each repeated name, find all repetitions and their first names
+        for rep_name in col.find(query, projection):
+            new_norm_names.append({"first_name": rep_name["first_name"],
+                                   "normalised_name": rep_name["normalised_name"],
+                                   "new_normalised_name": (rep_name["first_name"]+
+                                                           u" "+rep_name["normalised_name"].lower())
+                                  })
+    
+    # Update the database with the new normalised names (aka first name + normalised surname)
+    updates = [UpdateOne({"normalised_name": p["normalised_name"],
+                          "first_name": p["first_name"]},
+                         {"$set": {"normalised_name": p["new_normalised_name"]}})
+               for p in new_norm_names]
+    result = col.bulk_write(updates)
+    print result.inserted_count, result.modified_count
+
 def scrape_players(outFile=False):
     """Collects players data from the Fantasy Premier League unofficial API.
     If outFile is set to True, the collected data is written to a JSON file instead.
@@ -133,13 +158,12 @@ def scrape_players(outFile=False):
     print "Data collection... done!"
     return players
 
-def insert_players(col, players, file_input=False):
+def insert_players(col, players):
     """Insert the players data into the database.
     @param col: the MongoDB database collection to insert the player into.
     @param players: this may either be provided as a Python list of players, or a string path
     which points to the JSON file containing the players' data. If a string path is used,
-    the keyword argument file_input must be set to True.
-    @keyword file_input: indicates whether the players data provided comes from a (JSON) file. 
+    the keyword argument file_input must be set to True. 
     """
     
     if isinstance(players, (str, unicode)): # Read from file if file path string is given
@@ -155,3 +179,4 @@ def insert_players(col, players, file_input=False):
 if __name__ == '__main__':
     c, col = connect()
     insert_players(col, scrape_players())
+    enforce_injective_name_mapping(col)

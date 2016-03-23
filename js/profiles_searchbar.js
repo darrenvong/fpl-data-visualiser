@@ -28,10 +28,12 @@ PlayerSearchBar.prototype.init = function() {
 
 PlayerSearchBar.prototype.onSearch = function(e) {
   var inputVal = capitalise( normalise( $('#player-names').val().trim() ) );
+  console.log(inputVal);
   if (inputVal === "")
     e.preventDefault(); //prevents search if user types in nothing!
   else if (!this.playerNames.includes(inputVal)) {
       e.preventDefault();
-      alert("Player not found!");      
+      alert("Player not found!");
+      $("#player-names").toggleClass("error");
   }
 }

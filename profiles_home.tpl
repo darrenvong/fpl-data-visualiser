@@ -76,7 +76,7 @@
         <div class="col-md-12 center-searchbar">
           <form method="post">
             <label for="player-names">Player's name: </label>
-            <input id="player-names" name="player_name" type="text" size="30" placeholder="Type part of a player's name to begin">
+            <input id="player-names" class="form-control" name="player_name" type="text" size="30" placeholder="Type part of a player's name to begin">
             <button type="submit" class="btn btn-default large-searchbar-btn">
               <span class="sr-only">Search</span>
               <span class="glyphicon glyphicon-search"></span>

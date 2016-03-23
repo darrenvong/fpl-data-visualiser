@@ -11,5 +11,9 @@ function normalise(input) {
 }
 
 function capitalise(s) {
-  return s.charAt(0).toUpperCase() + s.substring(1).toLowerCase();
+  var words = s.split(" ");
+  words = words.map(function(w) {
+    return w.charAt(0).toUpperCase()+w.substring(1).toLowerCase();
+  });
+  return words.join(" ");
 }

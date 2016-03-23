@@ -58,8 +58,8 @@ class Router(Bottle):
         player_name = helpers.accent_fold(request.forms.getunicode("player_name")).capitalize()
         try:
             contents = profiles.get_profile_contents(player_name, self.players_col)
-        except StopIteration:
-            redirect("/profiles")
+        except StopIteration: # Should never be reached
+            raise RuntimeError("There's an error with the player search function")
         return template("profiles", contents=contents)
     
     def get_resources(self, path):
