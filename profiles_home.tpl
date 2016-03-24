@@ -39,7 +39,7 @@
 
   <body>
 
-    <nav class="navbar navbar-default">
+    <nav class="navbar">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -76,11 +76,12 @@
         <div class="col-md-12 center-searchbar">
           <form method="post">
             <label for="player-names">Player's name: </label>
-            <input id="player-names" class="form-control" name="player_name" type="text" size="30" placeholder="Type part of a player's name to begin">
+            <input id="player-names" class="form-control" name="player_name" type="search" size="30" placeholder="Type part of a player's name to begin">
             <button type="submit" class="btn btn-default large-searchbar-btn">
               <span class="sr-only">Search</span>
               <span class="glyphicon glyphicon-search"></span>
             </button>
+            <p class="help-block text-warning hidden"><span class="glyphicon glyphicon-alert"></span> Player not found!</p>
           </form>
         </div> <!-- div.col-md-12 -->
       </div>
@@ -101,22 +102,10 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script src="js/accent_map.js"></script>
+    <script src="js/unstick_buttons.js"></script>
     <script src="js/profiles_helpers.js"></script>
     <script src="js/profiles_searchbar.js"></script>
-    <script>
-      var searchBar;
-      $(document).ready(function() {
-        searchBar = new PlayerSearchBar();
-        searchBar.init();
-
-        $("button").click(function() {
-          $(this).blur();
-        });
-
-        $("button.large-searchbar-btn").click(function(e) {
-          searchBar.onSearch(e);
-        });
-      });
-    </script>
+    <!-- Main method script -->
+    <script src="js/profiles_home.js"></script>
   </body>
 </html>

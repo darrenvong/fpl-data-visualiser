@@ -39,7 +39,7 @@
 
   <body>
 
-    <nav class="navbar navbar-default">
+    <nav class="navbar">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -81,6 +81,7 @@
               <span class="sr-only">Search</span>
               <span class="glyphicon glyphicon-search"></span>
             </button>
+            <p class="help-block text-warning profile-page hidden"><span class="glyphicon glyphicon-alert"></span> Player not found!</p>
           </form>
           <figure>
             <img src={{u"faces/"+contents["photo"]}} class="img-responsive center-block" alt={{contents["web_name"]}}>
@@ -101,7 +102,7 @@
               </tr>
               <tr id="points_extra" class="no-extra-info hidden">
                 <td><span class="extras">per minute</span></td>
-                <td>{{round( contents["minutes"]/float(contents["total_points"]), 1 )}}</td>
+                <td>{{round( contents["minutes"]/float(contents["total_points"]), 1 ) if contents["total_points"] != 0 else 0}}</td>
               </tr>
               <tr id="price">
                 <td><span class="glyphicon glyphicon-chevron-right"></span> Price</td>
@@ -271,6 +272,7 @@
     <script src="js/highcharts-more.js"></script>
     <script src="js/math.min.js"></script>
     <script src="js/accent_map.js"></script>
+    <script src="js/unstick_buttons.js"></script>
     <script src="js/profiles_helpers.js"></script>
     <script src="js/profiles_searchbar.js"></script>
     <script src="js/profiles_ui.js"></script>
@@ -278,11 +280,6 @@
       $(document).ready(function() {
         centElement($('.form-group'));
         var searchBar = new PlayerSearchBar();
-        searchBar.init();
-
-        $("button").click(function() {
-          $(this).blur();
-        });
 
         $('button[type="submit"]').click(function(e) {
           searchBar.onSearch(e);

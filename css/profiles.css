@@ -17,6 +17,22 @@ figure {
   font-size: 20px;
 }
 
+.help-block.text-warning {
+  color: #cc0202;
+}
+
+@media (min-width: 600px) {
+  .help-block.text-warning {
+    position: relative;
+    left: -48px;
+  } 
+}
+
+.help-block.text-warning.profile-page {
+  position: relative;
+  left: 110px;
+}
+
 #player-names {
   display: inline-block;
   width: inherit;

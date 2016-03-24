@@ -1,5 +1,12 @@
 nav.navbar {
   margin-bottom: 0px;
+  background-color: #dbe9f2;
+}
+
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus, .nav .open > a,
+.nav .open > a:focus, .nav .open > a:hover {
+  background-color: #fff;
 }
 
 /* So that drop down menu on nav bar appears on mouse hover */
@@ -7,11 +14,21 @@ nav.navbar {
   display: block;
 }
 
+.icon-bar {
+  background-color: #337ab7;
+}
+
+.navbar-toggle:hover,
+.navbar-toggle:focus,
+.navbar-toggle[aria-expanded="true"] {
+  background-color: #fff;
+}
+
 body {
   padding-bottom: 20px;
 }
 
-.thead-row-color {
+.thead-row-color, .dropdown-menu> li > a:hover {
   background-color: #dbe9f2;
 }
 

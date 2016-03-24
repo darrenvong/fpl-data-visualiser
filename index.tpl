@@ -30,7 +30,7 @@
 
   <body>
 
-    <nav class="navbar navbar-default">
+    <nav class="navbar">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -140,5 +140,6 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script src="js/unstick_buttons.js"></script>
   </body>
 </html>

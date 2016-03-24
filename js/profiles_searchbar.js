@@ -1,8 +1,5 @@
 function PlayerSearchBar() {
   this.playerNames = [];
-}
-
-PlayerSearchBar.prototype.init = function() {
   var thisClass = this;
   $.ajax({
     type: "POST",
@@ -24,7 +21,7 @@ PlayerSearchBar.prototype.init = function() {
       });
     }
   });
-};
+}
 
 PlayerSearchBar.prototype.onSearch = function(e) {
   var inputVal = capitalise( normalise( $('#player-names').val().trim() ) );
@@ -33,7 +30,7 @@ PlayerSearchBar.prototype.onSearch = function(e) {
     e.preventDefault(); //prevents search if user types in nothing!
   else if (!this.playerNames.includes(inputVal)) {
       e.preventDefault();
-      alert("Player not found!");
+      $(".help-block.text-warning").toggleClass("hidden");
       $("#player-names").toggleClass("error");
   }
 }
