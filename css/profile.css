@@ -107,7 +107,7 @@ div.form-group > a {
 }
 
 div.performance_metrics select.form-control {
-  width: 250px;
+  width: 270px;
 }
 
 /* Overriding jQuery's default */

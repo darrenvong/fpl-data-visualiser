@@ -29,8 +29,8 @@ class Router(Bottle):
         
         self.route("/", callback=self.re_route)
         self.route("/index", callback=self.root)
-        self.route("/profiles", callback=self.profiles)
-        self.post("/profiles", callback=self.get_player_profile)
+        self.route("/profile", callback=self.profiles)
+        self.post("/profile", callback=self.get_player_profile)
         self.post("/player_names", callback=self.get_player_names)
         self.route("<path:path>", callback=lambda path: self.get_resources(path))
     
@@ -52,7 +52,7 @@ class Router(Bottle):
         return json.dumps(player_names)
     
     def profiles(self):
-        return template("profiles_home")
+        return template("profile_home")
     
     def get_player_profile(self):
         player_name = helpers.accent_fold(request.forms.getunicode("player_name")).capitalize()
@@ -60,7 +60,7 @@ class Router(Bottle):
             contents = profiles.get_profile_contents(player_name, self.players_col)
         except StopIteration: # Should never be reached
             raise RuntimeError("There's an error with the player search function")
-        return template("profiles", contents=contents)
+        return template("profile", contents=contents)
     
     def get_resources(self, path):
         return static_file(path, root="./")

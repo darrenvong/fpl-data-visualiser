@@ -1,68 +1,41 @@
-var chart;
-var playersData = [[1, 15],[2, 10],[3, 10],[4, 1],[5, 11],[6, 11],[7, 2],[8, 0],[9, 4],[10, 6],[11, 15],[12, 2],[13, 9],[14, 2],[15, 21],[16, 13],[17, 15],[18, 2],[19, 3],[20, 1],[21, 3],[22, 1],[23, 6],[24, 6],[25, 14],[26, 1], [27, 18]];
-var initOptions = {
-    chart: {
-        renderTo: "graph_container",
-        height: 500
-    },
-    title: {
-        text: null
-    },
-    xAxis: {
-        // title: {
-        //     text: "Game weeks"
-        // },
-        minTickInterval: 1,
-        allowDecimals: false
-    },
-    yAxis: {
-        title: {
-            text: null
-        },
-        allowDecimals: false
-    },
-    plotOptions: {
-      line: {
-        marker: {
-          symbol: "circle"
-        }
-      }
-    },
-    exporting: {
-        buttons: {
-            contextButton: {
-                enabled: false
-            }
-        }
-    },
-    tooltip: {
-        formatter: function() {
-            return "Week "+Math.floor(this.x)+"<br><b>Points: </b>"+this.y;
-        },
-        followPointer: true
-    },
-    legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle',
-        borderWidth: 0,
-        enabled: false
-    },
-    series: [{
-        name: "Points"
-    }],
-    credits: {
-        enabled: false //Removes the highchart.com label at bottom right of graph
-    }
-  };
+function ProfileGraph(options) {
+  this.initOptions = options;
 
-
-function centElement(elements) {
-  var inlineFormWidth = $('form.form-inline').width();
-  elements.css("left", function(i,v) {
-    return ( inlineFormWidth - $(this).width() ) / 2;
+  Highcharts.setOptions({
+    lang: {loading: "Select a row on the table to begin!"}
   });
+
+  this.graph = new Highcharts.Chart(options);
+  this.graph.showLoading();
+  this.data = {
+    points: null,
+    price: null,
+    goals: null,
+    assists: null,
+    netTransfers: null,
+    minsPlayed: null
+  };
 }
+
+ProfileGraph.prototype.update = function(start, end) {
+  this.graph.showLoading();
+  //Perform the updates...
+
+  this.graph.hideLoading();
+};
+
+ProfileGraph.prototype.clear = function(first_argument) {
+  // body...
+};
+
+ProfileGraph.prototype.drawLineGraph = function() {
+  // body...
+};
+
+// --------------------------- Codes below here to be rewritten to fit into ProfileGraph --------------------------- //
+var playersData = [[1, 15],[2, 10],[3, 10],[4, 1],[5, 11],[6, 11],[7, 2],[8, 0],[9, 4],[10, 6],
+                    [11, 15],[12, 2],[13, 9],[14, 2],[15, 21],[16, 13],[17, 15],[18, 2],[19, 3],
+                    [20, 1],[21, 3],[22, 1],[23, 6],[24, 6],[25, 14],[26, 1], [27, 18]];
 
 function drawConsBox(start, end) {
   var data = playersData.filter(function(e) {

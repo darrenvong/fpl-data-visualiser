@@ -22,7 +22,7 @@
 
     <!-- Custom styles for this template -->
     <link href="css/general.css" rel="stylesheet">
-    <link href="css/profiles.css" rel="stylesheet">
+    <link href="css/profile.css" rel="stylesheet">
 
     <!-- New native Array API polyfill for IE by Mozilla Developer Network (2016)
     (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/) -->
@@ -103,9 +103,9 @@
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script src="js/accent_map.js"></script>
     <script src="js/unstick_buttons.js"></script>
-    <script src="js/profiles_helpers.js"></script>
-    <script src="js/profiles_searchbar.js"></script>
+    <script src="js/profile_helpers.js"></script>
+    <script src="js/profile_searchbar.js"></script>
     <!-- Main method script -->
-    <script src="js/profiles_home.js"></script>
+    <script src="js/profile_home.js"></script>
   </body>
 </html>

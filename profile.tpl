@@ -22,7 +22,7 @@
 
     <!-- Custom styles for this template -->
     <link href="css/general.css" rel="stylesheet">
-    <link href="css/profiles.css" rel="stylesheet">
+    <link href="css/profile.css" rel="stylesheet">
 
     <!-- New native Array API polyfill for IE by Mozilla Developer Network (2016)
     (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/) -->
@@ -60,7 +60,7 @@
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="profiles">Player profiles</a></li>
+                <li><a href="profile">Player profiles</a></li>
                 <li><a href="#">Head-to-head comparator</a></li>
                 <li><a href="#">Multi-player comparator</a></li>
               </ul>
@@ -130,13 +130,13 @@
                 <td>Net transfers</td>
                 <td>{{contents["net_transfers"]}}</td>
               </tr>
-              <tr id="selectedBy" class="no-extra-info">
-                <td>Selected by</td>
-                <td>{{contents["selected_by_percent"]}}%</td>
-              </tr>
               <tr id="minutesPlayed">
                 <td>Minutes played</td>
                 <td>{{contents["minutes"]}}</td>
+              </tr>
+              <tr id="selectedBy" class="no-extra-info">
+                <td>Selected by</td>
+                <td>{{contents["selected_by_percent"]}}%</td>
               </tr>
               <tr id="yellowCards" class="no-extra-info">
                 <td>Yellow cards</td>
@@ -179,6 +179,7 @@
                 <label class="labels">Points:</label>
                 <select class="form-control sm-screen">
                   <option value="points-over_time">Over selected game weeks</option>
+                  <option value="points-home_vs_away">Home vs Away</option>
                   <option value="points-consistency">Consistency</option>
                   <option value="points-accum_total">Cumulative total</option>
                   <option value="points-events_breakdown">Point scoring events breakdown</option>
@@ -192,6 +193,7 @@
                 <label class="labels">Price:</label>
                 <select class="form-control sm-screen">
                   <option value="price-over_time">Over selected game weeks</option>
+                  <option value="price-changes">Changes over selected game weeks</option>
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Price" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
@@ -246,7 +248,7 @@
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Minutes Played" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
-              </div>
+              </div> <!-- #minutesPlayed_group -->
             </div>
           </form>
             <div id="graph_container"></div>
@@ -273,78 +275,10 @@
     <script src="js/math.min.js"></script>
     <script src="js/accent_map.js"></script>
     <script src="js/unstick_buttons.js"></script>
-    <script src="js/profiles_helpers.js"></script>
-    <script src="js/profiles_searchbar.js"></script>
-    <script src="js/profiles_ui.js"></script>
-    <script>
-      $(document).ready(function() {
-        centElement($('.form-group'));
-        var searchBar = new PlayerSearchBar();
-
-        $('button[type="submit"]').click(function(e) {
-          searchBar.onSearch(e);
-        });
-
-        Highcharts.setOptions({
-          lang: {loading: "Select a row on the table to begin!"}
-        });
-        
-        chart = new Highcharts.Chart(initOptions);
-        chart.showLoading();
-
-        $(window).resize(function() {
-          centElement($('.form-group')); 
-        });
-        $("table.table-hover > tbody > tr:not(.no-extra-info)").each(function(){
-          $(this).click(function() {
-            // Switches the table rows between selected and unselected states
-            $(this).toggleClass("info");
-            var thisRowId = $(this).attr("id");
-            var groupId = "#"+thisRowId+"_group";
-            $(groupId).toggleClass("hidden");
-            centElement($(groupId));
-            if (thisRowId === "points" || thisRowId === "price") {
-              var extrasId = "#"+thisRowId+"_extra";
-              $(extrasId).toggleClass("hidden");
-              $("span.glyphicon", this).toggleClass("glyphicon-chevron-right glyphicon-chevron-down");
-            }
-          });
-        });
-
-        // Example of clicking a specific attribute (i.e. goals, assists etc)
-        $("#points_group > button").click(clearGraph);
-        // Example of updating the graph to a different type when different metric selected AND "update graph" button clicked
-        $("#update_graph").click(function() {
-          var start = parseInt($("#startTime").val());
-          var end = parseInt($("#endTime").val());
-          if (start > end) {
-            alert("Can't have start time later than end time!");
-            return;
-          }
-          
-          var optionsSuffix = ["-over_time", "-consistency"];
-          $("div.performance_metrics > .form-group:not(.hidden)").each(function() {
-            var valsToCheck = [];
-            // Foreach loop is 'for.. of' in js because it is weird... 
-            for (suffix of optionsSuffix) {
-              valsToCheck.push($(this).attr("id").split("_")[0]+suffix);
-            }
-            for (v of valsToCheck) {
-              var selectedValue = $("select.form-control", this).val();
-              if ( selectedValue === v ) {
-                masterDraw(v, start, end);
-                chart.hideLoading();
-                return; //can only have one val, so quit loop when val found
-              }
-            }
-          });
-
-          // This is a specific example
-          // if ( $("#points_group > select.form-control").val() === "points-consistency" )
-          //   drawConsBox(start, end);
-        });
-        $('[data-toggle="popover"]').popover();
-      });
-    </script>
+    <script src="js/profile_helpers.js"></script>
+    <script src="js/profile_searchbar.js"></script>
+    <script src="js/profile_graph.js"></script>
+    <!-- Main method script -->
+    <script src="js/profile.js"></script>
   </body>
 </html>

@@ -17,3 +17,10 @@ function capitalise(s) {
   });
   return words.join(" ");
 }
+
+function centElement(elements) {
+  var inlineFormWidth = $('form.form-inline').width();
+  elements.css("left", function(i,v) {
+    return ( inlineFormWidth - $(this).width() ) / 2;
+  });
+}
