@@ -8,28 +8,114 @@ function ProfileGraph(options) {
   this.graph = new Highcharts.Chart(options);
   this.graph.showLoading();
   this.data = {
-    points: null,
-    price: null,
-    goals: null,
-    assists: null,
-    netTransfers: null,
-    minsPlayed: null
+    points: new Array(38),
+    price: new Array(38),
+    goals: new Array(38),
+    assists: new Array(38),
+    netTransfers: new Array(38),
+    minsPlayed: new Array(38)
   };
+  var thisData = this.data;
+  Object.keys(this.data).forEach(function(key) {
+    var attrArray = thisData[key];
+    for (var i=0; i < attrArray.length; i++) {
+      attrArray[i] = new Array(38);
+      for (var j=0; j < attrArray[i].length; j++) {
+        attrArray[i][j] = {
+          over_time: undefined,
+          home_vs_away: undefined,
+          consistency: undefined,
+          cum_total: undefined,
+          events_breakdown: undefined,
+          changes: undefined
+        };
+      }
+    }
+  });
 }
 
+ProfileGraph.prototype.clear = function() {
+  // body...
+};
+
+//Trap: index starts from 0, so index (i-1) = week i (week 1 = index 0 etc)
+ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
+  var requiredData = this.getData(attr, metric, start, end);
+  if (this.graph.series.length === 0) {
+    this.graph.addSeries({
+      data: requiredData,
+      name: "Points",
+      id: "points",
+      color: this.graph.options.colors[0],
+      pointStart: 1,
+      type: "line"
+    }, false);
+    this.graph.xAxis[0].update({
+      title: {text: "Game weeks"},
+      categories: null
+    }, false);
+    this.graph.yAxis[0].update({
+      title: {text: "Points"}
+    }, false);
+    this.graph.redraw();
+  }
+  else {
+    this.graph.series[0].update({
+      data: requiredData,
+      pointStart: 1,
+      type: "line"
+    }, false);
+    this.graph.xAxis[0].update({
+      title: {text: "Game weeks"},
+      categories: null
+    }, false);
+    this.graph.yAxis[0].update({
+      title: {text: "Points"}
+    }, false);
+    this.graph.options.tooltip.formatter = initOptions.tooltip.formatter;
+    this.graph.redraw();
+  }
+};
+
+ProfileGraph.prototype.getData = function(attr, metric, start, end) {
+  var myData = this.data[attr][start-1][end-1][metric];
+  if (myData) {
+    return myData;
+  }
+  else {
+    var thisData = this.data;
+    $.ajax("/graph_data", {
+      method: "POST",
+      data: {
+        attr: attr,
+        metric: metric,
+        start: start,
+        end: end,
+        player_name: $("img.img-responsive").attr("alt")
+      },
+      success: function(data) {
+        var metric_ = Object.keys(data)[0];
+        var startEndMemBlock = thisData[attr][start-1][end-1];
+        startEndMemBlock[metric_] = data[metric_];
+        myData = data[metric_];
+      },
+      async: false
+    });
+    return myData;
+  }
+};
+
 ProfileGraph.prototype.update = function(start, end) {
-  this.graph.showLoading();
+  this.graph.showLoading("Loading graph...");
   //Perform the updates...
-
+  var thisGraph = this;
+  $("div.performance_metrics > .form-group:not(.hidden)").each(function() {
+    var attrMetricArray = $("select.form-control", this).val().split("-");
+    var attr = attrMetricArray[0];
+    var metric = attrMetricArray[1];
+    thisGraph.drawLineGraph(attr, metric, start, end);
+  });
   this.graph.hideLoading();
-};
-
-ProfileGraph.prototype.clear = function(first_argument) {
-  // body...
-};
-
-ProfileGraph.prototype.drawLineGraph = function() {
-  // body...
 };
 
 // --------------------------- Codes below here to be rewritten to fit into ProfileGraph --------------------------- //
@@ -73,49 +159,6 @@ function drawConsBox(start, end) {
       "<br><b>Min: </b>"+min+"<br><b>Max: </b>"+max
   };
   chart.redraw();
-}
-
-function drawLineGraph(start, end) {
-  var reformedData = playersData.filter(function(e) {
-    return e[0] >= start && e[0] <= end;
-  }).map(function(e) {
-    return [e[0],e[1]];
-  });
-  console.log(reformedData);
-  if (chart.series.length === 0) {
-    chart.addSeries({
-      data: reformedData,
-      name: "Points",
-      color: chart.options.colors[0],
-      pointStart: 1,
-      type: "line"
-    }, false);
-    chart.xAxis[0].update({
-      title: {text: "Game weeks"},
-      categories: null
-    }, false);
-    chart.yAxis[0].update({
-      title: {text: "Points"}
-    }, false);
-    chart.options.tooltip.formatter = initOptions.tooltip.formatter;
-    chart.redraw();
-  }
-  else {
-    chart.series[0].update({
-      data: reformedData,
-      pointStart: 1,
-      type: "line"
-    }, false);
-    chart.xAxis[0].update({
-      title: {text: "Game weeks"},
-      categories: null
-    }, false);
-    chart.yAxis[0].update({
-      title: {text: "Points"}
-    }, false);
-    chart.options.tooltip.formatter = initOptions.tooltip.formatter;
-    chart.redraw();
-  }
 }
 
 function clearGraph() {

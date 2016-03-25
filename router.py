@@ -32,6 +32,7 @@ class Router(Bottle):
         self.route("/profile", callback=self.profiles)
         self.post("/profile", callback=self.get_player_profile)
         self.post("/player_names", callback=self.get_player_names)
+        self.post("/graph_data", callback=self.get_graph_data)
         self.route("<path:path>", callback=lambda path: self.get_resources(path))
     
     def root(self):
@@ -61,6 +62,12 @@ class Router(Bottle):
         except StopIteration: # Should never be reached
             raise RuntimeError("There's an error with the player search function")
         return template("profile", contents=contents)
+    
+    def get_graph_data(self):
+        attr, metric, start, end, player_name = (request.forms.attr, request.forms.metric,
+                                    request.forms.start, request.forms.end,
+                                    request.forms.player_name)
+        return profiles.get_graph_data(metric, int(start), int(end), self.players_col, player_name, attr)
     
     def get_resources(self, path):
         return static_file(path, root="./")

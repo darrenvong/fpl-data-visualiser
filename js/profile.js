@@ -38,9 +38,6 @@ var initOptions = {
         }
     },
     tooltip: {
-        formatter: function() {
-            return "Week "+Math.floor(this.x)+"<br><b>Points: </b>"+this.y;
-        },
         followPointer: true
     },
     legend: {
@@ -56,6 +53,7 @@ var initOptions = {
     }
 };
 
+var graph;
 $(document).ready(function() {
   $("table.table-hover > tbody > tr:not(.no-extra-info)").each(function(){
     $(this).click(function() {
@@ -85,5 +83,16 @@ $(document).ready(function() {
     centElement($('.form-group')); 
   });
 
-  var graph = new ProfileGraph(initOptions);
+  graph = new ProfileGraph(initOptions);
+
+  $("#update_graph").click(function() {
+    var start = parseInt($("#startTime").val());
+    var end = parseInt($("#endTime").val());
+    if (start > end) {
+      alert("Can't have start time later than end time!");
+      return;
+    }
+
+    graph.update(start, end);
+  });
 });

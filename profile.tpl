@@ -24,11 +24,8 @@
     <link href="css/general.css" rel="stylesheet">
     <link href="css/profile.css" rel="stylesheet">
 
-    <!-- New native Array API polyfill for IE by Mozilla Developer Network (2016)
-    (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/) -->
-    <!--[if IE]>
-      <script src="js/array_polyfill.js"></script>
-    <![endif]-->
+    <!-- Polyfill fixes by Mozilla Developer Network (2016), https://developer.mozilla.org/ -->
+    <script src="js/polyfills.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -38,7 +35,6 @@
   </head>
 
   <body>
-
     <nav class="navbar">
       <div class="container">
         <div class="navbar-header">
@@ -84,7 +80,7 @@
             <p class="help-block text-warning profile-page hidden"><span class="glyphicon glyphicon-alert"></span> Player not found!</p>
           </form>
           <figure>
-            <img src={{u"faces/"+contents["photo"]}} class="img-responsive center-block" alt={{contents["web_name"]}}>
+            <img src={{u"faces/"+contents["photo"]}} class="img-responsive center-block" alt='{{contents["normalised_name"]}}'>
           </figure>
           <p class="text-center"><b>{{contents["web_name"]}}</b></p>
           <table class="table table-bordered table-hover">
@@ -181,7 +177,7 @@
                   <option value="points-over_time">Over selected game weeks</option>
                   <option value="points-home_vs_away">Home vs Away</option>
                   <option value="points-consistency">Consistency</option>
-                  <option value="points-accum_total">Cumulative total</option>
+                  <option value="points-cum_total">Cumulative total</option>
                   <option value="points-events_breakdown">Point scoring events breakdown</option>
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
@@ -203,8 +199,8 @@
                 <select class="form-control sm-screen">
                     <option value="goals-over_time"> Over selected game weeks</option>
                     <option value="goals-home_vs_away"> Home vs Away</option>
-                    <option value="goals-accum_total"> Cumulative total</option>
-                    <option value="goals-moving_average"> Moving average</option>
+                    <option value="goals-cum_total"> Cumulative total</option>
+                    <!-- <option value="goals-moving_average"> Moving average</option> -->
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Goals" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
@@ -214,8 +210,8 @@
                 <select class="form-control sm-screen">
                     <option value="assists-over_time"> Over selected game weeks</option>
                     <option value="assists-home_vs_away"> Home vs Away</option>
-                    <option value="assists-accum_total"> Cumulative total</option>
-                    <option value="assists-moving_average"> Moving average</option>
+                    <option value="assists-cum_total"> Cumulative total</option>
+                    <!-- <option value="assists-moving_average"> Moving average</option> -->
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Assists" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
@@ -226,8 +222,8 @@
                 <select class="form-control sm-screen">
                     <option value="cleanSheets-over_time"> Over selected game weeks</option>
                     <option value="cleanSheets-home_vs_away"> Home vs Away</option>
-                    <option value="cleanSheets-accum_total"> Cumulative total</option>
-                    <option value="cleanSheets-moving_average"> Moving average</option>
+                    <option value="cleanSheets-cum_total"> Cumulative total</option>
+                    <!-- <option value="cleanSheets-moving_average"> Moving average</option> -->
                 </select>
                 <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
                 <a role="button" class="btn" data-toggle="popover" title="Clean Sheets" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>

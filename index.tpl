@@ -21,6 +21,9 @@
     <link href="css/general.css" rel="stylesheet">
     <link href="css/home.css" rel="stylesheet">
 
+    <!-- Polyfill fixes by Mozilla Developer Network (2016), https://developer.mozilla.org/ -->
+    <script src="js/polyfills.js"></script>
+    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>

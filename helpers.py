@@ -63,6 +63,7 @@ def restructure_fixture_data(player_data):
         fixture_object = OrderedDict()
         for i in xrange(20):
             fixture_object[FIXTURE_KEY_MAP[i]] = fixture[i]
+        fixture_object["ground"] = fixture_object["opponent_result"][4]
         fixture_objects_list.append(fixture_object)
     player_data["fixture_history"] = fixture_objects_list
     return player_data
