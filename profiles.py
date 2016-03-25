@@ -34,18 +34,24 @@ def custom_capitalise(s):
     return capwords(s, " ")
 
 def get_graph_data(metric, start, end, col, player_name, attr="points"):
-    if metric == "over_time":
-        return dict(over_time=profile_graph_api.get_over_time_data(col, player_name, start, end, attr))
-    elif metric == "home_vs_away":
-        pass
-    elif metric == "consistency":
-        pass
-    elif metric == "cum_total":
-        pass
-    elif metric == "events_breakdown":
-        pass
-    elif metric == "changes": # Currently only applicable to prices
-        pass
+    if attr == "points":
+        if metric == "over_time":
+            return dict(over_time=profile_graph_api.get_over_time_data(
+                                                        col, player_name, start, end, attr))
+        elif metric == "home_vs_away":
+            return dict(home_vs_away=profile_graph_api.get_home_vs_away_data(
+                                                        col, player_name, start, end, attr))
+        elif metric == "consistency":
+            return dict(consistency=profile_graph_api.get_consistency_data(
+                                                        col, player_name, start, end, attr))
+        elif metric == "cum_total":
+            return dict(cum_total=profile_graph_api.get_cumulative_total_data(
+                                                        col, player_name, start, end, attr))
+        elif metric == "events_breakdown":
+            return dict(events_breakdown=profile_graph_api.get_events_breakdown_data(
+                                                        col, player_name, start, end, attr))
+        elif metric == "changes": # Currently only applicable to prices
+            pass
 
 if __name__ == '__main__':
     client, players = helpers.connect()

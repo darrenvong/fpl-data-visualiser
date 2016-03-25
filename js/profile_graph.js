@@ -77,6 +77,10 @@ ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
   }
 };
 
+ProfileGraph.prototype.drawPieChart = function(attr, metric, start, end) {
+  var requiredData = this.getData(attr, metric, start, end);
+};
+
 ProfileGraph.prototype.getData = function(attr, metric, start, end) {
   var myData = this.data[attr][start-1][end-1][metric];
   if (myData) {
@@ -94,10 +98,9 @@ ProfileGraph.prototype.getData = function(attr, metric, start, end) {
         player_name: $("img.img-responsive").attr("alt")
       },
       success: function(data) {
-        var metric_ = Object.keys(data)[0];
         var startEndMemBlock = thisData[attr][start-1][end-1];
-        startEndMemBlock[metric_] = data[metric_];
-        myData = data[metric_];
+        startEndMemBlock[metric] = data[metric];
+        myData = data[metric];
       },
       async: false
     });
@@ -113,7 +116,10 @@ ProfileGraph.prototype.update = function(start, end) {
     var attrMetricArray = $("select.form-control", this).val().split("-");
     var attr = attrMetricArray[0];
     var metric = attrMetricArray[1];
-    thisGraph.drawLineGraph(attr, metric, start, end);
+    if (metric === "over_time" || metric === "cum_total")
+      thisGraph.drawLineGraph(attr, metric, start, end);
+    else if (metric === "home_vs_away")
+      thisGraph.drawPieChart(attr, metric, start, end);
   });
   this.graph.hideLoading();
 };
