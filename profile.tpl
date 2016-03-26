@@ -82,7 +82,7 @@
           <figure>
             <img src={{u"faces/"+contents["photo"]}} class="img-responsive center-block" alt='{{contents["normalised_name"]}}'>
           </figure>
-          <p class="text-center"><b>{{contents["web_name"]}}</b></p>
+          <p id="player_name" class="text-center"><b>{{contents["web_name"]}}</b></p>
           <table class="table table-bordered table-hover">
             <caption class="profile_caption">Click on a row to reveal more options for projecting more details to the graph.</caption>
             <thead>

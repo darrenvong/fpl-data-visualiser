@@ -7,13 +7,15 @@ var initOptions = {
         renderTo: "graph_container",
         height: 500
     },
+    colors: ['#7cb5ec', '#90ed7d', '#f7a35c', '#8085e9',
+              '#f15c80', '#2b908f', '#f45b5b', '#91e8e1'],
     title: {
         text: null
     },
     xAxis: {
-        // title: {
-        //     text: "Game weeks"
-        // },
+        title: {
+            text: "Game weeks"
+        },
         minTickInterval: 1,
         allowDecimals: false
     },
@@ -27,6 +29,29 @@ var initOptions = {
       line: {
         marker: {
           symbol: "circle"
+        },
+        tooltip: {
+          headerFormat: 'Week {point.key}<br>',
+          pointFormat: '<b>{series.name}: </b>{point.y}'
+        }
+      },
+      pie: {
+        tooltip: {
+          headerFormat: '<b>{point.key}</b><br>',
+          pointFormat: '<span>Points: {point.percentage:.0f}%</span>'
+        }
+      },
+      column: {
+        tooltip: {
+          headerFormat: '<b>Event:</b> {point.key}<br>',
+          pointFormat: 'Points: {point.y}'
+        }
+      },
+      boxplot: {
+        tooltip: {
+          headerFormat: "",
+          pointFormat: ("<b>Min:</b> {point.low}<br/><b>LQ:</b> {point.q1}<br/>"+
+            "<b>Median:</b> {point.median}<br/><b>UQ:</b> {point.q3}<br/><b>Max:</b> {point.high}<br/>")
         }
       }
     },
@@ -38,7 +63,7 @@ var initOptions = {
         }
     },
     tooltip: {
-        followPointer: true
+        followPointer: true,
     },
     legend: {
         layout: 'vertical',

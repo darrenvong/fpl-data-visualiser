@@ -1,4 +1,31 @@
 function ProfileGraph(options) {
+  this.ATTR_ID_MAP = {
+    "Points": "points",
+    "Goals": "goals",
+    "Price": "price",
+    "Assists": "assists",
+    "Net transfers": "netTransfers",
+    "Clean sheets": "cleanSheets",
+    "Minutes played": "minutesPlayed"
+  };
+  //Inverse map of the above
+  this.ID_ATTR_MAP = (function(map) {
+    var inverse_obj = {}
+    for (let attr in map) { //attr is the key in ATTR_ID_MAP
+      inverse_obj[map[attr]] = attr;
+    }
+    return inverse_obj
+  })(this.ATTR_ID_MAP);
+
+  for (let attr in this.ATTR_ID_MAP) {
+    let MAP_REF = this.ATTR_ID_MAP;
+    options.series.push({
+      name: attr,
+      id: MAP_REF[attr],
+      type: "line",
+      pointStart: 1
+    });
+  }
   this.initOptions = options;
 
   Highcharts.setOptions({
@@ -38,10 +65,10 @@ function ProfileGraph(options) {
 }
 
 ProfileGraph.prototype.update = function(start, end) {
-  this.graph.showLoading("Loading graph...");
   //Perform the updates...
   var thisGraph = this;
   $("div.performance_metrics > .form-group:not(.hidden)").each(function() {
+    thisGraph.graph.showLoading("Loading graph...");
     var attrMetricArray = $("select.form-control", this).val().split("-");
     var attr = attrMetricArray[0];
     var metric = attrMetricArray[1];
@@ -49,8 +76,12 @@ ProfileGraph.prototype.update = function(start, end) {
       thisGraph.drawLineGraph(attr, metric, start, end);
     else if (metric === "home_vs_away")
       thisGraph.drawPieChart(attr, metric, start, end);
+    else if (metric === "consistency")
+      thisGraph.drawBoxPlot(attr, metric, start, end);
+    else if (metric === "events_breakdown")
+      thisGraph.drawBarGraph(attr, metric, start, end);
+    thisGraph.graph.hideLoading();
   });
-  this.graph.hideLoading();
 };
 
 ProfileGraph.prototype.clear = function() {
@@ -60,44 +91,68 @@ ProfileGraph.prototype.clear = function() {
 //Trap: index starts from 0, so index (i-1) = week i (week 1 = index 0 etc)
 ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
   var requiredData = this.getData(attr, metric, start, end);
-  if (this.graph.series.length === 0) {
-    this.graph.addSeries({
-      data: requiredData,
-      name: "Points",
-      id: "points",
-      color: this.graph.options.colors[0],
-      pointStart: 1,
-      type: "line"
-    }, false);
-    this.graph.xAxis[0].update({
-      title: {text: "Game weeks"},
-      categories: null
-    }, false);
-    this.graph.yAxis[0].update({
-      title: {text: "Points"}
-    }, false);
-    this.graph.redraw();
-  }
-  else {
-    this.graph.series[0].update({
-      data: requiredData,
-      pointStart: 1,
-      type: "line"
-    }, false);
-    this.graph.xAxis[0].update({
-      title: {text: "Game weeks"},
-      categories: null
-    }, false);
-    this.graph.yAxis[0].update({
-      title: {text: "Points"}
-    }, false);
-    this.graph.options.tooltip.formatter = initOptions.tooltip.formatter;
-    this.graph.redraw();
-  }
+  this.graph.get(attr).update({
+    data: requiredData,
+    pointStart: 1,
+    type: "line"
+  }, false);
+  this.graph.xAxis[0].update({
+    categories: null,
+    visible: true
+  }, false);
+  this.graph.yAxis[0].update({
+    visible: true
+  }, false);
+  this.graph.redraw();
 };
 
 ProfileGraph.prototype.drawPieChart = function(attr, metric, start, end) {
   var requiredData = this.getData(attr, metric, start, end);
+  this.graph.get(attr).update({
+    data: requiredData,
+    type: "pie"
+  }, false);
+  this.graph.xAxis[0].update({
+    visible: false
+  }, false);
+  this.graph.yAxis[0].update({
+    visible: false
+  }, false);
+  this.graph.redraw();
+};
+
+ProfileGraph.prototype.drawBoxPlot = function(attr, metric, start, end) {
+  var requiredData = this.getData(attr, metric, start, end);
+  this.graph.get(attr).update({
+    data: requiredData,
+    type: "boxplot",
+    pointStart: 1
+  }, false);
+  this.graph.xAxis[0].update({
+    categories: [null, $("#player_name").text()],
+    visible: true
+  }, false);
+  this.graph.yAxis[0].update({
+    visible: true
+  }, false);
+  this.graph.redraw();
+};
+
+ProfileGraph.prototype.drawBarGraph = function(attr, metric, start, end) {
+  var requiredData = this.getData(attr, metric, start, end);
+  this.graph.get(attr).update({
+    data: requiredData,
+    type: "column",
+    pointStart: 1
+  }, false);
+  this.graph.xAxis[0].update({
+    categories: null,
+    visible: true
+  }, false);
+  this.graph.yAxis[0].update({
+    visible: true
+  }, false);
+  this.graph.redraw();
 };
 
 ProfileGraph.prototype.getData = function(attr, metric, start, end) {
