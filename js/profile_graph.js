@@ -15,6 +15,9 @@ function ProfileGraph(options) {
     netTransfers: new Array(38),
     minsPlayed: new Array(38)
   };
+  if ($('#cleanSheets').length !== 0)
+    this.data.cleanSheets = new Array(38);
+  
   var thisData = this.data;
   Object.keys(this.data).forEach(function(key) {
     var attrArray = thisData[key];

@@ -20,7 +20,7 @@ FIXTURE_KEY_MAP = {
     1 : "gameweek",
     2 : "opponent_result", 
     3 : "mins_played", 
-    4 : "goals_scored",
+    4 : "goals",
     5 : "assists",
     6 : "clean_sheet",
     7 : "goals_conceded",
@@ -34,7 +34,7 @@ FIXTURE_KEY_MAP = {
     15 : "ea_sports_ppi",
     16 : "bonus_point_system",
     17 : "net_transfers",
-    18 : "value",
+    18 : "price",
     19 : "points"
 }
 
@@ -181,3 +181,4 @@ if __name__ == '__main__':
     c, col = connect()
     insert_players(col, scrape_players())
     enforce_injective_name_mapping(col)
+    c.close()
