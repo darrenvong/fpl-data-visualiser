@@ -13,11 +13,11 @@ function ProfileGraph(options) {
     goals: new Array(38),
     assists: new Array(38),
     netTransfers: new Array(38),
-    minsPlayed: new Array(38)
+    minutesPlayed: new Array(38)
   };
   if ($('#cleanSheets').length !== 0)
     this.data.cleanSheets = new Array(38);
-  
+
   var thisData = this.data;
   Object.keys(this.data).forEach(function(key) {
     var attrArray = thisData[key];
@@ -36,6 +36,22 @@ function ProfileGraph(options) {
     }
   });
 }
+
+ProfileGraph.prototype.update = function(start, end) {
+  this.graph.showLoading("Loading graph...");
+  //Perform the updates...
+  var thisGraph = this;
+  $("div.performance_metrics > .form-group:not(.hidden)").each(function() {
+    var attrMetricArray = $("select.form-control", this).val().split("-");
+    var attr = attrMetricArray[0];
+    var metric = attrMetricArray[1];
+    if (metric === "over_time" || metric === "cum_total")
+      thisGraph.drawLineGraph(attr, metric, start, end);
+    else if (metric === "home_vs_away")
+      thisGraph.drawPieChart(attr, metric, start, end);
+  });
+  this.graph.hideLoading();
+};
 
 ProfileGraph.prototype.clear = function() {
   // body...
@@ -109,22 +125,6 @@ ProfileGraph.prototype.getData = function(attr, metric, start, end) {
     });
     return myData;
   }
-};
-
-ProfileGraph.prototype.update = function(start, end) {
-  this.graph.showLoading("Loading graph...");
-  //Perform the updates...
-  var thisGraph = this;
-  $("div.performance_metrics > .form-group:not(.hidden)").each(function() {
-    var attrMetricArray = $("select.form-control", this).val().split("-");
-    var attr = attrMetricArray[0];
-    var metric = attrMetricArray[1];
-    if (metric === "over_time" || metric === "cum_total")
-      thisGraph.drawLineGraph(attr, metric, start, end);
-    else if (metric === "home_vs_away")
-      thisGraph.drawPieChart(attr, metric, start, end);
-  });
-  this.graph.hideLoading();
 };
 
 // --------------------------- Codes below here to be rewritten to fit into ProfileGraph --------------------------- //
