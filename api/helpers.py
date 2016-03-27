@@ -16,3 +16,8 @@ def init(player_name, start, end):
     s, e = to_indices(start, end)
     query_filter = create_filter_doc(player_name)
     return s, e, query_filter
+
+def pairs_to_lists(pairs_list):
+    """Converts a list of pairs to a list of (list) pairs
+    E.g. [(1,2),(2,3),(3,4)] -> [[1,2], [2,3], [3,4]]"""
+    return map(list, pairs_list)

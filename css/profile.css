@@ -110,6 +110,10 @@ div.performance_metrics select.form-control {
   width: 270px;
 }
 
+.form-inline .form-control {
+  display: inline-block;
+}
+
 /* Overriding jQuery's default */
 li.ui-menu-item.ui-state-focus {
   border: 1px solid #dbe9f2;
@@ -118,8 +122,19 @@ li.ui-menu-item.ui-state-focus {
   color: #2b2b2b;
 }
 
-@media (max-width: 768px) {
+.alert-danger {
+  width: 426px;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
   .sm-screen {
     margin: 10px 0px;
+  }
+}
+
+@media (min-width: 768px) {
+  .alert-danger {
+    margin: 20px auto;
   }
 }

@@ -38,14 +38,25 @@ class Test(unittest.TestCase):
                     [12, 67], [13, 74], [14, 83]]
         self.assertEqual(data, expected)
 
+    @unittest.skip("expected results are incorrect")
     def test_events_bd_data_points(self):
         data = profile_graph_api.get_events_breakdown_data(self.col, self.player_name,
                                                            self.start, self.end, "points")
-        expected = [{'data': [4, 4, 8, 4, 8, 4, 4, 4, 4, 4], 'name': 'Goals'},
-                    {'data': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 'name': 'Assists'},
-                    {'data': [2, 2, 4, 5, 5, 1, 3, 5, 3, 5], 'name': 'Others'}]
+        expected = [{'goals': [4, 4, 8, 4, 8, 4, 4, 4, 4, 4]},
+                    {'assists': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+                    {'others': [2, 2, 4, 5, 5, 1, 3, 5, 3, 5]}]
         self.assertEqual(data, expected)
     
+    @unittest.skip("expected results are incorrect")
+    def test_events_bd_data_points_def(self):
+        data = profile_graph_api.get_events_breakdown_data(self.col, "Bellerin",
+                                                           self.start, self.end, "points")
+        expected = [{'goals': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+                    {'assists': [0, 0, 3, 0, 3, 0, 0, 0, 0, 0]},
+                    {'cleanSheets': [4, 0, 0, 4, 4, 0, 4, 0, 0, 0]},
+                    {'others': [5, 1, 1, 3, 3, 2, 2, 0, 0, 2]}]
+        self.assertEqual(data, expected)        
+        
     def test_over_time_data_price(self):
         data = profile_graph_api.get_over_time_data(self.col, self.player_name,
                                                     self.start, self.end, "price")

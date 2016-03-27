@@ -105,7 +105,7 @@
                 <td>£{{unicode(contents["now_cost"]/10.0)}}M</td>
               </tr>
               <tr id="price_extra" class="no-extra-info hidden">
-                <td><span class="extras">per million</span></td>
+                <td><span class="extras">points per million</span></td>
                 <td>{{round( contents["total_points"]/(contents["now_cost"]/10.0), 1 )}}</td>
               </tr>
               <tr id="goals">
@@ -180,10 +180,10 @@
                   <option value="points-cum_total">Cumulative total</option>
                   <option value="points-events_breakdown">Point scoring events breakdown</option>
                 </select>
-                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
                 <a role="button" class="btn" data-toggle="popover" title="Points" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
                 <!-- Do this feature if there's spare time... leaving it out for now -->
-                <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button> -->
+                <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plu"></span></button> -->
               </div> <!-- #points_group -->
               <div class="form-group hidden" id="price_group">
                 <label class="labels">Price:</label>
@@ -191,7 +191,7 @@
                   <option value="price-over_time">Over selected game weeks</option>
                   <option value="price-changes">Changes over selected game weeks</option>
                 </select>
-                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
                 <a role="button" class="btn" data-toggle="popover" title="Price" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #price_group -->
               <div class="form-group hidden" id="goals_group">
@@ -202,7 +202,7 @@
                     <option value="goals-cum_total"> Cumulative total</option>
                     <!-- <option value="goals-moving_average"> Moving average</option> -->
                 </select>
-                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
                 <a role="button" class="btn" data-toggle="popover" title="Goals" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #goals_group -->
               <div class="form-group hidden" id="assists_group">
@@ -213,7 +213,7 @@
                     <option value="assists-cum_total"> Cumulative total</option>
                     <!-- <option value="assists-moving_average"> Moving average</option> -->
                 </select>
-                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
                 <a role="button" class="btn" data-toggle="popover" title="Assists" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #assist_group -->
               % if contents["type_name"] == "Goalkeeper" or contents["type_name"] == "Defender":
@@ -225,7 +225,7 @@
                     <option value="cleanSheets-cum_total"> Cumulative total</option>
                     <!-- <option value="cleanSheets-moving_average"> Moving average</option> -->
                 </select>
-                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
                 <a role="button" class="btn" data-toggle="popover" title="Clean Sheets" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #cleanSheets_group -->
               % end
@@ -234,7 +234,7 @@
                 <select class="form-control sm-screen">
                   <option value="netTransfers-over_time">Over selected game weeks</option>
                 </select>
-                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
                 <a role="button" class="btn" data-toggle="popover" title="Net Transfers" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #netTransfers_group -->
               <div class="form-group hidden" id="minutesPlayed_group">
@@ -242,9 +242,10 @@
                 <select class="form-control sm-screen">
                   <option value="minutesPlayed-over_time">Over selected game weeks</option>
                 </select>
-                <button type="button" class="btn btn-danger btn-sm" aria-label="Remove attribute from graph"><span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
                 <a role="button" class="btn" data-toggle="popover" title="Minutes Played" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #minutesPlayed_group -->
+              <div class="alert alert-danger hidden" role="alert"><span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;Invalid combination!</div>
             </div>
           </form>
             <div id="graph_container"></div>

@@ -6,7 +6,8 @@ function ProfileGraph(options) {
     "Assists": "assists",
     "Net transfers": "netTransfers",
     "Clean sheets": "cleanSheets",
-    "Minutes played": "minutesPlayed"
+    "Minutes played": "minutesPlayed",
+    "Others": "others"
   };
   //Inverse map of the above
   this.ID_ATTR_MAP = (function(map) {
@@ -65,27 +66,52 @@ function ProfileGraph(options) {
 }
 
 ProfileGraph.prototype.update = function(start, end) {
-  //Perform the updates...
-  var thisGraph = this;
-  $("div.performance_metrics > .form-group:not(.hidden)").each(function() {
-    thisGraph.graph.showLoading("Loading graph...");
-    var attrMetricArray = $("select.form-control", this).val().split("-");
-    var attr = attrMetricArray[0];
-    var metric = attrMetricArray[1];
-    if (metric === "over_time" || metric === "cum_total")
-      thisGraph.drawLineGraph(attr, metric, start, end);
-    else if (metric === "home_vs_away")
-      thisGraph.drawPieChart(attr, metric, start, end);
-    else if (metric === "consistency")
-      thisGraph.drawBoxPlot(attr, metric, start, end);
-    else if (metric === "events_breakdown")
-      thisGraph.drawBarGraph(attr, metric, start, end);
-    thisGraph.graph.hideLoading();
-  });
+  var alertBox = $(".alert-danger");
+  if (this.isValid()) {
+    if (!alertBox.hasClass("hidden"))
+      alertBox.toggleClass("hidden");
+    // Clears the data in each series since events breakdown uses multiple series...
+    this.graph.series.forEach(function(s) {
+      s.setData([], false);
+      s.show();
+    });
+    //Reference to the current graph's Highchart object for use inside the function call after this line
+    var thisGraph = this;
+    
+    $("div.performance_metrics > .form-group:not(.hidden)").each(function() {
+      thisGraph.graph.showLoading("Loading graph...");
+      var attrMetricArray = $("select.form-control", this).val().split("-");
+      var attr = attrMetricArray[0];
+      var metric = attrMetricArray[1];
+      if (metric === "over_time" || metric === "cum_total")
+        thisGraph.drawLineGraph(attr, metric, start, end);
+      else if (metric === "home_vs_away")
+        thisGraph.drawPieChart(attr, metric, start, end);
+      else if (metric === "consistency")
+        thisGraph.drawBoxPlot(attr, metric, start, end);
+      else if (metric === "events_breakdown")
+        thisGraph.drawCompoundBarGraph(attr, metric, start, end);
+      else if (metric === "changes")
+        thisGraph.drawBarGraph(attr, metric, start, end);
+      thisGraph.graph.hideLoading();
+    });
+  }
+  else {
+    if (alertBox.hasClass("hidden"))
+      alertBox.toggleClass("hidden");
+    else {
+      alertBox.effect("highlight", {color: "#a94442"});
+    }
+  }
 };
 
-ProfileGraph.prototype.clear = function() {
-  // body...
+// Toggles the visibility of a serie. Returns true if the toggle shows the serie, otherwise false.
+ProfileGraph.prototype.toggle = function(attr) {
+  var serie = this.graph.get(attr);
+  if (serie.visible)
+    serie.hide();
+  else
+    serie.show();
 };
 
 //Trap: index starts from 0, so index (i-1) = week i (week 1 = index 0 etc)
@@ -98,7 +124,8 @@ ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
   }, false);
   this.graph.xAxis[0].update({
     categories: null,
-    visible: true
+    visible: true,
+    title: {text: "Game weeks"}
   }, false);
   this.graph.yAxis[0].update({
     visible: true
@@ -130,7 +157,34 @@ ProfileGraph.prototype.drawBoxPlot = function(attr, metric, start, end) {
   }, false);
   this.graph.xAxis[0].update({
     categories: [null, $("#player_name").text()],
+    visible: false,
+    title: {text: "Players"}
+  }, false);
+  this.graph.yAxis[0].update({
     visible: true
+  }, false);
+  this.graph.redraw();
+};
+
+ProfileGraph.prototype.drawCompoundBarGraph = function(attr, metric, start, end) {
+  var requiredData = this.getData(attr, metric, start, end);
+  var thisGraph = this.graph; //The actual Highchart graph
+  requiredData.forEach(function(dataObj) {
+    var id = Object.getOwnPropertyNames(dataObj)[0];
+    thisGraph.get(id).update({
+      data: dataObj[id],
+      type: "column",
+      tooltip: {
+        headerFormat: 'Event: <b>{series.name}</b><br>',
+        pointFormat: '<b>Points:</b> {point.y}'
+      },
+      pointStart: 1
+    }, false);
+  });
+  this.graph.xAxis[0].update({
+    categories: null,
+    visible: true,
+    title: {text: "Game weeks"}
   }, false);
   this.graph.yAxis[0].update({
     visible: true
@@ -143,11 +197,16 @@ ProfileGraph.prototype.drawBarGraph = function(attr, metric, start, end) {
   this.graph.get(attr).update({
     data: requiredData,
     type: "column",
+    tooltip: {
+      headerFormat: 'Week {point.key}<br>',
+      pointFormat: '<b>Changes:</b> {point.y}'
+    },
     pointStart: 1
   }, false);
   this.graph.xAxis[0].update({
     categories: null,
-    visible: true
+    visible: true,
+    title: {text: "Game weeks"}
   }, false);
   this.graph.yAxis[0].update({
     visible: true
@@ -182,57 +241,30 @@ ProfileGraph.prototype.getData = function(attr, metric, start, end) {
   }
 };
 
-// --------------------------- Codes below here to be rewritten to fit into ProfileGraph --------------------------- //
-var playersData = [[1, 15],[2, 10],[3, 10],[4, 1],[5, 11],[6, 11],[7, 2],[8, 0],[9, 4],[10, 6],
-                    [11, 15],[12, 2],[13, 9],[14, 2],[15, 21],[16, 13],[17, 15],[18, 2],[19, 3],
-                    [20, 1],[21, 3],[22, 1],[23, 6],[24, 6],[25, 14],[26, 1], [27, 18]];
-
-function drawConsBox(start, end) {
-  var data = playersData.filter(function(e) {
-    return e[0] >= start && e[0] <= end;
-  }).map(function(e) {
-    return e[1];
+// Checks whether the requested graoh to be drawn will be in a valid state
+// An invalid state will be one where different, but incompatible graphs are being drawn
+// on the same graph
+// Examples: a pie chart together with a box plot since they both need the whole graph space, or
+// a box plot together with line graphs since the box will cover up the lines/graph looks too clustered
+ProfileGraph.prototype.isValid = function() {
+  var valid = false;
+  var dropdownsSelector = "div.performance_metrics > .form-group:not(.hidden) select.form-control";
+  var selectedMetrics = [];
+  $(dropdownsSelector).each(function() {
+    var metric = $(this).val().split("-")[1];
+    selectedMetrics.push(metric);
   });
-  var median = math.median(data);
-  var lq = math.quantileSeq(data, 0.25);
-  var uq = math.quantileSeq(data, 0.75);
-  var min = math.min(data);
-  var max = math.max(data);
-
-  if (chart.series.length === 0) {
-    chart.addSeries({
-      type: "boxplot",
-      data: [[min, lq, median, uq, max]],
-      name: "Points",
-      color: chart.options.colors[0]
-    }, false);
-  }
-  else {
-    chart.series[0].update({
-      type: "boxplot",
-      data: [[min, lq, median, uq, max]]
-    }, false);
-  }
-
-  chart.xAxis[0].update({
-    categories: [null, "Mahrez"], // Since category values are taken from index 0
-    title: {text: "Player's name"},
-  }, false);
-  chart.options.tooltip.formatter = function() {
-  return "<b>LQ: </b>"+lq+"<br><b>Median: </b>"+median+"<br><b>UQ: </b>"+uq+
-      "<br><b>Min: </b>"+min+"<br><b>Max: </b>"+max
+  var metric_msg_map = {
+    home_vs_away: "Home vs Away",
+    consistency: "Consistency"
   };
-  chart.redraw();
-}
+  for (let metric of selectedMetrics) {
+    if ((metric === "home_vs_away" || metric === "consistency") && selectedMetrics.length > 1) {
+      var message = '"'+metric_msg_map[metric]+'" cannot be selected when other drop down menus are visible';
+      $(".alert-danger").html('<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;'+message);
+      return valid;
+    }
+  }
 
-function clearGraph() {
-  if (chart.series[0].name === "Points")
-    chart.series[0].remove();
-}
-
-function masterDraw(metric, start, end) {
-  if (metric === "points-consistency")
-    drawConsBox(start, end);
-  else if (metric === "points-over_time")
-    drawLineGraph(start, end);
+  return !valid;
 }

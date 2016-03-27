@@ -13,17 +13,16 @@ var initOptions = {
         text: null
     },
     xAxis: {
-        title: {
-            text: "Game weeks"
-        },
         minTickInterval: 1,
-        allowDecimals: false
+        allowDecimals: false,
+        visible: false
     },
     yAxis: {
         title: {
             text: null
         },
-        allowDecimals: false
+        allowDecimals: false,
+        visible: false
     },
     plotOptions: {
       line: {
@@ -31,21 +30,18 @@ var initOptions = {
           symbol: "circle"
         },
         tooltip: {
-          headerFormat: 'Week {point.key}<br>',
-          pointFormat: '<b>{series.name}: </b>{point.y}'
+          headerFormat: '{point.key}<br>',
+          pointFormat: 'Week {point.x}<br><b>{series.name}: </b>{point.y}'
         }
       },
       pie: {
         tooltip: {
           headerFormat: '<b>{point.key}</b><br>',
-          pointFormat: '<span>Points: {point.percentage:.0f}%</span>'
+          pointFormat: '<span>{point.percentage:.0f}%</span>'
         }
       },
       column: {
-        tooltip: {
-          headerFormat: '<b>Event:</b> {point.key}<br>',
-          pointFormat: 'Points: {point.y}'
-        }
+        stacking: "normal"
       },
       boxplot: {
         tooltip: {
@@ -119,5 +115,11 @@ $(document).ready(function() {
     }
 
     graph.update(start, end);
+  });
+
+  $('div.performance_metrics button').click(function() {
+    var parentGroup = $(this).parent();
+    var attr = parentGroup.attr("id").split("_")[0];
+    graph.toggle(attr);
   });
 });

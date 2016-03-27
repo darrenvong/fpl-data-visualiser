@@ -23,10 +23,14 @@ INTERNAL_ATTR_MAP = {
 def get_over_time_data(col, player_name, start, end, attr):
     s, e, query = helpers.init(player_name, start, end)
     projection = {"_id": 0, "gameweeks": {"$slice": ["$fixture_history.gameweek", s, e]},
-                  attr: {"$slice": ["$fixture_history."+INTERNAL_ATTR_MAP[attr], s, e]}}
+                  attr: {"$slice": ["$fixture_history."+INTERNAL_ATTR_MAP[attr], s, e]},
+                  "results": {"$slice": ["$fixture_history.opponent_result", s, e]}}
     pipeline = [{"$match": query}, {"$project": projection}]
     data = col.aggregate(pipeline).next()
-    data = map(list, zip(data["gameweeks"], data[attr]))
+    res_length = len(data["gameweeks"])
+    data = [{"x": data["gameweeks"][i], "y": data[attr][i], "name": data["results"][i]}
+            for i in xrange(res_length)]
+#     data = helpers.pairs_to_lists(zip(data["gameweeks"], data[attr]))
     return data
 
 def get_home_vs_away_data(col, player_name, start, end, attr):
@@ -57,3 +61,9 @@ def get_cumulative_total_data(col, player_name, start, end, attr):
     cum_sums = np.cumsum(attr_vals)
     data = map(list, zip(gameweeks, cum_sums))
     return data
+
+if __name__ == "__main__":
+    from pymongo import MongoClient
+    c = MongoClient()
+    col = c.players.current_gw
+    print get_over_time_data(col, "Vardy", 24, 31, "points")
