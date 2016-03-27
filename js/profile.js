@@ -120,6 +120,10 @@ $(document).ready(function() {
   $('div.performance_metrics button').click(function() {
     var parentGroup = $(this).parent();
     var attr = parentGroup.attr("id").split("_")[0];
-    graph.toggle(attr);
+    if (attr == "points") {
+      var metric = $("select", parentGroup).val().split("-")[1];
+      var isBD = (metric === "events_breakdown")? true: false;
+    }
+    graph.toggle(attr, isBD);
   });
 });
