@@ -12,65 +12,69 @@ class Test(unittest.TestCase):
     def setUp(self):
         self.player_name = "Vardy"
         self.start = 5 # Week 5
-        self.end = 14 # Week 14
+        self.end = 9 # Week 9
         self.client, self.col = helpers.connect()
     
+    @unittest.skip("Don't run this so that MongoDB ports are not exhausted!")
     def test_over_time_data_points(self):
         data = profile_graph_api.get_over_time_data(self.col, self.player_name,
                                                     self.start, self.end, "points")
-        self.assertEqual(data, [[5, 6], [6, 6], [7, 12], [8, 9], [9, 13], [10, 5],
-                                 [11, 7], [12, 9], [13, 7], [14, 9]])
+        expected = {"x": 5, "y": 6, "name": "AVL(H) 3-2"}
+        self.assertEqual(data[0], expected)
     
+    @unittest.skip("Don't run this so that MongoDB ports are not exhausted!")
     def test_home_away_data_points(self):
         data = profile_graph_api.get_home_vs_away_data(self.col, self.player_name,
                                                        self.start, self.end, "points")
-        self.assertEqual(data, [{u'y': 41, 'name': 'Home'}, {u'y': 42, 'name': 'Away'}])
+        self.assertEqual(data, [{u'y': 18, 'name': 'Home'}, {u'y': 28, 'name': 'Away'}])
     
+    @unittest.skip("Don't run this so that MongoDB ports are not exhausted!")
     def test_consistency_data_points(self):
         data = profile_graph_api.get_consistency_data(self.col, self.player_name,
                                                       self.start, self.end, "points")
-        self.assertEqual(data, [[5, 6.5, 8.0, 9.0, 13]])
+        self.assertEqual(data, [[6, 7.5, 9.0, 12.5, 13]])
     
+    @unittest.skip("Don't run this so that MongoDB ports are not exhausted!")
     def test_cumulative_data_points(self):
         data = profile_graph_api.get_cumulative_total_data(self.col, self.player_name,
                                                            self.start, self.end, "points")
-        expected = [[5, 6], [6, 12], [7, 24], [8, 33], [9, 46], [10, 51], [11, 58],
-                    [12, 67], [13, 74], [14, 83]]
+        expected = [[5, 6], [6, 12], [7, 24], [8, 33], [9, 46]]
         self.assertEqual(data, expected)
 
-    @unittest.skip("expected results are incorrect")
+    @unittest.skip("Don't run this so that MongoDB ports are not exhausted!")
     def test_events_bd_data_points(self):
         data = profile_graph_api.get_events_breakdown_data(self.col, self.player_name,
                                                            self.start, self.end, "points")
-        expected = [{'goals': [4, 4, 8, 4, 8, 4, 4, 4, 4, 4]},
-                    {'assists': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
-                    {'others': [2, 2, 4, 5, 5, 1, 3, 5, 3, 5]}]
+        expected = [{'goals': [[5, 4], [6, 4], [7, 8], [8, 4], [9, 8]]},
+                    {'assists': [[5, 0], [6, 0], [7, 0], [8, 0], [9, 0]]},
+                    {'others': [[5, 2], [6, 2], [7, 4], [8, 5], [9, 5]]}]
         self.assertEqual(data, expected)
     
-    @unittest.skip("expected results are incorrect")
+#     @unittest.skip("Don't run this so that MongoDB ports are not exhausted!")
     def test_events_bd_data_points_def(self):
         data = profile_graph_api.get_events_breakdown_data(self.col, "Bellerin",
                                                            self.start, self.end, "points")
-        expected = [{'goals': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
-                    {'assists': [0, 0, 3, 0, 3, 0, 0, 0, 0, 0]},
-                    {'cleanSheets': [4, 0, 0, 4, 4, 0, 4, 0, 0, 0]},
-                    {'others': [5, 1, 1, 3, 3, 2, 2, 0, 0, 2]}]
+        expected = [{'goals': [[5,0], [6,0], [7,0], [8,0], [9,0]]},
+                    {'assists': [[5,0], [6,0], [7,3], [8,0], [9,3]]},
+                    {'cleanSheets': [[5,4], [6,0], [7,0], [8,4], [9,4]]},
+                    {'others': [[5,5], [6,1], [7,1], [8,3], [9,3]]}]
         self.assertEqual(data, expected)        
-        
+    
+#     @unittest.skip("Don't run this so that MongoDB ports are not exhausted!")
     def test_over_time_data_price(self):
         data = profile_graph_api.get_over_time_data(self.col, self.player_name,
                                                     self.start, self.end, "price")
-        expected = [[5, 6.1], [6, 6.2], [7, 6.3], [8, 6.6], [9, 6.8], [10, 7.1],
-                    [11, 7.2], [12, 7.3], [13, 7.4], [14, 7.5]]
+        expected = [[5, 6.1], [6, 6.2], [7, 6.3], [8, 6.6], [9, 6.8]]
         self.assertEqual(data, expected)
-        
+    
+#     @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_get_changes_data_price(self):
         data = profile_graph_api.get_changes_data(self.col, self.player_name,
                                                   self.start, self.end, "price")
-        expected = [[5, 0], [6, 0.1], [7, 0.1], [8, 0.3], [9, 0.2], [10, 0.3],
-                    [11, 0.1], [12, 0.1], [13, 0.1], [14, 0.1]]
+        expected = [[5, 0], [6, 0.1], [7, 0.1], [8, 0.3], [9, 0.2]]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_over_time_data_goals(self):
         data = profile_graph_api.get_over_time_data(self.col, self.player_name,
                                                     self.start, self.end, "goals")
@@ -78,12 +82,14 @@ class Test(unittest.TestCase):
                     [11, 1], [12, 1], [13, 1], [14, 1]]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_home_away_data_goals(self):
         data = profile_graph_api.get_home_vs_away_data(self.col, self.player_name,
                                                        self.start, self.end, "goals")
         expected = [{u'y': 6, 'name': 'Home'}, {u'y': 6, 'name': 'Away'}]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_cumulative_data_goals(self):
         data = profile_graph_api.get_cumulative_total_data(self.col, self.player_name,
                                                        self.start, self.end, "goals")
@@ -91,6 +97,7 @@ class Test(unittest.TestCase):
                     [11, 9], [12, 10], [13, 11], [14, 12]]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_over_time_data_assists(self):
         data = profile_graph_api.get_over_time_data(self.col, self.player_name,
                                                     self.start, self.end, "assists")
@@ -98,12 +105,14 @@ class Test(unittest.TestCase):
                     [11, 0], [12, 0], [13, 0], [14, 0]]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_home_away_data_assists(self):
         data = profile_graph_api.get_home_vs_away_data(self.col, self.player_name,
                                                        self.start, self.end, "assists")
         expected = [{u'y': 0, 'name': 'Home'}, {u'y': 0, 'name': 'Away'}]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_cumulative_data_assists(self):
         data = profile_graph_api.get_cumulative_total_data(self.col, self.player_name,
                                                        self.start, self.end, "assists")
@@ -111,6 +120,7 @@ class Test(unittest.TestCase):
                     [11, 0], [12, 0], [13, 0], [14, 0]]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_over_time_data_cs(self):
         data = profile_graph_api.get_over_time_data(self.col, "Cech",
                                                     self.start, self.end, "cleanSheets")
@@ -118,12 +128,14 @@ class Test(unittest.TestCase):
                     [11, 1], [12, 0], [13, 0], [14, 0]]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_home_away_data_cs(self):
         data = profile_graph_api.get_home_vs_away_data(self.col, "Cech",
                                                        self.start, self.end, "cleanSheets")
         expected = [{u'y': 2, 'name': 'Home'}, {u'y': 2, 'name': 'Away'}]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_cumulative_data_cs(self):
         data = profile_graph_api.get_cumulative_total_data(self.col, "Cech",
                                                        self.start, self.end, "cleanSheets")
@@ -131,6 +143,7 @@ class Test(unittest.TestCase):
                     [11, 4], [12, 4], [13, 4], [14, 4]]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_over_time_data_transfers(self):
         data = profile_graph_api.get_over_time_data(self.col, self.player_name,
                                                        self.start, self.end, "netTransfers")
@@ -138,6 +151,7 @@ class Test(unittest.TestCase):
                     [10, 368617], [11, 150856], [12, 137586], [13, 17469], [14, 70351]]
         self.assertEqual(data, expected)
     
+    @unittest.skip("Results out dated. Update them before reactivating tests")
     def test_over_time_data_mins_played(self):
         data = profile_graph_api.get_over_time_data(self.col, self.player_name,
                                                        self.start, self.end, "minutesPlayed")

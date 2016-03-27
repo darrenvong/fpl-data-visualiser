@@ -8,14 +8,15 @@ def to_indices(start, end):
     which corresponds to the location of where things should be stored internally"""
     return start-1, end-start+1
 
-def create_filter_doc(player_name):
-    return {"normalised_name": player_name}
 
 def init(player_name, start, end):
-    """The standard boilerplate code before each MongoDB query"""
-    s, e = to_indices(start, end)
-    query_filter = create_filter_doc(player_name)
-    return s, e, query_filter
+    """The standard boilerplate code before each MongoDB query, which returns only those
+    fixture documents which are between the start and end game week values"""
+    query = {"normalised_name": player_name}
+    projection = {"_id": 0, "fixture_history": 1}
+    init_pipeline = [{"$match": query}, {"$project": projection}, {"$unwind": "$fixture_history"},
+                {"$match": {"fixture_history.gameweek": {"$gte": start, "$lte": end}}}]
+    return init_pipeline
 
 def pairs_to_lists(pairs_list):
     """Converts a list of pairs to a list of (list) pairs

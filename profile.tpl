@@ -150,9 +150,9 @@
             <div class="form-group" id="gameweek">
               <label for="time-frame">From Game Week: </label>
               <select id="startTime" class="form-control sm-screen">
-                % latest_gw = contents["current_gw"]
-                % for wk in xrange(1,latest_gw+1):
-                %   if wk == 1:
+                % latest_gw, start_gw = contents["current_gw"], contents["start_gw"]
+                % for wk in xrange(start_gw,latest_gw+1):
+                %   if wk == start_gw:
                 <option value={{wk}} selected>{{wk}}</option>
                 %   else:
                 <option value={{wk}}>{{wk}}</option>
@@ -160,7 +160,7 @@
                 % end
               </select>&nbsp;&nbsp;TO&nbsp;&nbsp;
               <select id="endTime" class="form-control sm-screen">
-                % for wk in xrange(1,latest_gw+1):
+                % for wk in xrange(start_gw,latest_gw+1):
                   % if wk == latest_gw:
                 <option value={{wk}} selected>{{wk}}</option>
                   % else:
