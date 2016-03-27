@@ -7,7 +7,10 @@ function ProfileGraph(options) {
     "Net transfers": "netTransfers",
     "Clean sheets": "cleanSheets",
     "Minutes played": "minutesPlayed",
-    "Others": "others"
+    "Others": "othersBreakdown",
+    "Goals breakdown": "goalsBreakdown",
+    "Assists breakdown": "assistsBreakdown",
+    "Clean sheets breakdown": "cleanSheetsBreakdown"
   };
   //Inverse map of the above
   this.ID_ATTR_MAP = (function(map) {
@@ -106,12 +109,24 @@ ProfileGraph.prototype.update = function(start, end) {
 };
 
 // Toggles the visibility of a serie. Returns true if the toggle shows the serie, otherwise false.
-ProfileGraph.prototype.toggle = function(attr) {
-  var serie = this.graph.get(attr);
-  if (serie.visible)
-    serie.hide();
-  else
-    serie.show();
+ProfileGraph.prototype.toggle = function(attr, isBreakdown) {
+  if (isBreakdown) { //Either defined or true
+    var seriesToCheck = ["othersBreakdown","goalsBreakdown","assistsBreakdown","cleanSheetsBreakdown"];
+    for (let i=0; i < seriesToCheck.length; i++) {
+      var serie = this.graph.get(seriesToCheck[i]);
+      if (serie.visible)
+        serie.hide();
+      else
+        serie.show();
+    }
+  }
+  else {
+    var serie = this.graph.get(attr);
+    if (serie.visible)
+      serie.hide();
+    else
+      serie.show();    
+  }
 };
 
 //Trap: index starts from 0, so index (i-1) = week i (week 1 = index 0 etc)
@@ -171,12 +186,16 @@ ProfileGraph.prototype.drawCompoundBarGraph = function(attr, metric, start, end)
   var thisGraph = this.graph; //The actual Highchart graph
   requiredData.forEach(function(dataObj) {
     var id = Object.getOwnPropertyNames(dataObj)[0];
-    thisGraph.get(id).update({
+    thisGraph.get(id+"Breakdown").update({
       data: dataObj[id],
       type: "column",
       tooltip: {
-        headerFormat: 'Event: <b>{series.name}</b><br>',
-        pointFormat: '<b>Points:</b> {point.y}'
+        headerFormat: '',
+        // pointFormat: '<b>Points:</b> {point.y}'
+        pointFormatter: function() {
+          var seriesName = this.series.name.replace(" breakdown", "");
+          return "Event:<b> "+seriesName+"</b><br><b>Points:</b> "+this.y;
+        }
       },
       pointStart: 1
     }, false);

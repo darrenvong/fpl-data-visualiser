@@ -34,14 +34,15 @@ def get_goal_points(goals, player_type):
         return map(lambda x: 6*x, goals)
 
 def get_events_breakdown_data(col, player_name, start, end):
-    s, e, query = helpers.init(player_name, start, end)
-    projection = {"_id": 0, "goals": {"$slice": ["$fixture_history.goals", s, e]},
-                  "assists": {"$slice": ["$fixture_history.assists", s, e]},
-                  "clean_sheets": {"$slice": ["$fixture_history.clean_sheet", s, e]},
-                  "points": {"$slice": ["$fixture_history.points", s, e]},
-                  "gameweeks": {"$slice": ["$fixture_history.gameweek", s, e]},
-                  "player_type": "$element_type"}
-    pipeline = [{"$match": query}, {"$project": projection}]
+    pipeline = helpers.init(player_name, start, end)
+    pipeline[1]["$project"]["element_type"] = 1
+    projection = [{"$group": {"_id": None, "goals": {"$push": "$fixture_history.goals"},
+                  "assists": {"$push": "$fixture_history.assists"},
+                  "clean_sheets": {"$push": "$fixture_history.clean_sheet"},
+                  "points": {"$push": "$fixture_history.points"},
+                  "gameweeks": {"$push": "$fixture_history.gameweek"},
+                  "player_type": {"$first": "$element_type"}}}]
+    pipeline.extend(projection)
     breakdown_object = col.aggregate(pipeline).next()
     
     goal_points = get_goal_points(breakdown_object["goals"], breakdown_object["player_type"])
