@@ -11,7 +11,13 @@ import attribute
 attr = "price"
 
 def get_over_time_data(col, player_name, start, end):
-    data = attribute.get_over_time_data(col, player_name, start, end, attr)
+    s, e, query = helpers.init(player_name, start, end)
+    projection = {"_id": 0, "gameweeks": {"$slice": ["$fixture_history.gameweek", s, e]},
+                  attr: {"$slice": ["$fixture_history."+attribute.INTERNAL_ATTR_MAP[attr], s, e]},
+                  "results": {"$slice": ["$fixture_history.opponent_result", s, e]}}
+    pipeline = [{"$match": query}, {"$project": projection}]
+    data = col.aggregate(pipeline).next()
+    data = helpers.pairs_to_lists(zip(data["gameweeks"], data[attr]))
     return map(lambda p: [p[0],p[1]/10.0], data)
 
 def get_changes_data(col, player_name, start, end):

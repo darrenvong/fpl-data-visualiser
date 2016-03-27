@@ -260,7 +260,8 @@ ProfileGraph.prototype.isValid = function() {
   };
   for (let metric of selectedMetrics) {
     if ((metric === "home_vs_away" || metric === "consistency") && selectedMetrics.length > 1) {
-      var message = '"'+metric_msg_map[metric]+'" cannot be selected when other drop down menus are visible';
+      var message = ('<b>'+metric_msg_map[metric]+'</b> cannot be selected when other drop down menus are visible. '+
+        'Please hide the other drop down menu(s) before trying to select this option again.');
       $(".alert-danger").html('<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;'+message);
       return valid;
     }

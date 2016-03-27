@@ -84,7 +84,7 @@
           </figure>
           <p id="player_name" class="text-center"><b>{{contents["web_name"]}}</b></p>
           <table class="table table-bordered table-hover">
-            <caption class="profile_caption">Click on a row to reveal more options for projecting more details to the graph.</caption>
+            <caption class="profile_caption">Click on a row to toggle the options for projecting more details to the graph.</caption>
             <thead>
               <tr class="thead-row-color">
                 <th>Attribute</th>
