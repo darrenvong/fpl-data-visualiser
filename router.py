@@ -30,6 +30,7 @@ class Router(Bottle):
         self.route("/", callback=self.re_route)
         self.route("/index", callback=self.root)
         self.route("/profile", callback=self.profiles)
+        self.route("/head_to_head", callback=self.head_to_head)
         self.post("/profile", callback=self.get_player_profile)
         self.post("/player_names", callback=self.get_player_names)
         self.post("/graph_data", callback=self.get_graph_data)
@@ -68,6 +69,9 @@ class Router(Bottle):
                                     request.forms.start, request.forms.end,
                                     request.forms.player_name)
         return profiles.get_graph_data(metric, int(start), int(end), self.players_col, player_name, attr)
+    
+    def head_to_head(self):
+        return template("h2h_home")
     
     def get_resources(self, path):
         return static_file(path, root="./")

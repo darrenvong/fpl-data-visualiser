@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Home page">
+    <meta name="author" content="Darren Vong">
     <link rel="icon" href="img/favicon.ico">
 
     <title>Fantasy Premier League player Data Visualiser</title>
@@ -55,7 +55,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="profile">Player profiles</a></li>
-                <li><a href="#">Head-to-head comparator</a></li>
+                <li><a href="head_to_head">Head-to-head comparator</a></li>
                 <li><a href="#">Multi-player comparator</a></li>
               </ul>
             </li>

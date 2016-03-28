@@ -1,0 +1,73 @@
+figure {
+  padding: 20px 0px;
+}
+
+.profile-body {
+  padding-top: 30px;
+}
+
+div.form-group {
+  margin: 10px 0px;
+  position: relative;
+}
+
+.using {
+  padding: 0px 5px;
+}
+
+label.labels {
+  width: 60px;
+}
+
+.bar {
+  padding-right: 3px;
+}
+
+div#graph_container {
+  min-width: 300px;
+  margin: 0px auto;
+  padding-top: 10px;
+}
+
+#more_options {
+  margin: 0px 5px;
+}
+
+.attributes .form-group {
+  display: inline-block;
+}
+
+#gameweek {
+  display: inline-block;
+}
+
+@media (max-width: 767px) {
+  .sm-screen {
+    display: inline-block;
+    width: 65px;
+  }
+}
+
+@media (max-width: 679px) {
+  .attributes .form-group {
+    position: inherit;
+    padding-right: 10px;
+  }
+}
+
+@media (min-width: 680px) and (max-width: 991px) {
+  .attributes .form-group {
+    position: inherit;
+    padding-right: 25px;
+    margin-bottom: 0px;
+  }
+}
+
+@media (max-width: 991px) {
+  #gameweek {
+    margin: 10px 0px;
+  }
+  .attributes {
+    margin: 10px 0px;
+  }
+}
