@@ -58,7 +58,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="profile">Player profiles</a></li>
-                <li><a href="#">Head-to-head comparator</a></li>
+                <li><a href="head_to_head">Head-to-head comparator</a></li>
                 <li><a href="#">Multi-player comparator</a></li>
               </ul>
             </li>
@@ -71,20 +71,18 @@
     <div class="container profile-body">
       <div class="row">
         <div class="col-md-3 left">
-          <form method="post">
-            <div class="input-group">
-              <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-              <input id="player1" class="form-control" name="player1" type="search">
-            </div>
-          </form>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+            <input id="player1" class="form-control" name="player1" type="search">
+          </div>
           <figure>
             <img src="faces/78830.jpg" class="img-responsive center-block" alt='Harry Kane'>
           </figure>
           <figcaption class="text-center"><b>Kane</b></figcaption>
         </div> <!-- left column -->
         <div class="col-md-6 middle">
-          <button class="btn btn-default center-block" type="submit">Compare!</button>
           <form class="form-inline">
+            <button class="btn btn-default center-block" type="submit">Compare!</button>
             <div class="form-group" id="gameweek">
               <label for="startTime">Game Week: </label>
               <select id="startTime" class="form-control sm-screen">
@@ -157,58 +155,76 @@
               </div>
             </div>
           </form>
-          <div id="graph_container"></div>
-          <table class="table table-bordered table-hover">
-            <caption class="profile_caption">Click on a row to toggle the options for projecting more details to the graph.</caption>
+          <table class="table table-bordered table-condensed">
+            <caption class="help-block text-warning hidden">
+              <span class="glyphicon glyphicon-alert"></span> Player not found!
+            </caption>
             <thead>
               <tr class="thead-row-color">
                 <th>Kane</th>
-                <th>Value</th>
+                <th>Attributes</th>
                 <th>Vardy</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>10</td>
+                <td class="values">10</td>
                 <td>Points</td>
-                <td>100</td>
+                <td class="values text-success bg-success">100</td>
               </tr>
               <tr>
-                <td>10</td>
-                <td>Points</td>
-                <td>100</td>
+                <td class="values">40%</td>
+                <td>Selected by</td>
+                <td class="values text-success bg-success">60%</td>
               </tr>
               <tr>
-                <td>10</td>
-                <td>Points</td>
-                <td>100</td>
+                <td class="values">£10.4M</td>
+                <td>Price</td>
+                <td class="values text-success bg-success">£7.9M</td>
               </tr>
               <tr>
-                <td>10</td>
-                <td>Points</td>
-                <td>100</td>
+                <td class="values text-success bg-success">19</td>
+                <td>Goals</td>
+                <td class="values">15</td>
               </tr>
               <tr>
-                <td>10</td>
-                <td>Points</td>
-                <td>100</td>
+                <td class="values">10</td>
+                <td>Assists</td>
+                <td class="values">100</td>
+              </tr>
+              <tr>
+                <td class="values">10</td>
+                <td>Clean sheets</td>
+                <td class="values">100</td>
+              </tr>
+              <tr>
+                <td class="values">10</td>
+                <td>Yellow cards</td>
+                <td class="values">100</td>
+              </tr>
+              <tr>
+                <td class="values">No</td>
+                <td>Suspended?</td>
+                <td class="values">No</td>
               </tr>
             </tbody>
           </table>
         </div> <!-- middle column -->
         <div class="col-md-3 right">
-          <form method="post">
-            <!-- <label for="player1">Player's name: </label> -->
-            <div class="input-group">
-              <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-              <input id="player2" class="form-control" name="player2" type="search">
-            </div>
-          </form>
+          <div class="input-group">
+            <input id="player2" class="form-control" name="player2" type="search">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+          </div>
           <figure>
             <img src="faces/101668.jpg" class="img-responsive center-block" alt='Jamie Vardy'>
           </figure>
           <figcaption class="text-center"><b>Vardy</b></figcaption>
         </div> <!-- right column -->
+      </div> <!-- end of first row! -->
+      <div class="row">
+        <div class="col-xs-12 graph_col">
+          <div id="graph_container"></div>
+        </div>
       </div>
 
       <footer class="footer">
@@ -229,7 +245,9 @@
     <script src="js/highcharts.js"></script>
     <script src="js/highcharts-more.js"></script>
     <script src="js/unstick_buttons.js"></script>
+    <script src="js/accent_map.js"></script>
     <script src="js/profile_helpers.js"></script>
+    <script src="js/profile_searchbar.js"></script>
     <script type="text/javascript">
       var chart;
       $(document).ready(function() {
@@ -241,6 +259,13 @@
           $(".attributes").toggleClass("hidden");
           centElement($('.form-group'));
         });
+
+        var searchBars = new PlayerSearchBar("#player1, #player2");
+        $("button[type='submit']").click(function(e) {
+          searchBars.onSearch(e, ["#player1", "#player2"]);
+        });
+
+        hideErrorPrompts("#player1, #player2");
 
         var initOptions = {
           chart: {
