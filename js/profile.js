@@ -31,7 +31,10 @@ var initOptions = {
         },
         tooltip: {
           headerFormat: '{point.key}<br>',
-          pointFormat: 'Week {point.x}<br><b>{series.name}: </b>{point.y}'
+          // pointFormat: 'Week {point.x}<br><b>{series.name}: </b>{point.y}'
+          pointFormatter: function() {
+            return 'Week '+Math.floor(this.x)+'<br><b>'+this.series.name+': </b>'+this.y;
+          }
         }
       },
       pie: {

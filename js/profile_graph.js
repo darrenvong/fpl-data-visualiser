@@ -138,8 +138,11 @@ ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
       pointStart: 1,
       type: "line",
       tooltip: {
-        headerFormat: 'Week {point.x}<br>',
-        pointFormat: '<b>Price:</b> £{point.y}M'
+        headerFormat: '',
+        // pointFormat: '<b>Price:</b> £{point.y}M'
+        pointFormatter: function() {
+          return 'Week '+Math.floor(this.x)+'<br><b>Price:</b> £'+this.y+'M';
+        }
       }
     }, false);
   }
@@ -230,8 +233,11 @@ ProfileGraph.prototype.drawBarGraph = function(attr, metric, start, end) {
     data: requiredData,
     type: "column",
     tooltip: {
-      headerFormat: 'Week {point.key}<br>',
-      pointFormat: '<b>Changes:</b> {point.y}M'
+      headerFormat: '',
+      // pointFormat: '<b>Changes:</b> {point.y}M'
+      pointFormatter: function() {
+        return 'Week '+Math.floor(this.x)+'<br><b>Changes:</b> '+this.y+'M';
+      }
     },
     pointStart: 1
   }, false);
