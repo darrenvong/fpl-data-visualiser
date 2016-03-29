@@ -1,4 +1,4 @@
-function PlayerSearchBar() {
+function PlayerSearchBar(selector) {
   this.playerNames = [];
   var thisClass = this;
   $.ajax({
@@ -6,7 +6,7 @@ function PlayerSearchBar() {
     url: "/player_names",
     success: function(data) {
       thisClass.playerNames = data;
-      $('#player-names').autocomplete({
+      $(selector).autocomplete({
         // Adapted from https://jqueryui.com/autocomplete/#folding example
         source: function(request, response) {
           // Creates a regular expression matcher object from the user input
@@ -23,14 +23,23 @@ function PlayerSearchBar() {
   });
 }
 
-PlayerSearchBar.prototype.onSearch = function(e) {
-  var inputVal = capitalise( normalise( $('#player-names').val().trim() ) );
-  console.log(inputVal);
-  if (inputVal === "")
-    e.preventDefault(); //prevents search if user types in nothing!
-  else if (!this.playerNames.includes(inputVal)) {
+/** Event handling logic at the point when the user has confirmed search
+ ** (pressed enter/clicked search on the input they typed in) using the player search bar
+ **/
+PlayerSearchBar.prototype.onSearch = function(e, selectors) {
+  for (let i=0; i < selectors.length; i++) {
+    let inputVal = capitalise( normalise( $(selectors[i]).val().trim() ) );
+    if (inputVal === "")
       e.preventDefault();
-      $(".help-block.text-warning").toggleClass("hidden");
-      $("#player-names").toggleClass("error");
+    else if (!this.playerNames.includes(inputVal)) {
+      e.preventDefault();
+      var errMsg = $(".help-block.text-warning");
+      if (errMsg.hasClass("hidden"))
+        $(".help-block.text-warning").toggleClass("hidden"); // Reveals error message
+
+      var bar = $(selectors[i]);
+      if (!bar.hasClass("error"))
+        $(selectors[i]).toggleClass("error"); // Makes the search box border glow in red
+    }
   }
-}
+};

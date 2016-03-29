@@ -11,13 +11,11 @@ div.form-group {
   position: relative;
 }
 
-.using {
-  padding: 0px 5px;
-}
 
 label.labels {
   width: 60px;
 }
+
 
 .bar {
   padding-right: 3px;
@@ -26,7 +24,6 @@ label.labels {
 div#graph_container {
   min-width: 300px;
   margin: 0px auto;
-  padding-top: 10px;
 }
 
 #more_options {
@@ -40,6 +37,7 @@ div#graph_container {
 #gameweek {
   display: inline-block;
 }
+
 
 @media (max-width: 767px) {
   .sm-screen {
@@ -71,3 +69,71 @@ div#graph_container {
     margin: 10px 0px;
   }
 }
+
+
+/*.input-group-addon {
+  color: #639ec8;
+  background-color: #dbe9f2;
+}
+
+.help-block.text-warning {
+  color: #cc0202;
+  text-align: center;
+  display: table-caption;
+  margin-bottom: 0;
+}
+
+table, tr.thead-row-color > th {
+  text-align: center;
+}*/
+
+/*
+caption.profile_caption {
+  text-align: center;
+  color: #cc0202;
+}
+
+.error {
+  border-color: #cc0202;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+.error:focus {
+  border-color: #FF0000;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(204, 2, 2, 0.6);
+}
+
+/* Overriding jQuery's default
+li.ui-menu-item.ui-state-focus {
+  border: 1px solid #dbe9f2;
+  background: #dbe9f2;
+  font-weight: normal;
+  color: #2b2b2b;
+}*/
+/*
+.values {
+  font-weight: bold;
+}*/
+
+/*@media (min-width: 450px) {
+  .graph_col {
+    margin: 0 10%;
+  }
+}
+
+@media (min-width: 600px) {
+  .graph_col {
+    margin: 0 20%;
+  }
+}
+
+@media (min-width: 992px) {
+  .graph_col {
+    margin: 0 30%;
+  }
+  table {
+    margin: 20px 0;
+  }
+}*/

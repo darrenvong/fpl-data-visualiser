@@ -71,143 +71,22 @@
     <div class="container profile-body">
       <div class="row">
         <div class="col-md-3 left">
-          <form method="post">
-            <div class="input-group">
-              <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-              <input id="player1" class="form-control" name="player1" type="search">
-            </div>
-          </form>
-          <figure>
-            <img src="faces/78830.jpg" class="img-responsive center-block" alt='Harry Kane'>
-          </figure>
-          <figcaption class="text-center"><b>Kane</b></figcaption>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+            <input id="player1" class="form-control" name="player1" type="search">
+          </div>
         </div> <!-- left column -->
         <div class="col-md-6 middle">
-          <button class="btn btn-default center-block" type="submit">Compare!</button>
-          <form class="form-inline">
-            <div class="form-group" id="gameweek">
-              <label for="startTime">Game Week: </label>
-              <select id="startTime" class="form-control sm-screen">
-                <option value="1" selected>1</option>
-                <option value="20">20</option>
-              </select>&nbsp;&nbsp;TO&nbsp;&nbsp;
-              <select id="endTime" class="form-control sm-screen">
-                <option value="1" selected>1</option>
-                <option value="30">30</option>
-              </select>
-              <button type="button" class="btn btn-default" id="more_options">
-                <span class="sr-only">More options</span>
-                <span class="glyphicon glyphicon-chevron-down"></span>
-              </button>
-              <button type="button" class="btn btn-default" id="update_graph">
-                <span class="sr-only">Update graph</span>                
-                <span class="glyphicon glyphicon-refresh"></span>
-              </button>
-            </div>
-            <div class="attributes hidden">
-              <div class="form-group">
-                <label class="labels">Points</label>
-                <label class="radio-inline">
-                  <input type="radio" name="points" id="points" value="line"> Line graph
-                </label>
-                <label class="radio-inline bar">
-                  <input type="radio" name="points" id="points" value="bar"> Bar graph
-                </label>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
-              </div>
-              <div class="form-group">
-                <label class="labels">Price</label>
-                <label class="radio-inline">
-                  <input type="radio" name="price" id="price" value="line"> Line graph
-                </label>
-                <label class="radio-inline bar">
-                  <input type="radio" name="price" id="price" value="bar"> Bar graph
-                </label>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
-              </div>
-              <div class="form-group">
-                <label class="labels">Goals</label>
-                <label class="radio-inline">
-                  <input type="radio" name="goals" id="goals" value="line"> Line graph
-                </label>
-                <label class="radio-inline bar">
-                  <input type="radio" name="goals" id="goals" value="bar"> Bar graph
-                </label>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
-              </div>
-              <div class="form-group">
-                <label class="labels">Assists</label>
-                <label class="radio-inline">
-                  <input type="radio" name="assists" id="assists" value="line"> Line graph
-                </label>
-                <label class="radio-inline bar">
-                  <input type="radio" name="assists" id="assists" value="bar"> Bar graph
-                </label>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
-              </div>
-              <div class="form-group">
-                <label class="labels">Clean sheets</label>
-                <label class="radio-inline">
-                  <input type="radio" name="cleanSheets" id="cleanSheets" value="line"> Line graph
-                </label>
-                <label class="radio-inline bar">
-                  <input type="radio" name="cleanSheets" id="cleanSheets" value="bar"> Bar graph
-                </label>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
-              </div>
-            </div>
+          <form method="post">
+            <button class="btn btn-default center-block" type="submit">Compare!</button>
+            <p class="help-block text-warning profile-page hidden"><span class="glyphicon glyphicon-alert"></span> Player not found!</p>
           </form>
-          <div id="graph_container"></div>
-          <table class="table table-bordered table-hover">
-            <caption class="profile_caption">Click on a row to toggle the options for projecting more details to the graph.</caption>
-            <thead>
-              <tr class="thead-row-color">
-                <th>Kane</th>
-                <th>Value</th>
-                <th>Vardy</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>10</td>
-                <td>Points</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>Points</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>Points</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>Points</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>Points</td>
-                <td>100</td>
-              </tr>
-            </tbody>
-          </table>
         </div> <!-- middle column -->
         <div class="col-md-3 right">
-          <form method="post">
-            <!-- <label for="player1">Player's name: </label> -->
-            <div class="input-group">
-              <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-              <input id="player2" class="form-control" name="player2" type="search">
-            </div>
-          </form>
-          <figure>
-            <img src="faces/101668.jpg" class="img-responsive center-block" alt='Jamie Vardy'>
-          </figure>
-          <figcaption class="text-center"><b>Vardy</b></figcaption>
+          <div class="input-group">
+            <input id="player2" class="form-control" name="player2" type="search">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+          </div>
         </div> <!-- right column -->
       </div>
 
@@ -226,98 +105,18 @@
     <script src="js/jquery-ui.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
-    <script src="js/highcharts.js"></script>
-    <script src="js/highcharts-more.js"></script>
     <script src="js/unstick_buttons.js"></script>
+    <script src="js/accent_map.js"></script>
     <script src="js/profile_helpers.js"></script>
+    <script src="js/profile_searchbar.js"></script>
     <script type="text/javascript">
-      var chart;
-      $(document).ready(function() {
-        centElement($('.form-group'));
-        $(window).resize(function() {
-            centElement($('.form-group')); 
-        });
-        $("#more_options").click(function() {
-          $(".attributes").toggleClass("hidden");
-          centElement($('.form-group'));
+      $(function() {
+        var searchBars = new PlayerSearchBar("#player1, #player2");
+        $("button[type='submit']").click(function(e) {
+          searchBars.onSearch(e, ["#player1", "#player2"]);
         });
 
-        var initOptions = {
-          chart: {
-              renderTo: "graph_container",
-              height: 350,
-              width: 350
-          },
-          colors: ['#7cb5ec', '#90ed7d', '#f7a35c', '#8085e9',
-                    '#f15c80', '#2b908f', '#f45b5b', '#91e8e1'],
-          title: {
-              text: null
-          },
-          xAxis: {
-              minTickInterval: 1,
-              allowDecimals: false,
-              visible: false
-          },
-          yAxis: {
-              title: {
-                  text: null
-              },
-              allowDecimals: false,
-              visible: false
-          },
-          plotOptions: {
-            line: {
-              marker: {
-                symbol: "circle"
-              },
-              tooltip: {
-                headerFormat: '{point.key}<br>',
-                pointFormat: 'Week {point.x}<br><b>{series.name}: </b>{point.y}'
-              }
-            },
-            pie: {
-              tooltip: {
-                headerFormat: '<b>{point.key}</b><br>',
-                pointFormat: '<span>{point.percentage:.0f}%</span>'
-              }
-            },
-            column: {
-              stacking: "normal"
-            },
-            boxplot: {
-              tooltip: {
-                headerFormat: "",
-                pointFormat: ("<b>Min:</b> {point.low}<br/><b>LQ:</b> {point.q1}<br/>"+
-                  "<b>Median:</b> {point.median}<br/><b>UQ:</b> {point.q3}<br/><b>Max:</b> {point.high}<br/>")
-              }
-            }
-          },
-          exporting: {
-              buttons: {
-                  contextButton: {
-                      enabled: false
-                  }
-              }
-          },
-          tooltip: {
-              followPointer: true,
-          },
-          legend: {
-              layout: 'vertical',
-              align: 'right',
-              verticalAlign: 'middle',
-              borderWidth: 0,
-              enabled: false
-          },
-          series: [{
-            name: 'Tokyo',
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-          }],
-          credits: {
-              enabled: false //Removes the highchart.com label at bottom right of graph
-          }
-        };
-        chart = new Highcharts.Chart(initOptions);
+        hideErrorPrompts("#player1, #player2");
       });
     </script>
   </body>

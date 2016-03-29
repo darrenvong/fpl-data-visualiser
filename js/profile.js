@@ -92,11 +92,13 @@ $(document).ready(function() {
     });
   });
   centElement($('.form-group'));
-  var searchBar = new PlayerSearchBar();
+  var searchBar = new PlayerSearchBar('#player-names');
 
   $('button[type="submit"]').click(function(e) {
-    searchBar.onSearch(e);
+    searchBar.onSearch(e, ['#player-names']);
   });
+
+  hideErrorPrompts("#player-names");
 
   $('[data-toggle="popover"]').popover();
   
