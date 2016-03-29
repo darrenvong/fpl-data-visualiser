@@ -132,11 +132,24 @@ ProfileGraph.prototype.toggle = function(attr, isBreakdown) {
 //Trap: index starts from 0, so index (i-1) = week i (week 1 = index 0 etc)
 ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
   var requiredData = this.getData(attr, metric, start, end);
-  this.graph.get(attr).update({
-    data: requiredData,
-    pointStart: 1,
-    type: "line"
-  }, false);
+  if (attr === "price") {
+    this.graph.get(attr).update({
+      data: requiredData,
+      pointStart: 1,
+      type: "line",
+      tooltip: {
+        headerFormat: 'Week {point.x}<br>',
+        pointFormat: '<b>Price:</b> £{point.y}M'
+      }
+    }, false);
+  }
+  else {
+    this.graph.get(attr).update({
+      data: requiredData,
+      pointStart: 1,
+      type: "line"
+    }, false);
+  }
   this.graph.xAxis[0].update({
     categories: null,
     visible: true,
@@ -218,7 +231,7 @@ ProfileGraph.prototype.drawBarGraph = function(attr, metric, start, end) {
     type: "column",
     tooltip: {
       headerFormat: 'Week {point.key}<br>',
-      pointFormat: '<b>Changes:</b> {point.y}'
+      pointFormat: '<b>Changes:</b> {point.y}M'
     },
     pointStart: 1
   }, false);

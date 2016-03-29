@@ -62,11 +62,9 @@ var initOptions = {
         followPointer: true,
     },
     legend: {
-        layout: 'vertical',
         align: 'right',
-        verticalAlign: 'middle',
-        borderWidth: 0,
-        enabled: false
+        verticalAlign: 'bottom',
+        borderWidth: 0
     },
     series: [],
     credits: {
