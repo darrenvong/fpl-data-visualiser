@@ -57,7 +57,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="profile">Player profiles</a></li>
-                <li><a href="#">Head-to-head comparator</a></li>
+                <li><a href="head_to_head">Head-to-head comparator</a></li>
                 <li><a href="#">Multi-player comparator</a></li>
               </ul>
             </li>
@@ -148,7 +148,7 @@
         <div class="col-md-7">
           <form class="form-inline">
             <div class="form-group" id="gameweek">
-              <label for="time-frame">From Game Week: </label>
+              <label for="startTime">From Game Week: </label>
               <select id="startTime" class="form-control sm-screen">
                 % latest_gw, start_gw = contents["current_gw"], contents["start_gw"]
                 % for wk in xrange(start_gw,latest_gw+1):

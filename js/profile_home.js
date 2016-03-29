@@ -3,9 +3,12 @@
 **/
 
 $(document).ready(function() {
-  var searchBar = new PlayerSearchBar();
+  var searchBarSelector = '#player-names';
+  var searchBar = new PlayerSearchBar(searchBarSelector);
 
   $("button.large-searchbar-btn").click(function(e) {
-    searchBar.onSearch(e);
+    searchBar.onSearch(e, [searchBarSelector]);
   });
+
+  hideErrorPrompts(searchBarSelector);
 });

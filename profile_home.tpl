@@ -58,7 +58,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="#">Player profiles</a></li>
-                <li><a href="#">Head-to-head comparator</a></li>
+                <li><a href="head_to_head">Head-to-head comparator</a></li>
                 <li><a href="#">Multi-player comparator</a></li>
               </ul>
             </li>

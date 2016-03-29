@@ -68,7 +68,7 @@ class Router(Bottle):
                                     request.forms.start, request.forms.end,
                                     request.forms.player_name)
         return profiles.get_graph_data(metric, int(start), int(end), self.players_col, player_name, attr)
-    
+        
     def get_resources(self, path):
         return static_file(path, root="./")
 

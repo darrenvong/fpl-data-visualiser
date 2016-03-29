@@ -24,3 +24,14 @@ function centElement(elements) {
     return ( inlineFormWidth - $(this).width() ) / 2;
   });
 }
+
+function hideErrorPrompts(searchBar) {
+  $(searchBar).on("input", function() {
+    if ($(this).hasClass("error"))
+      $(this).removeClass("error");
+
+    var errMsg = $(".help-block.text-warning");
+    if (!errMsg.hasClass("hidden")) //Error is on show, turn it off now that user is updating input
+      errMsg.toggleClass("hidden");
+  });
+}
