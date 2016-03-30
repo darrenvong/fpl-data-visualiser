@@ -19,7 +19,7 @@ def get_profile_contents(player_name, col):
     cursor = col.aggregate(pipeline)
     profile_contents = cursor.next()
     profile_contents["start_gw"] = profile_contents["fixture_history"][0]["gameweek"]
-    profile_contents["current_gw"] = profile_contents["fixture_history"][-1]["gameweek"]
+    profile_contents["current_gw"] = int(profile_contents["fixture_history"][-1]["gameweek"])
     return profile_contents
 
 def get_player_names(col):
