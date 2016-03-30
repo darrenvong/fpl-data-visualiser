@@ -16,7 +16,6 @@ label.labels {
   width: 60px;
 }
 
-
 .bar {
   padding-right: 3px;
 }
@@ -46,14 +45,14 @@ div#graph_container {
   }
 }
 
-@media (max-width: 679px) {
+@media (max-width: 713px) {
   .attributes .form-group {
-    position: inherit;
-    padding-right: 10px;
+    padding-right: 25px;
+    margin-bottom: 0;
   }
 }
 
-@media (min-width: 680px) and (max-width: 991px) {
+@media (min-width: 714px) and (max-width: 991px) {
   .attributes .form-group {
     position: inherit;
     padding-right: 25px;
@@ -67,6 +66,10 @@ div#graph_container {
   }
   .attributes {
     margin: 10px 0px;
+  }
+  #home_compare_btn {
+    margin-top: 10px;
+    margin-bottom: 10px
   }
 }
 

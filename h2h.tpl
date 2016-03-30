@@ -71,18 +71,23 @@
     <div class="container profile-body">
       <div class="row">
         <div class="col-md-3 left">
-          <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-            <input id="player1" class="form-control" name="player1" type="search">
-          </div>
+          <form method="post" id="player1_field">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+              <input id="player1" class="form-control" name="player1" type="search">
+              <input type="hidden" class="player2_alias" name="player2">
+            </div>
+          </form>
           <figure>
-            <img src="faces/78830.jpg" class="img-responsive center-block" alt='Harry Kane'>
+            <img src={{u"faces/"+p1_profile['photo']}} class="img-responsive center-block" alt='{{p1_profile["normalised_name"]}}'>
           </figure>
-          <figcaption class="text-center"><b>Kane</b></figcaption>
+          <figcaption class="text-center"><b>{{p1_profile["web_name"]}}</b></figcaption>
         </div> <!-- left column -->
         <div class="col-md-6 middle">
-          <form class="form-inline">
+          <form class="form-inline" method="post">
             <button class="btn btn-default center-block" type="submit">Compare!</button>
+            <input type="hidden" class="player1_alias" name="player1">
+            <input type="hidden" class="player2_alias" name="player2">
             <div class="form-group" id="gameweek">
               <label for="startTime">Game Week: </label>
               <select id="startTime" class="form-control sm-screen">
@@ -161,9 +166,9 @@
             </caption>
             <thead>
               <tr class="thead-row-color">
-                <th>Kane</th>
+                <th>{{p1_profile["web_name"]}}</th>
                 <th>Attributes</th>
-                <th>Vardy</th>
+                <th>{{p2_profile["web_name"]}}</th>
               </tr>
             </thead>
             <tbody>
@@ -204,27 +209,31 @@
               </tr>
               <tr>
                 <td class="values">No</td>
-                <td>Suspended?</td>
+                <td>Available?</td>
                 <td class="values">No</td>
               </tr>
             </tbody>
           </table>
         </div> <!-- middle column -->
         <div class="col-md-3 right">
-          <div class="input-group">
-            <input id="player2" class="form-control" name="player2" type="search">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-          </div>
+          <form method="post" id="player2_field">
+            <div class="input-group">
+              <input id="player2" class="form-control" name="player2" type="search">
+              <input type="hidden" class="player1_alias" name="player1">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+            </div>
+          </form>
           <figure>
-            <img src="faces/101668.jpg" class="img-responsive center-block" alt='Jamie Vardy'>
+            <img src={{u"faces/"+p2_profile['photo']}} class="img-responsive center-block" alt='{{p2_profile["normalised_name"]}}'>
           </figure>
-          <figcaption class="text-center"><b>Vardy</b></figcaption>
+          <figcaption class="text-center"><b>{{p2_profile["web_name"]}}</b></figcaption>
         </div> <!-- right column -->
       </div> <!-- end of first row! -->
       <div class="row">
-        <div class="col-xs-12 graph_col">
+        <div class="col-xs-offset-3 col-xs-6 graph_col">
           <div id="graph_container"></div>
         </div>
+        <div class="col-xs-3"></div>
       </div>
 
       <footer class="footer">
@@ -262,9 +271,11 @@
 
         var searchBars = new PlayerSearchBar("#player1, #player2");
         $("button[type='submit']").click(function(e) {
-          searchBars.onSearch(e, ["#player1", "#player2"]);
+          searchBars.onSearch(e, ["#player1", "#player2"], true);
         });
-
+        $("#player1_field, #player2_field").submit(function(e) {
+          searchBars.onSearch(e, ["#player1", "#player2"], true);
+        });
         hideErrorPrompts("#player1, #player2");
 
         var initOptions = {

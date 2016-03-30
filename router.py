@@ -10,6 +10,7 @@ from bottle import Bottle, static_file, template, redirect, request, response
 import home
 import helpers
 import profiles
+import head_to_head
 
 class Router(Bottle):
     """This class is responsible for directing HTTP requests to the
@@ -75,7 +76,14 @@ class Router(Bottle):
         return template("h2h_home")
     
     def get_head_to_head_page(self):
-        return template("h2h")
+        player1 = helpers.accent_fold(request.forms.player1).capitalize()
+        player2 = helpers.accent_fold(request.forms.player2).capitalize()
+        try:
+            player1_profile, player2_profile = head_to_head.get_players_profiles(
+                                                                player1, player2, self.players_col)
+        except StopIteration:
+            raise RuntimeError("There's an error with the player search bar's functionality")
+        return template("h2h", p1_profile=player1_profile, p2_profile=player2_profile)
     
     def get_resources(self, path):
         return static_file(path, root="./")

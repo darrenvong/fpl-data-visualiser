@@ -71,24 +71,32 @@
     <div class="container profile-body">
       <div class="row">
         <div class="col-md-3 left">
-          <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-            <input id="player1" class="form-control" name="player1" type="search">
-          </div>
+          <form method="post" id="player1_field">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+              <input id="player1" class="form-control" name="player1" type="search">
+              <input class="player2_alias" name="player2" type="hidden">
+            </div>
+          </form>
         </div> <!-- left column -->
         <div class="col-md-6 middle">
-          <form method="post">
-            <button class="btn btn-default center-block" type="submit">Compare!</button>
+          <form method="post" id="neutral">
+            <input type="hidden" class="player1_alias" name="player1">
+            <input type="hidden" class="player2_alias" name="player2">
+            <button id="home_compare_btn" class="btn btn-default center-block" type="submit">Compare!</button>
             <p class="help-block text-warning profile-page hidden"><span class="glyphicon glyphicon-alert"></span> Player not found!</p>
           </form>
         </div> <!-- middle column -->
         <div class="col-md-3 right">
-          <div class="input-group">
-            <input id="player2" class="form-control" name="player2" type="search">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-          </div>
+          <form method="post" id="player2_field">
+            <div class="input-group">
+              <input id="player2" class="form-control" name="player2" type="search">
+              <input class="player1_alias" name="player1" type="hidden">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+            </div>
+          </form>
         </div> <!-- right column -->
-      </div>
+      </div> <!-- END of 1st row -->
 
       <footer class="footer">
         <p>&copy; Darren Vong 2016</p>
@@ -113,7 +121,11 @@
       $(function() {
         var searchBars = new PlayerSearchBar("#player1, #player2");
         $("button[type='submit']").click(function(e) {
-          searchBars.onSearch(e, ["#player1", "#player2"]);
+          searchBars.onSearch(e, ["#player1", "#player2"], true);
+        });
+
+        $("#player1_field, #player2_field").submit(function(e) {
+          searchBars.onSearch(e, ["#player1", "#player2"], true);
         });
 
         hideErrorPrompts("#player1, #player2");

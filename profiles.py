@@ -11,7 +11,7 @@ import profile_graph_api
 def get_profile_contents(player_name, col):
     query = {"normalised_name": player_name}
     projection = {"_id": 0, "web_name": 1,"total_points": 1, "now_cost": 1, "goals_scored": 1,
-                  "assists": 1, "clean_sheets": 1, "normalised_name": 1,
+                  "assists": 1, "clean_sheets": 1, "normalised_name": 1, "status": 1,
                   "net_transfers": {"$subtract": ["$transfers_in_event", "$transfers_out_event"]},
                   "minutes": 1, "yellow_cards": 1, "chance_of_playing_next_round": 1,
                   "fixture_history": 1, "type_name": 1, "photo": 1, "selected_by_percent": 1}
@@ -19,7 +19,7 @@ def get_profile_contents(player_name, col):
     cursor = col.aggregate(pipeline)
     profile_contents = cursor.next()
     profile_contents["start_gw"] = profile_contents["fixture_history"][0]["gameweek"]
-    profile_contents["current_gw"] = profile_contents["fixture_history"][-1]["gameweek"]
+    profile_contents["current_gw"] = int(profile_contents["fixture_history"][-1]["gameweek"])
     return profile_contents
 
 def get_player_names(col):
