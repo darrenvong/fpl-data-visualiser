@@ -18,10 +18,15 @@ function capitalise(s) {
   return words.join(" ");
 }
 
-function centElement(elements) {
-  var inlineFormWidth = $('form.form-inline').width();
+/** Dynamically centers elements matched with respect to the context element's width by setting the
+ ** element's "left" css property value.
+ ** @param elements: the set of elements to center
+ ** @param context: the element's width to base the centering calculation on
+ **/
+function centElement(elements, context) {
+  var contextElementWidth = context.width();
   elements.css("left", function(i,v) {
-    return ( inlineFormWidth - $(this).width() ) / 2;
+    return ( contextElementWidth - $(this).width() ) / 2;
   });
 }
 
@@ -34,4 +39,15 @@ function hideErrorPrompts(searchBar) {
     if (!errMsg.hasClass("hidden")) //Error is on show, turn it off now that user is updating input
       errMsg.toggleClass("hidden");
   });
+}
+
+function addUpdateGraphHandler() {
+  var start = parseInt($("#startTime").val());
+  var end = parseInt($("#endTime").val());
+  if (start > end) {
+    alert("Can't have start time later than end time!");
+    return;
+  }
+
+  graph.update(start, end);
 }

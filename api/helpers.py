@@ -14,8 +14,9 @@ def init(player_name, start, end):
     fixture documents which are between the start and end game week values"""
     query = {"normalised_name": player_name}
     projection = {"_id": 0, "fixture_history": 1}
+    # +0.5 in "$lte" to account for double game week
     init_pipeline = [{"$match": query}, {"$project": projection}, {"$unwind": "$fixture_history"},
-                {"$match": {"fixture_history.gameweek": {"$gte": start, "$lte": end}}}]
+                {"$match": {"fixture_history.gameweek": {"$gte": start, "$lte": end+0.5}}}]
     return init_pipeline
 
 def pairs_to_lists(pairs_list):

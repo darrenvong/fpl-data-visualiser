@@ -46,21 +46,33 @@ def generate_row(p1_profile, p2_profile, attr):
 def row_template(p1_val, p2_val, attr, prefix=u"", suffix=u""):
     row = u""
     if p1_val > p2_val:
-        row = u"<tr>\n"
-        row += u"<td class='values text-success bg-success'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
+        row = u"<tr class='"+ATTR_TO_PROFILE_KEY[attr]+u"'>\n"
+        if attr == "Price":
+            row += u"<td class='values p1'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
+        else:
+            row += u"<td class='values p1 text-success bg-success'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
         row += u"<td>"+attr+u"</td>\n"
-        row += u"<td class='values'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
+        if attr == "Price":
+            row += u"<td class='values p2 text-success bg-success'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
+        else:
+            row += u"<td class='values p2'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
         row += u"</tr>\n"
     elif p1_val == p2_val:
-        row = u"<tr>\n"
-        row += u"<td class='values'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
+        row = u"<tr class='"+ATTR_TO_PROFILE_KEY[attr]+u"'>\n"
+        row += u"<td class='values p1'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
         row += u"<td>"+attr+u"</td>\n"
-        row += u"<td class='values'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
+        row += u"<td class='values p2'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
         row += u"</tr>\n"
-    else:
-        row = u"<tr>\n"
-        row += u"<td class='values'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
+    else: # p2 > p1
+        row = u"<tr class='"+ATTR_TO_PROFILE_KEY[attr]+u"'>\n"
+        if attr == "Price":
+            row += u"<td class='values p1 text-success bg-success'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
+        else:
+            row += u"<td class='values p1'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
         row += u"<td>"+attr+u"</td>\n"
-        row += u"<td class='values text-success bg-success'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
+        if attr == "Price":
+            row += u"<td class='values p2'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
+        else:
+            row += u"<td class='values p2 text-success bg-success'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
         row += u"</tr>\n"
     return row

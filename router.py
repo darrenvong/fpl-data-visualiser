@@ -83,7 +83,7 @@ class Router(Bottle):
                                                                 player1, player2, self.players_col)
         except StopIteration:
             raise RuntimeError("There's an error with the player search bar's functionality")
-        return template("h2h", p1_profile=player1_profile, p2_profile=player2_profile)
+        return template("head_to_head", p1_profile=player1_profile, p2_profile=player2_profile)
     
     def get_resources(self, path):
         return static_file(path, root="./")

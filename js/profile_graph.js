@@ -252,7 +252,7 @@ ProfileGraph.prototype.drawBarGraph = function(attr, metric, start, end) {
   this.graph.redraw();
 };
 
-ProfileGraph.prototype.getData = function(attr, metric, start, end) {
+ProfileGraph.prototype.getData = function(attr, metric, start, end, name) {
   var myData = this.data[attr][start-1][end-1][metric];
   if (myData) {
     return myData;
@@ -266,7 +266,7 @@ ProfileGraph.prototype.getData = function(attr, metric, start, end) {
         metric: metric,
         start: start,
         end: end,
-        player_name: $("img.img-responsive").attr("alt")
+        player_name: name || $("img.img-responsive").attr("alt") //Added flexibility for inheritance
       },
       success: function(data) {
         var startEndMemBlock = thisData[attr][start-1][end-1];
