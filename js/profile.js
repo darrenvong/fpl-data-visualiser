@@ -84,7 +84,7 @@ $(document).ready(function() {
       var thisRowId = $(this).attr("id");
       var groupId = "#"+thisRowId+"_group";
       $(groupId).toggleClass("hidden");
-      centElement($(groupId));
+      centElement($(groupId),$('form.form-inline'));
       if (thisRowId === "points" || thisRowId === "price") {
         var extrasId = "#"+thisRowId+"_extra";
         $(extrasId).toggleClass("hidden");
@@ -92,7 +92,7 @@ $(document).ready(function() {
       }
     });
   });
-  centElement($('.form-group'));
+  centElement($('.form-group'),$('form.form-inline'));
   var searchBar = new PlayerSearchBar('#player-names');
 
   $('button[type="submit"]').click(function(e) {
@@ -104,21 +104,12 @@ $(document).ready(function() {
   $('[data-toggle="popover"]').popover();
   
   $(window).resize(function() {
-    centElement($('.form-group')); 
+    centElement($('.form-group'),$('form.form-inline')); 
   });
 
   graph = new ProfileGraph(initOptions);
 
-  $("#update_graph").click(function() {
-    var start = parseInt($("#startTime").val());
-    var end = parseInt($("#endTime").val());
-    if (start > end) {
-      alert("Can't have start time later than end time!");
-      return;
-    }
-
-    graph.update(start, end);
-  });
+  $("#update_graph").click(addUpdateGraphHandler);
 
   $('div.performance_metrics button').click(function() {
     var parentGroup = $(this).parent();
