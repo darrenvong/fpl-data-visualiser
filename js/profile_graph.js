@@ -1,5 +1,5 @@
 function ProfileGraph(options) {
-  this.ATTR_ID_MAP = {
+  var ATTR_ID_MAP = {
     "Points": "points",
     "Goals": "goals",
     "Price": "price",
@@ -13,16 +13,16 @@ function ProfileGraph(options) {
     "Clean sheets breakdown": "cleanSheetsBreakdown"
   };
   //Inverse map of the above
-  this.ID_ATTR_MAP = (function(map) {
+  var ID_ATTR_MAP = (function(map) {
     var inverse_obj = {}
     for (let attr in map) { //attr is the key in ATTR_ID_MAP
       inverse_obj[map[attr]] = attr;
     }
     return inverse_obj
-  })(this.ATTR_ID_MAP);
+  })(ATTR_ID_MAP);
 
-  for (let attr in this.ATTR_ID_MAP) {
-    let MAP_REF = this.ATTR_ID_MAP;
+  for (let attr in ATTR_ID_MAP) {
+    let MAP_REF = ATTR_ID_MAP;
     options.series.push({
       name: attr,
       id: MAP_REF[attr],

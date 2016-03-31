@@ -127,6 +127,9 @@
                 <label class="radio-inline bar">
                   <input type="radio" name="points" class="points" value="bar"> Bar graph
                 </label>
+                <label class="radio-inline last">
+                  <input type="radio" name="points" class="points" value="box"> Box plot
+                </label>
                 <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
               </div>
               <div class="form-group" id="price">
@@ -235,7 +238,7 @@
     <script src="js/accent_map.js"></script>
     <script src="js/profile_helpers.js"></script>
     <script src="js/profile_searchbar.js"></script>
-    <script src="js/profile_graph.js"></script>
+    <!-- // <script src="js/profile_graph.js"></script> -->
     <script src="js/head_to_head_graph.js"></script>
     <script src="js/head_to_head.js"></script>
   </body>

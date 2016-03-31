@@ -16,7 +16,7 @@ label.labels {
   width: 60px;
 }
 
-.bar {
+.last {
   padding-right: 3px;
 }
 
@@ -45,14 +45,14 @@ div#graph_container {
   }
 }
 
-@media (max-width: 713px) {
+@media (max-width: 707px) {
   .attributes .form-group {
     padding-right: 25px;
     margin-bottom: 0;
   }
 }
 
-@media (min-width: 714px) and (max-width: 991px) {
+@media (min-width: 708px) and (max-width: 991px) {
   .attributes .form-group {
     position: inherit;
     padding-right: 25px;
