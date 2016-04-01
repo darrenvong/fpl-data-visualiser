@@ -50,14 +50,11 @@ $(document).ready(function() {
           pointFormat: 'Week {point.x}<br><b>{series.name}: </b>{point.y}'
         }
       },
-      pie: {
-        tooltip: {
-          headerFormat: '<b>{point.key}</b><br>',
-          pointFormat: '<span>{point.percentage:.0f}%</span>'
-        }
-      },
       column: {
-        stacking: "normal"
+        tooltip: {
+          headerFormat: '{point.key}<br>',
+          pointFormat: 'Week {point.x}<br><b>{series.name}: </b>{point.y}'
+        }
       },
       boxplot: {
         tooltip: {
@@ -90,4 +87,6 @@ $(document).ready(function() {
   graph = new HeadToHeadGraph(initOptions);
 
   $("#update_graph").click(addUpdateGraphHandler);
+
+  $('[data-toggle="popover"]').popover();
 });

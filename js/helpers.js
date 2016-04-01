@@ -51,3 +51,20 @@ function addUpdateGraphHandler() {
 
   graph.update(start, end);
 }
+
+function toggleAlertBox(valid) {
+  var alertBox = $(".alert-danger");
+
+  if (valid) {
+    // Graph at valid state, yet the alert is not hidden, so hide it
+    if (!alertBox.hasClass("hidden"))
+      alertBox.toggleClass("hidden");
+  }
+  else {
+    if (alertBox.hasClass("hidden"))
+      alertBox.toggleClass("hidden")
+    else { //Invalid state, alert already shown, so highlight it for emphasis
+      alertBox.effect("highlight", {color: "#a94442"});
+    }
+  }
+}

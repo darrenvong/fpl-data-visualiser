@@ -69,10 +69,10 @@ function ProfileGraph(options) {
 }
 
 ProfileGraph.prototype.update = function(start, end) {
-  var alertBox = $(".alert-danger");
-  if (this.isValid()) {
-    if (!alertBox.hasClass("hidden"))
-      alertBox.toggleClass("hidden");
+  var graphValidity = this.isValid();
+  toggleAlertBox(graphValidity);
+
+  if (graphValidity) {
     // Clears the data in each series since events breakdown uses multiple series...
     this.graph.series.forEach(function(s) {
       s.setData([], false);
@@ -98,13 +98,6 @@ ProfileGraph.prototype.update = function(start, end) {
         thisGraph.drawBarGraph(attr, metric, start, end);
       thisGraph.graph.hideLoading();
     });
-  }
-  else {
-    if (alertBox.hasClass("hidden"))
-      alertBox.toggleClass("hidden");
-    else {
-      alertBox.effect("highlight", {color: "#a94442"});
-    }
   }
 };
 
@@ -279,13 +272,14 @@ ProfileGraph.prototype.getData = function(attr, metric, start, end, name) {
   }
 };
 
-// Checks whether the requested graoh to be drawn will be in a valid state
-// An invalid state will be one where different, but incompatible graphs are being drawn
-// on the same graph
-// Examples: a pie chart together with a box plot since they both need the whole graph space, or
-// a box plot together with line graphs since the box will cover up the lines/graph looks too clustered
+/** Checks whether the requested graoh to be drawn will be in a valid state
+ ** An invalid state will be one where different, but incompatible graphs are being drawn
+ ** on the same graph.
+ ** Examples: a pie chart together with a box plot since they both need the whole graph space, or
+ ** a box plot together with line graphs since the box will cover up the lines/graph looks too clustered
+ **/
 ProfileGraph.prototype.isValid = function() {
-  var valid = false;
+  var valid = true;
   var dropdownsSelector = "div.performance_metrics > .form-group:not(.hidden) select.form-control";
   var selectedMetrics = [];
   $(dropdownsSelector).each(function() {
@@ -301,9 +295,9 @@ ProfileGraph.prototype.isValid = function() {
       var message = ('<b>'+metric_msg_map[metric]+'</b> cannot be selected when other drop down menus are visible. '+
         'Please hide the other drop down menu(s) before trying to select this option again.');
       $(".alert-danger").html('<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;'+message);
-      return valid;
+      return !valid;
     }
   }
 
-  return !valid;
+  return valid;
 }

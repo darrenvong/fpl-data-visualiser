@@ -130,17 +130,10 @@
                 <label class="radio-inline last">
                   <input type="radio" name="points" class="points" value="box"> Box plot
                 </label>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
-              </div>
-              <div class="form-group" id="price">
-                <label class="labels">Price</label>
-                <label class="radio-inline">
-                  <input type="radio" name="price" class="price" value="line" checked> Line graph
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="points_switch" value="on" aria-label="Hides the 'points' attribute from graph"> Active
                 </label>
-                <label class="radio-inline bar">
-                  <input type="radio" name="price" class="price" value="bar"> Bar graph
-                </label>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <a role="button" class="btn" data-toggle="popover" title="Points" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div>
               <div class="form-group" id="goals">
                 <label class="labels">Goals</label>
@@ -150,7 +143,10 @@
                 <label class="radio-inline bar">
                   <input type="radio" name="goals" class="goals" value="bar"> Bar graph
                 </label>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="goals_switch" value="on" aria-label="Hides the 'goals' attribute from graph"> Active
+                </label>
+                <a role="button" class="btn" data-toggle="popover" title="Goals" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div>
               <div class="form-group" id="assists">
                 <label class="labels">Assists</label>
@@ -160,7 +156,10 @@
                 <label class="radio-inline bar">
                   <input type="radio" name="assists" class="assists" value="bar"> Bar graph
                 </label>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="assists_switch" value="on" aria-label="Hides the 'assists' attribute from graph"> Active
+                </label>
+                <a role="button" class="btn" data-toggle="popover" title="Assists" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div>
               <div class="form-group" id="cleanSheets">
                 <label class="labels">Clean sheets</label>
@@ -170,10 +169,16 @@
                 <label class="radio-inline bar">
                   <input type="radio" name="cleanSheets" class="cleanSheets" value="bar"> Bar graph
                 </label>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="cleanSheets_switch" value="on" aria-label="Hides the 'clean sheets' attribute from graph"> Active
+                </label>
+                <a role="button" class="btn" data-toggle="popover" title="Clean sheets" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div>
             </div>
           </form>
+          <div class="alert alert-danger hidden" role="alert"><span class="glyphicon glyphicon-alert"></span>
+            &nbsp;&nbsp;When "Box plot" is selected and the "Active" box of <b>Points</b> is checked, other "Active" boxes cannot be checked. Please either uncheck all of the other "Active" boxes, or deselect "Box plot" from <b>Points</b> to continue.
+          </div>
           <div id="graph_container"></div>
         </div> <!-- middle column -->
         <div class="col-md-3 right">
@@ -236,7 +241,7 @@
     <script src="js/highcharts-more.js"></script>
     <script src="js/unstick_buttons.js"></script>
     <script src="js/accent_map.js"></script>
-    <script src="js/profile_helpers.js"></script>
+    <script src="js/helpers.js"></script>
     <script src="js/profile_searchbar.js"></script>
     <!-- // <script src="js/profile_graph.js"></script> -->
     <script src="js/head_to_head_graph.js"></script>

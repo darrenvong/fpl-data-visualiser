@@ -16,6 +16,10 @@ label.labels {
   width: 60px;
 }
 
+label.checkbox-inline {
+  padding-left: 25px;
+}
+
 .last {
   padding-right: 3px;
 }
@@ -31,6 +35,8 @@ div#graph_container {
 
 .attributes .form-group {
   display: inline-block;
+  padding-right: 25px;
+  margin-bottom: 0;
 }
 
 #gameweek {
@@ -42,21 +48,6 @@ div#graph_container {
   .sm-screen {
     display: inline-block;
     width: 65px;
-  }
-}
-
-@media (max-width: 707px) {
-  .attributes .form-group {
-    padding-right: 25px;
-    margin-bottom: 0;
-  }
-}
-
-@media (min-width: 708px) and (max-width: 991px) {
-  .attributes .form-group {
-    position: inherit;
-    padding-right: 25px;
-    margin-bottom: 0px;
   }
 }
 
@@ -91,12 +82,10 @@ table, tr.thead-row-color > th {
   text-align: center;
 }
 
-/*
-caption.profile_caption {
+.alert-danger {
   text-align: center;
-  color: #cc0202;
 }
-*/
+
 .error {
   border-color: #cc0202;
   outline: 0;
@@ -125,4 +114,11 @@ li.ui-menu-item.ui-state-focus {
   table {
     margin: 20px 0;
   }
+  .alert-danger {
+    margin-top: 10px;
+  }
+}
+
+a[data-toggle="popover"] {
+  color: #1d1d1d;
 }

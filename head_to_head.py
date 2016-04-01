@@ -3,17 +3,19 @@
 """
 @author: Darren Vong
 """
+from collections import OrderedDict
+
 import profiles
 
-ATTR_TO_PROFILE_KEY = {
-    "Points": "total_points",
-    "Selected By": "selected_by_percent",
-    "Price": "now_cost",
-    "Goals": "goals_scored",
-    "Assists": "assists",
-    "Clean sheets": "clean_sheets",
-    "Yellow cards": "yellow_cards"
-}
+ATTR_TO_PROFILE_KEY = OrderedDict([
+    ("Points", "total_points"),
+    ("Selected By", "selected_by_percent"),
+    ("Price", "now_cost"),
+    ("Goals", "goals_scored"),
+    ("Assists", "assists"),
+    ("Clean sheets", "clean_sheets"),
+    ("Yellow cards", "yellow_cards")
+])
 
 def get_players_profiles(player1, player2, col):
     player1_profile = profiles.get_profile_contents(player1, col)
@@ -47,12 +49,12 @@ def row_template(p1_val, p2_val, attr, prefix=u"", suffix=u""):
     row = u""
     if p1_val > p2_val:
         row = u"<tr class='"+ATTR_TO_PROFILE_KEY[attr]+u"'>\n"
-        if attr == "Price":
+        if attr == "Price" or attr == "Yellow cards":
             row += u"<td class='values p1'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
         else:
             row += u"<td class='values p1 text-success bg-success'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
         row += u"<td>"+attr+u"</td>\n"
-        if attr == "Price":
+        if attr == "Price" or attr == "Yellow cards":
             row += u"<td class='values p2 text-success bg-success'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
         else:
             row += u"<td class='values p2'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
@@ -65,12 +67,12 @@ def row_template(p1_val, p2_val, attr, prefix=u"", suffix=u""):
         row += u"</tr>\n"
     else: # p2 > p1
         row = u"<tr class='"+ATTR_TO_PROFILE_KEY[attr]+u"'>\n"
-        if attr == "Price":
+        if attr == "Price" or attr == "Yellow cards":
             row += u"<td class='values p1 text-success bg-success'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
         else:
             row += u"<td class='values p1'>"+prefix+unicode(p1_val)+suffix+u"</td>\n"
         row += u"<td>"+attr+u"</td>\n"
-        if attr == "Price":
+        if attr == "Price" or attr == "Yellow cards":
             row += u"<td class='values p2'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
         else:
             row += u"<td class='values p2 text-success bg-success'>"+prefix+unicode(p2_val)+suffix+u"</td>\n"
