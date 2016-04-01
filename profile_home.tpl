@@ -100,7 +100,7 @@
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script src="js/accent_map.js"></script>
     <script src="js/unstick_buttons.js"></script>
-    <script src="js/profile_helpers.js"></script>
+    <script src="js/helpers.js"></script>
     <script src="js/profile_searchbar.js"></script>
     <!-- Main method script -->
     <script src="js/profile_home.js"></script>
