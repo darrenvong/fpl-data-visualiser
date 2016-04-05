@@ -31,8 +31,10 @@ class Router(Bottle):
         self.route("/", callback=self.re_route)
         self.route("/index", callback=self.root)
         self.route("/profile", callback=self.profiles)
+        self.route("/head_to_head", callback=self.head_to_head_home)
         self.post("/profile", callback=self.get_player_profile)
         self.post("/player_names", callback=self.get_player_names)
+        self.post("/head_to_head", callback=self.get_head_to_head_page)
         self.post("/graph_data", callback=self.get_graph_data)
         self.route("<path:path>", callback=lambda path: self.get_resources(path))
     
