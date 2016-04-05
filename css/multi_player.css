@@ -1,0 +1,18 @@
+div.filter-block {
+  max-height: 300px;
+  border: 1px solid rgb(204,204,204);
+  border-radius: 7px;
+  padding: 2px 10px;
+}
+
+#num_players {
+  float: right;
+}
+
+.tab-content {
+  padding-top: 20px;
+}
+
+#startTime, #endTime {
+  margin: 5px 0;
+}

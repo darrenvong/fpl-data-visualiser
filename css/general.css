@@ -28,6 +28,10 @@ body {
   padding-bottom: 20px;
 }
 
+.profile-body {
+  padding-top: 30px;
+}
+
 .thead-row-color, .dropdown-menu> li > a:hover {
   background-color: #dbe9f2;
 }
