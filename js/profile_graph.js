@@ -12,14 +12,6 @@ function ProfileGraph(options) {
     "Assists breakdown": "assistsBreakdown",
     "Clean sheets breakdown": "cleanSheetsBreakdown"
   };
-  //Inverse map of the above
-  var ID_ATTR_MAP = (function(map) {
-    var inverse_obj = {}
-    for (let attr in map) { //attr is the key in ATTR_ID_MAP
-      inverse_obj[map[attr]] = attr;
-    }
-    return inverse_obj
-  })(ATTR_ID_MAP);
 
   for (let attr in ATTR_ID_MAP) {
     let MAP_REF = ATTR_ID_MAP;
