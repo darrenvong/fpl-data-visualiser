@@ -14,6 +14,8 @@ from bson import SON
 from bson.json_util import dumps, loads
 from pymongo import MongoClient, UpdateOne
 
+import profiles
+
 # idea adapted from Pringle's (2014) code
 FIXTURE_KEY_MAP = {
     0 : "date", 
@@ -175,6 +177,12 @@ def insert_players(col, players):
     else:
         raise RuntimeError("Unknown type passed to param players - "+
                            "should be a list or string path instead")
+    
+    if col.count() > 0:
+        # Using Vardy here as he's started since gameweek 1 and has had no blank gameweeks 
+        current_gw = profiles.get_profile_contents("Vardy", col)["current_gw"]
+        col.rename("gw%d" % current_gw)
+    
     col.insert_many(players_list)
 
 if __name__ == '__main__':
