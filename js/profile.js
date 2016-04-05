@@ -82,9 +82,9 @@ $(document).ready(function() {
       // Switches the table rows between selected and unselected states
       $(this).toggleClass("info");
       var thisRowId = $(this).attr("id");
-      var groupId = "#"+thisRowId+"_group";
-      $(groupId).toggleClass("hidden");
-      centElement($(groupId),$('form.form-inline'));
+      // var groupId = "#"+thisRowId+"_group";
+      // $(groupId).toggleClass("hidden");
+      // centElement($(groupId),$('form.form-inline'));
       if (thisRowId === "points" || thisRowId === "price") {
         var extrasId = "#"+thisRowId+"_extra";
         $(extrasId).toggleClass("hidden");
@@ -92,6 +92,12 @@ $(document).ready(function() {
       }
     });
   });
+
+  $("#more_options").click(function() {
+    $(".performance_metrics").toggleClass("hidden");
+    centElement($('.form-group'),$('form.form-inline'));
+  });
+
   centElement($('.form-group'),$('form.form-inline'));
   var searchBar = new PlayerSearchBar('#player-names');
 

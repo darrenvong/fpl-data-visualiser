@@ -27,13 +27,14 @@ function ProfileGraph(options) {
       name: attr,
       id: MAP_REF[attr],
       type: "line",
-      pointStart: 1
+      pointStart: 1,
+      showInLegend: false
     });
   }
   this.initOptions = options;
 
   Highcharts.setOptions({
-    lang: {loading: "Select a row on the table to begin!"}
+    lang: {loading: 'Click on <span class="glyphicon glyphicon-chevron-down"></span> to reveal the various plot options to begin!'}
   });
 
   this.graph = new Highcharts.Chart(options);
@@ -76,28 +77,37 @@ ProfileGraph.prototype.update = function(start, end) {
     // Clears the data in each series since events breakdown uses multiple series...
     this.graph.series.forEach(function(s) {
       s.setData([], false);
+      s.update({showInLegend: false});
       s.show();
     });
-    //Reference to the current graph's Highchart object for use inside the function call after this line
+
+    var options = $("div.performance_metrics");
+    //Reference to the current graph instance for use inside the function call after this line
     var thisGraph = this;
-    
-    $("div.performance_metrics > .form-group:not(.hidden)").each(function() {
-      thisGraph.graph.showLoading("Loading graph...");
-      var attrMetricArray = $("select.form-control", this).val().split("-");
-      var attr = attrMetricArray[0];
-      var metric = attrMetricArray[1];
-      if (metric === "over_time" || metric === "cum_total")
-        thisGraph.drawLineGraph(attr, metric, start, end);
-      else if (metric === "home_vs_away")
-        thisGraph.drawPieChart(attr, metric, start, end);
-      else if (metric === "consistency")
-        thisGraph.drawBoxPlot(attr, metric, start, end);
-      else if (metric === "events_breakdown")
-        thisGraph.drawCompoundBarGraph(attr, metric, start, end);
-      else if (metric === "changes")
-        thisGraph.drawBarGraph(attr, metric, start, end);
-      thisGraph.graph.hideLoading();
-    });
+    if (!options.hasClass("hidden")) {
+      $("div.performance_metrics > .form-group").each(function() {
+        var attrMetricArray = $("select.form-control", this).val().split("-");
+        var attr = attrMetricArray[0];
+        var metric = attrMetricArray[1];
+        if ( $("input[type=checkbox]:checked", this).length === 0 ) {
+          return;
+        }
+        else {
+          thisGraph.graph.showLoading("Loading graph...");
+          if (metric === "over_time" || metric === "cum_total")
+            thisGraph.drawLineGraph(attr, metric, start, end);
+          else if (metric === "home_vs_away")
+            thisGraph.drawPieChart(attr, metric, start, end);
+          else if (metric === "consistency")
+            thisGraph.drawBoxPlot(attr, metric, start, end);
+          else if (metric === "events_breakdown")
+            thisGraph.drawCompoundBarGraph(attr, metric, start, end);
+          else if (metric === "changes")
+            thisGraph.drawBarGraph(attr, metric, start, end);          
+          thisGraph.graph.hideLoading();
+        }
+      });
+    }
   }
 };
 
@@ -136,14 +146,16 @@ ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
         pointFormatter: function() {
           return 'Week '+Math.floor(this.x)+'<br><b>Price:</b> £'+this.y+'M';
         }
-      }
+      },
+      showInLegend: true
     }, false);
   }
   else {
     this.graph.get(attr).update({
       data: requiredData,
       pointStart: 1,
-      type: "line"
+      type: "line",
+      showInLegend: true
     }, false);
   }
   this.graph.xAxis[0].update({
@@ -161,7 +173,8 @@ ProfileGraph.prototype.drawPieChart = function(attr, metric, start, end) {
   var requiredData = this.getData(attr, metric, start, end);
   this.graph.get(attr).update({
     data: requiredData,
-    type: "pie"
+    type: "pie",
+    showInLegend: false
   }, false);
   this.graph.xAxis[0].update({
     visible: false
@@ -177,7 +190,8 @@ ProfileGraph.prototype.drawBoxPlot = function(attr, metric, start, end) {
   this.graph.get(attr).update({
     data: requiredData,
     type: "boxplot",
-    pointStart: 1
+    pointStart: 1,
+    showInLegend: false
   }, false);
   this.graph.xAxis[0].update({
     categories: [null, $("#player_name").text()],
@@ -203,10 +217,11 @@ ProfileGraph.prototype.drawCompoundBarGraph = function(attr, metric, start, end)
         // pointFormat: '<b>Points:</b> {point.y}'
         pointFormatter: function() {
           var seriesName = this.series.name.replace(" breakdown", "");
-          return "Event:<b> "+seriesName+"</b><br><b>Points:</b> "+this.y;
+          return "Week "+Math.floor(this.x)+"<br>Event:<b> "+seriesName+"</b><br><b>Points:</b> "+this.y;
         }
       },
-      pointStart: 1
+      pointStart: 1,
+      showInLegend: true
     }, false);
   });
   this.graph.xAxis[0].update({
@@ -232,7 +247,8 @@ ProfileGraph.prototype.drawBarGraph = function(attr, metric, start, end) {
         return 'Week '+Math.floor(this.x)+'<br><b>Changes:</b> '+this.y+'M';
       }
     },
-    pointStart: 1
+    pointStart: 1,
+    showInLegend: true
   }, false);
   this.graph.xAxis[0].update({
     categories: null,
@@ -280,7 +296,8 @@ ProfileGraph.prototype.getData = function(attr, metric, start, end, name) {
  **/
 ProfileGraph.prototype.isValid = function() {
   var valid = true;
-  var dropdownsSelector = "div.performance_metrics > .form-group:not(.hidden) select.form-control";
+  var isBoxOrPieActive = false;
+  var dropdownsSelector = "div.performance_metrics:not(.hidden) > .form-group select.form-control";
   var selectedMetrics = [];
   $(dropdownsSelector).each(function() {
     var metric = $(this).val().split("-")[1];
@@ -290,13 +307,17 @@ ProfileGraph.prototype.isValid = function() {
     home_vs_away: "Home vs Away",
     consistency: "Consistency"
   };
-  for (let metric of selectedMetrics) {
-    if ((metric === "home_vs_away" || metric === "consistency") && selectedMetrics.length > 1) {
-      var message = ('<b>'+metric_msg_map[metric]+'</b> cannot be selected when other drop down menus are visible. '+
-        'Please hide the other drop down menu(s) before trying to select this option again.');
+
+  if ((selectedMetrics.includes("home_vs_away") || selectedMetrics.includes("consistency")) && $(".points_switch:checked").length === 1)
+    isBoxOrPieActive = true;
+
+  if (isBoxOrPieActive && $("input[type=checkbox]:not(.points_switch):checked").length >= 1) {
+      let metric = (selectedMetrics.includes("home_vs_away")) ? "home_vs_away" : "consistency";
+      var message = ('<b>'+metric_msg_map[metric]+'</b> cannot be active at the same time with other options. '+
+        'Please uncheck the "Active" box next to other drop down menu(s) or uncheck the "Active" box next to the dropdown with <b>'+metric_msg_map[metric]+
+        '</b> selected before trying to select this option again.');
       $(".alert-danger").html('<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;'+message);
       return !valid;
-    }
   }
 
   return valid;

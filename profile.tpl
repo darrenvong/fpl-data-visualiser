@@ -108,25 +108,25 @@
                 <td><span class="extras">points per million</span></td>
                 <td>{{round( contents["total_points"]/(contents["now_cost"]/10.0), 1 )}}</td>
               </tr>
-              <tr id="goals">
+              <tr id="goals" class="no-extra-info">
                 <td>Goals</td>
                 <td>{{contents["goals_scored"]}}</td>
               </tr>
-              <tr id="assists">
+              <tr id="assists" class="no-extra-info">
                 <td>Assists</td>
                 <td>{{contents["assists"]}}</td>
               </tr>
               % if contents["type_name"] == "Goalkeeper" or contents["type_name"] == "Defender":
-              <tr id="cleanSheets">
+              <tr id="cleanSheets" class="no-extra-info">
                 <td>Clean sheets</td>
                 <td>{{contents["clean_sheets"]}}</td>
               </tr>
               % end
-              <tr id="netTransfers">
+              <tr id="netTransfers" class="no-extra-info">
                 <td>Net transfers</td>
                 <td>{{contents["net_transfers"]}}</td>
               </tr>
-              <tr id="minutesPlayed">
+              <tr id="minutesPlayed" class="no-extra-info">
                 <td>Minutes played</td>
                 <td>{{contents["minutes"]}}</td>
               </tr>
@@ -168,10 +168,14 @@
                   % end
                 % end
               </select>
+              <button type="button" class="btn btn-default" id="more_options">
+                <span class="sr-only">More options</span>
+                <span class="glyphicon glyphicon-chevron-down"></span>
+              </button>
               <button type="button" class="btn btn-default" id="update_graph"><span class="glyphicon glyphicon-refresh"></span> Update graph</button>
             </div>
-            <div class="performance_metrics">
-              <div class="form-group hidden" id="points_group">
+            <div class="performance_metrics hidden">
+              <div class="form-group" id="points_group">
                 <label class="labels">Points:</label>
                 <select class="form-control sm-screen">
                   <option value="points-over_time">Over selected game weeks</option>
@@ -180,21 +184,23 @@
                   <option value="points-cum_total">Cumulative total</option>
                   <option value="points-events_breakdown">Point scoring events breakdown</option>
                 </select>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="points_switch" aria-label="Hides the 'Points' attribute from the graph"> Active
+                </label>
                 <a role="button" class="btn" data-toggle="popover" title="Points" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
-                <!-- Do this feature if there's spare time... leaving it out for now -->
-                <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plu"></span></button> -->
               </div> <!-- #points_group -->
-              <div class="form-group hidden" id="price_group">
+              <div class="form-group" id="price_group">
                 <label class="labels">Price:</label>
                 <select class="form-control sm-screen">
                   <option value="price-over_time">Over selected game weeks</option>
                   <option value="price-changes">Changes over selected game weeks</option>
                 </select>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="price_switch" aria-label="Hides the 'Price' attribute from the graph"> Active
+                </label>
                 <a role="button" class="btn" data-toggle="popover" title="Price" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #price_group -->
-              <div class="form-group hidden" id="goals_group">
+              <div class="form-group" id="goals_group">
                 <label class="labels">Goals:</label>
                 <select class="form-control sm-screen">
                     <option value="goals-over_time"> Over selected game weeks</option>
@@ -202,10 +208,12 @@
                     <option value="goals-cum_total"> Cumulative total</option>
                     <!-- <option value="goals-moving_average"> Moving average</option> -->
                 </select>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="goals_switch" aria-label="Hides the 'Goals' attribute from the graph"> Active
+                </label>
                 <a role="button" class="btn" data-toggle="popover" title="Goals" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #goals_group -->
-              <div class="form-group hidden" id="assists_group">
+              <div class="form-group" id="assists_group">
                 <label class="labels">Assists:</label>
                 <select class="form-control sm-screen">
                     <option value="assists-over_time"> Over selected game weeks</option>
@@ -213,11 +221,13 @@
                     <option value="assists-cum_total"> Cumulative total</option>
                     <!-- <option value="assists-moving_average"> Moving average</option> -->
                 </select>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="assists_switch" aria-label="Hides the 'Assists' attribute from the graph"> Active
+                </label>
                 <a role="button" class="btn" data-toggle="popover" title="Assists" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #assist_group -->
               % if contents["type_name"] == "Goalkeeper" or contents["type_name"] == "Defender":
-              <div class="form-group hidden" id="cleanSheets_group">
+              <div class="form-group" id="cleanSheets_group">
                 <label class="labels">Clean sheets:</label>
                 <select class="form-control sm-screen">
                     <option value="cleanSheets-over_time"> Over selected game weeks</option>
@@ -225,24 +235,30 @@
                     <option value="cleanSheets-cum_total"> Cumulative total</option>
                     <!-- <option value="cleanSheets-moving_average"> Moving average</option> -->
                 </select>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="cleanSheets_switch" aria-label="Hides the 'Clean sheets' attribute from the graph"> Active
+                </label>
                 <a role="button" class="btn" data-toggle="popover" title="Clean Sheets" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #cleanSheets_group -->
               % end
-              <div class="form-group hidden" id="netTransfers_group">
+              <div class="form-group" id="netTransfers_group">
                 <label class="labels">Net transfers:</label>
                 <select class="form-control sm-screen">
                   <option value="netTransfers-over_time">Over selected game weeks</option>
                 </select>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="netTransfers_switch" aria-label="Hides the 'Net transfers' attribute from the graph"> Active
+                </label>
                 <a role="button" class="btn" data-toggle="popover" title="Net Transfers" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #netTransfers_group -->
-              <div class="form-group hidden" id="minutesPlayed_group">
+              <div class="form-group" id="minutesPlayed_group">
                 <label class="labels">Minutes played:</label>
                 <select class="form-control sm-screen">
                   <option value="minutesPlayed-over_time">Over selected game weeks</option>
                 </select>
-                <button type="button" class="btn btn-default btn-sm" aria-label="Remove attribute from graph">Toggle</button>
+                <label class="checkbox-inline">
+                  <input type="checkbox" class="minutesPlayed_switch" aria-label="Hides the 'Minutes played' attribute from the graph"> Active
+                </label>
                 <a role="button" class="btn" data-toggle="popover" title="Minutes Played" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #minutesPlayed_group -->
               <div class="alert alert-danger hidden" role="alert"><span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;Invalid combination!</div>
