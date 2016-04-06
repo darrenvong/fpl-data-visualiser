@@ -5,11 +5,12 @@ div.filter-block {
   padding: 2px 10px;
 }
 
-#num_players {
+.players_on_page {
   float: right;
+  padding-bottom: 10px;
 }
 
-.tab-content {
+.ranked_table {
   padding-top: 20px;
 }
 

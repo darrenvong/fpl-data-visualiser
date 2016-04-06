@@ -52,7 +52,7 @@ def generate_tables(players_list, table_type="pound_stretchers"):
         table_html += u"<td>"+unicode(player["total_points"])+u"</td>\n"
         
         if table_type == "hot_players":
-            table_html += u"<td>"+player["form"]+u"</td>\n"
+            table_html += u"<td>"+unicode(player["form"])+u"</td>\n"
         elif table_type == "popular_players":
             transfer_sign = u"+" if player["net_transfers"]>0 else u"-"
             table_html += u"<td>"+transfer_sign+unicode(player["net_transfers"])+u"</td>\n"

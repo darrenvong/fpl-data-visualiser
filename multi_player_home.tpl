@@ -58,7 +58,7 @@
               <ul class="dropdown-menu">
                 <li><a href="profile">Player profiles</a></li>
                 <li><a href="head_to_head">Head-to-head comparator</a></li>
-                <li><a href="multi_player">Multi-player comparator</a></li>
+                <li><a href="#">Multi-player comparator</a></li>
               </ul>
             </li>
           </ul>
@@ -84,12 +84,18 @@
             <div class="form-group">
               <label for="startTime">Game week: </label>
               <select id="startTime" class="form-control" name="start">
-                <option value="1">1</option>
-                <option value="38">38</option>
+                % for gw in xrange(1, current_gw+1):
+                <option value={{gw}}>{{gw}}</option>
+                % end
               </select>&nbsp;&nbsp;TO&nbsp;&nbsp;
               <select id="endTime" class="form-control" name="end">
-                <option value="1">1</option>
-                <option value="38">38</option>
+                % for gw in xrange(1, current_gw+1):
+                  % if gw == current_gw: 
+                <option value={{gw}} selected>{{gw}}</option>
+                  % else:
+                <option value={{gw}}>{{gw}}</option>
+                  % end
+                % end
               </select>
             </div>
             <span class="help-block">Notes: the "Game week" range has an effect on <b>Points</b> only.</span>
@@ -159,27 +165,9 @@
             <table class="table table-bordered">
               <thead>
                 <tr class="thead-row-color">
-                  <th>Rank</th>
-                  <th>Name</th>
-                  <th>Attribute</th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="points">
-                  <td>1</td>
-                  <td>Mahrez</td>
-                  <td>100</td>
-                </tr>
-                <tr id="points">
-                  <td>2</td>
-                  <td>Vardy</td>
-                  <td>95</td>
-                </tr>
-                <tr id="points">
-                  <td>3</td>
-                  <td>Kane</td>
-                  <td>93</td>
-                </tr>
               </tbody>
             </table>           
           </div>

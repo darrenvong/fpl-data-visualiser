@@ -11,6 +11,7 @@ import home
 import helpers
 import profiles
 import head_to_head
+import multi_player
 
 class Router(Bottle):
     """This class is responsible for directing HTTP requests to the
@@ -32,6 +33,8 @@ class Router(Bottle):
         self.route("/index", callback=self.root)
         self.route("/profile", callback=self.profiles)
         self.route("/head_to_head", callback=self.head_to_head_home)
+        self.route("/multi_player", callback=self.multi_player_home)
+        self.post("/multi_player", callback=self.multi_player_comp)
         self.post("/profile", callback=self.get_player_profile)
         self.post("/player_names", callback=self.get_player_names)
         self.post("/head_to_head", callback=self.get_head_to_head_page)
@@ -84,6 +87,17 @@ class Router(Bottle):
         except StopIteration:
             raise RuntimeError("There's an error with the player search bar's functionality")
         return template("head_to_head", p1_profile=player1_profile, p2_profile=player2_profile)
+    
+    def multi_player_home(self):
+        return template("multi_player_home",current_gw=helpers.get_current_gameweek(self.players_col))
+    
+    def multi_player_comp(self):
+        print request.forms.keys(), request.forms.values()
+        print request.forms.num_players, type(request.forms.num_players)
+        player_stats = multi_player.get_table_contents(self.players_col, request.forms)
+        print "empty??", len(player_stats)
+        return template("multi_player", player_stats=player_stats,
+                        current_gw=helpers.get_current_gameweek(self.players_col))
     
     def get_resources(self, path):
         return static_file(path, root="./")

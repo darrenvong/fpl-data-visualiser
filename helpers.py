@@ -86,6 +86,9 @@ def normalise_names(player_data):
 
 def restructure_players_schema(player_data):
     player_data = normalise_names( restructure_fixture_data(player_data) )
+    attributes_to_cast = ["selected_by", "selected_by_percent", "form", "points_per_game", "ep_next"]
+    for attr in attributes_to_cast:
+        player_data[attr] = float(player_data[attr])
     return player_data
 
 def enforce_injective_name_mapping(col):
@@ -178,12 +181,15 @@ def insert_players(col, players):
         raise RuntimeError("Unknown type passed to param players - "+
                            "should be a list or string path instead")
     
-    if col.count() > 0:
-        # Using Vardy here as he's started since gameweek 1 and has had no blank gameweeks 
-        current_gw = profiles.get_profile_contents("Vardy", col)["current_gw"]
+    if col.count() > 0: 
+        current_gw = get_current_gameweek(col)
         col.rename("gw%d" % current_gw)
     
     col.insert_many(players_list)
+
+def get_current_gameweek(col):
+    # Using Vardy here as he's started since gameweek 1 and has had no blank gameweeks
+    return profiles.get_profile_contents("Vardy", col)["current_gw"]
 
 if __name__ == '__main__':
     c, col = connect()

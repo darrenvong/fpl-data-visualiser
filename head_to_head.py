@@ -7,6 +7,8 @@ from collections import OrderedDict
 
 import profiles
 
+# Attributes here are properly separated words rather than camel cased attributes
+# as in the module api.attribute
 ATTR_TO_PROFILE_KEY = OrderedDict([
     ("Points", "total_points"),
     ("Selected By", "selected_by_percent"),
