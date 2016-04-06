@@ -191,8 +191,17 @@ def get_current_gameweek(col):
     # Using Vardy here as he's started since gameweek 1 and has had no blank gameweeks
     return profiles.get_profile_contents("Vardy", col)["current_gw"]
 
+def capitalise_camel_case_words(s):
+    """Capitalises a camel case string and separate the resultant words with spaces"""
+    result = ""
+    for char in s:
+        result = result+char if char.islower() else result+" "+char
+    
+    return result.capitalize()
+
 if __name__ == '__main__':
     c, col = connect()
     insert_players(col, scrape_players())
     enforce_injective_name_mapping(col)
     c.close()
+    print capitalise_camel_case_words("thisIsAReallyLongFuckingString")

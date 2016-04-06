@@ -17,3 +17,11 @@ div.filter-block {
 #startTime, #endTime {
   margin: 5px 0;
 }
+
+.num_players_label {
+  font-weight: 700;
+}
+
+#num_players {
+  font-weight: normal;
+}

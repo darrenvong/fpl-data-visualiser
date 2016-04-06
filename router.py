@@ -93,11 +93,11 @@ class Router(Bottle):
     
     def multi_player_comp(self):
         print request.forms.keys(), request.forms.values()
-        print request.forms.num_players, type(request.forms.num_players)
-        player_stats = multi_player.get_table_contents(self.players_col, request.forms)
-        print "empty??", len(player_stats)
+        player_stats, selected_filters = multi_player.get_table_contents(self.players_col, request.forms)
+        print player_stats
         return template("multi_player", player_stats=player_stats,
-                        current_gw=helpers.get_current_gameweek(self.players_col))
+                        current_gw=helpers.get_current_gameweek(self.players_col),
+                        selected_filters=selected_filters)
     
     def get_resources(self, path):
         return static_file(path, root="./")

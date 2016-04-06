@@ -58,7 +58,7 @@
               <ul class="dropdown-menu">
                 <li><a href="profile">Player profiles</a></li>
                 <li><a href="head_to_head">Head-to-head comparator</a></li>
-                <li><a href="#">Multi-player comparator</a></li>
+                <li><a href="multi_player">Multi-player comparator</a></li>
               </ul>
             </li>
           </ul>
@@ -109,17 +109,12 @@
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" value="on" name="selectedBy">Selected By
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
                   <input type="checkbox" value="on" name="form">Form
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" value="on" name="price">Price
+                  <input type="checkbox" value="on" name="selectedBy">Selected by
                 </label>
               </div>
               <div class="checkbox">
@@ -134,12 +129,17 @@
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" value="on" name="netTransfers">Net Transfers
+                  <input type="checkbox" value="on" name="price">Price
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" value="on" name="minutesPlayed">Minutes Played
+                  <input type="checkbox" value="on" name="netTransfers">Net transfers
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="on" name="minutesPlayed">Minutes played
                 </label>
               </div>
             </div>
@@ -152,13 +152,15 @@
         <div class="col-md-offset-1 col-md-8 right">
           <form class="form-inline players_on_page">
             <div class="form-group">
-              <label>Players on page: </label>
-              <select class="form-control" id="num_players">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-              </select>
+              <span class="num_players_label">Top 
+                <select class="form-control" id="num_players">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+                 players
+              </span>
             </div>
           </form>
           <div class="ranked_table">
