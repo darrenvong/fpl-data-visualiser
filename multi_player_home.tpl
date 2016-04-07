@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Multi-player comparator">
+    <meta name="description" content="Multi-attribute player filter">
     <meta name="author" content="Darren Vong">
     <link rel="icon" href="img/favicon.ico">
 
@@ -35,36 +35,8 @@
   </head>
 
   <body>
-    <nav class="navbar">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index">Data Visualiser</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="index">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li class="dropdown">
-              <a href="#" id="tools-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                Tools
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="profile">Player profiles</a></li>
-                <li><a href="head_to_head">Head-to-head comparator</a></li>
-                <li><a href="multi_player">Multi-player comparator</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    % import general
+    {{ !general.get_navbar() }}
 
     <!-- Main "body" of the page -->
     <div class="container profile-body">
@@ -74,7 +46,7 @@
             <div class="form-group">
               <label for="position">Position: </label>
               <select class="form-control" id="position" name="position">
-                <option value="all">All</option>
+                <option value="All">All</option>
                 <option value="Goalkeeper">Goalkeepers</option>
                 <option value="Defender">Defenders</option>
                 <option value="Midfielder">Midfielders</option>
@@ -176,9 +148,7 @@
         </div> <!-- end of right column -->
       </div> <!-- end of row -->
 
-      <footer class="footer">
-        <p>&copy; Darren Vong 2016</p>
-      </footer>
+      {{!general.get_footer()}}
     </div> <!-- /container -->
 
 

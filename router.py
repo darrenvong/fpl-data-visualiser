@@ -97,7 +97,8 @@ class Router(Bottle):
         print player_stats
         return template("multi_player", player_stats=player_stats,
                         current_gw=helpers.get_current_gameweek(self.players_col),
-                        selected_filters=selected_filters)
+                        selected_filters=selected_filters, start=request.forms.start,
+                        end=request.forms.end, position=request.forms.position)
     
     def get_resources(self, path):
         return static_file(path, root="./")

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Multi-player comparator">
+    <meta name="description" content="Multi-attribute player filter">
     <meta name="author" content="Darren Vong">
     <link rel="icon" href="img/favicon.ico">
 
@@ -35,37 +35,14 @@
   </head>
 
   <body>
-    <nav class="navbar">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index">Data Visualiser</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="index">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li class="dropdown">
-              <a href="#" id="tools-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                Tools
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="profile">Player profiles</a></li>
-                <li><a href="head_to_head">Head-to-head comparator</a></li>
-                <li><a href="multi_player">Multi-player comparator</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
+    <%
+      import general
+      import multi_player
+      import helpers
+      VALUE_TO_DATA_KEY = multi_player.VALUE_TO_DATA_KEY
+    %>
+    {{ !general.get_navbar() }}
+    
     <!-- Main "body" of the page -->
     <div class="container profile-body">
       <div class="row">
@@ -74,26 +51,26 @@
             <div class="form-group">
               <label for="position">Position: </label>
               <select class="form-control" id="position" name="position">
-                <option value="all">All</option>
-                <option value="Goalkeeper">Goalkeepers</option>
-                <option value="Defender">Defenders</option>
-                <option value="Midfielder">Midfielders</option>
-                <option value="Forward">Forwards</option>
+                {{!multi_player.get_previous_position_state(position)}}
               </select>
             </div>
             <div class="form-group">
               <label for="startTime">Game week: </label>
               <select id="startTime" class="form-control" name="start">
                 % for gw in xrange(1, current_gw+1):
-                <option value={{gw}}>{{gw}}</option>
+                  % if gw == int(start):
+                    <option value={{gw}} selected>{{gw}}</option>
+                  % else:
+                    <option value={{gw}}>{{gw}}</option>
+                  % end
                 % end
               </select>&nbsp;&nbsp;TO&nbsp;&nbsp;
               <select id="endTime" class="form-control" name="end">
                 % for gw in xrange(1, current_gw+1):
-                  % if gw == current_gw: 
-                <option value={{gw}} selected>{{gw}}</option>
+                  % if gw == int(end): 
+                    <option value={{gw}} selected>{{gw}}</option>
                   % else:
-                <option value={{gw}}>{{gw}}</option>
+                    <option value={{gw}}>{{gw}}</option>
                   % end
                 % end
               </select>
@@ -169,34 +146,39 @@
                 <tr class="thead-row-color">
                   <th>Rank</th>
                   <th>Name</th>
-                  <th>Attribute</th>
+                  % if "position" in player_stats[0]:
+                  <th>Position</th>
+                  % end
+                  % for sf in selected_filters:
+                  <th>{{helpers.capitalise_camel_case_words(sf)}}</th>
+                  % end
                 </tr>
               </thead>
               <tbody>
-                <tr class="points">
-                  <td>1</td>
-                  <td>Mahrez</td>
-                  <td>100</td>
-                </tr>
-                <tr id="points">
-                  <td>2</td>
-                  <td>Vardy</td>
-                  <td>95</td>
-                </tr>
-                <tr id="points">
-                  <td>3</td>
-                  <td>Kane</td>
-                  <td>93</td>
-                </tr>
+                % for counter, player in enumerate(player_stats, start=1):
+                  <tr>
+                    <td>{{counter}}</td>
+                    <td>{{player["web_name"]}}</td>
+                  % if "position" in player:
+                    <td>{{player["position"]}}</td>
+                  % end
+                  % for sf in selected_filters:
+                    % if sf == "selectedBy":
+                      <td>{{player[VALUE_TO_DATA_KEY[sf]]}}%</td>
+                    % elif sf == "price":
+                      <td>£{{player[VALUE_TO_DATA_KEY[sf]]/10.0}}M</td>
+                    % else:
+                      <td>{{player[VALUE_TO_DATA_KEY[sf]]}}</td>
+                    % end
+                  % end
+                % end
               </tbody>
             </table>           
           </div>
         </div> <!-- end of right column -->
       </div> <!-- end of row -->
 
-      <footer class="footer">
-        <p>&copy; Darren Vong 2016</p>
-      </footer>
+      {{!general.get_footer()}}
     </div> <!-- /container -->
 
 

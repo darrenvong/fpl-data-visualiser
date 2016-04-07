@@ -26,17 +26,18 @@ DATA_KEY_TO_DISPLAYED_ATTR = dict([(v, helpers.capitalise_camel_case_words(k))
 
 def get_table_contents(col, form_dict):
     query = None
-    projection = {"_id": 0, "fixture_history": 1, "web_name": 1}
+    projection = {"_id": 0, "fixture_history": 1, "web_name": 1, "normalised_name": 1}
     internal_map_keys = VALUE_TO_DATA_KEY.keys()
     for k, v in form_dict.iteritems():
         if k == "position":
-            if v != "all":
-                query = {"type_name": v} # Not the generic "all", so use it as a query filter
-                regroup = {"_id": "$web_name"}
+            if v != "All":
+                query = {"type_name": v} # Not the generic "All", so use it as a query filter
+                regroup = {"_id": "$normalised_name", "web_name": {"$first": "$web_name"}}
             else:
                 # Too generic, so project the player's position to see where in the pitch they play
                 projection["type_name"] = 1
-                regroup = {"_id": "$web_name", "position": {"$first": "$type_name"}}
+                regroup = {"_id": "$normalised_name", "position": {"$first": "$type_name"},
+                           "web_name": {"$first": "$web_name"}}
         elif k == "netTransfers":
             projection[VALUE_TO_DATA_KEY[k]] = {"$subtract":
                                                 ["$transfers_in_event", "$transfers_out_event"]}
@@ -69,3 +70,11 @@ def get_table_contents(col, form_dict):
 
 def get_selected_filters(form_dict):
     return [f for f in form_dict.iterkeys() if f not in ["start", "end", "position", "num_players"]]
+
+def get_previous_position_state(state_val):
+    init_pos_options = """<option value='All'>All</option>
+                <option value='Goalkeeper'>Goalkeepers</option>
+                <option value='Defender'>Defenders</option>
+                <option value='Midfielder'>Midfielders</option>
+                <option value='Forward'>Forwards</option>"""
+    return init_pos_options.replace("'"+state_val+"'", "'"+state_val+"'"+" selected", 1)
