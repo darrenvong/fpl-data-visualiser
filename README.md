@@ -1,7 +1,9 @@
 ## FPL Statistics Visualiser
 
-A graphical visualisation on Fantasy Premier League players' various raw statistics such as their weekly point score,
-as well as slightly more sophisticated statistics such as the standard deviation of their scores to highlight consistency
-as well as allowing easy comparison between players.
+Requirements to run the program:
+* Python interpreter
+  * with the micro-framework Bottle installed or placed in the root directory
+* Access and control of a MongoDB database
 
-This is merely a very basic, stripped down intro - more contents (graph, codes and the lot) coming up soon!
+Once the above requirements are satisfied, clone this repo as it is, run router.py and it should be up and running.
+It's that simple!  
