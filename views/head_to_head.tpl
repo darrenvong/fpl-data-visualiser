@@ -35,8 +35,7 @@
   </head>
 
   <body>
-    % import head_to_head
-    % import general
+    % from views import head_to_head, general
     {{ !general.get_navbar() }}
 
     <!-- Main "body" of the page -->

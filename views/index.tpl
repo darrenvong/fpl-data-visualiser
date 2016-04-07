@@ -33,7 +33,7 @@
 
   <body>
 
-    % import general
+    % from views import general, home
     {{ !general.get_navbar() }}
 
     <!-- Main jumbotron -->
@@ -48,7 +48,6 @@
     <div class="container">
       <!-- Tables of the most wanted players -->
       <div class="row">
-        % import home
         <div class="col-md-4">
           <h2>Hottest players</h2>
           <table class="table table-bordered">

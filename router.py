@@ -7,11 +7,7 @@ import json
 
 from bottle import Bottle, static_file, template, redirect, request, response
 
-import home
-import helpers
-import profiles
-import head_to_head
-import multi_player
+from views import home, helpers, profiles, head_to_head, multi_player
 
 class Router(Bottle):
     """This class is responsible for directing HTTP requests to the

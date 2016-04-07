@@ -35,9 +35,10 @@
   </head>
 
   <body>
-    % import general
+    % from views import general, multi_player, helpers
+    % VALUE_TO_DATA_KEY = multi_player.VALUE_TO_DATA_KEY
     {{ !general.get_navbar() }}
-
+    
     <!-- Main "body" of the page -->
     <div class="container profile-body">
       <div class="row">
@@ -46,26 +47,26 @@
             <div class="form-group">
               <label for="position">Position: </label>
               <select class="form-control" id="position" name="position">
-                <option value="All">All</option>
-                <option value="Goalkeeper">Goalkeepers</option>
-                <option value="Defender">Defenders</option>
-                <option value="Midfielder">Midfielders</option>
-                <option value="Forward">Forwards</option>
+                {{!multi_player.get_previous_position_state(position)}}
               </select>
             </div>
             <div class="form-group">
               <label for="startTime">Game week: </label>
               <select id="startTime" class="form-control" name="start">
                 % for gw in xrange(1, current_gw+1):
-                <option value={{gw}}>{{gw}}</option>
+                  % if gw == int(start):
+                    <option value={{gw}} selected>{{gw}}</option>
+                  % else:
+                    <option value={{gw}}>{{gw}}</option>
+                  % end
                 % end
               </select>&nbsp;&nbsp;TO&nbsp;&nbsp;
               <select id="endTime" class="form-control" name="end">
                 % for gw in xrange(1, current_gw+1):
-                  % if gw == current_gw: 
-                <option value={{gw}} selected>{{gw}}</option>
+                  % if gw == int(end): 
+                    <option value={{gw}} selected>{{gw}}</option>
                   % else:
-                <option value={{gw}}>{{gw}}</option>
+                    <option value={{gw}}>{{gw}}</option>
                   % end
                 % end
               </select>
@@ -131,7 +132,7 @@
                   <option value="20">20</option>
                   <option value="50">50</option>
                 </select>
-                 players
+                players
               </span>
             </div>
           </form>
@@ -139,9 +140,34 @@
             <table class="table table-bordered">
               <thead>
                 <tr class="thead-row-color">
+                  <th>Rank</th>
+                  <th>Name</th>
+                  % if "position" in player_stats[0]:
+                  <th>Position</th>
+                  % end
+                  % for sf in selected_filters:
+                  <th>{{helpers.capitalise_camel_case_words(sf)}}</th>
+                  % end
                 </tr>
               </thead>
               <tbody>
+                % for counter, player in enumerate(player_stats, start=1):
+                  <tr>
+                    <td>{{counter}}</td>
+                    <td>{{player["web_name"]}}</td>
+                  % if "position" in player:
+                    <td>{{player["position"]}}</td>
+                  % end
+                  % for sf in selected_filters:
+                    % if sf == "selectedBy":
+                      <td>{{player[VALUE_TO_DATA_KEY[sf]]}}%</td>
+                    % elif sf == "price":
+                      <td>£{{player[VALUE_TO_DATA_KEY[sf]]/10.0}}M</td>
+                    % else:
+                      <td>{{player[VALUE_TO_DATA_KEY[sf]]}}</td>
+                    % end
+                  % end
+                % end
               </tbody>
             </table>           
           </div>
