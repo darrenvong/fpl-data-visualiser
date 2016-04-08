@@ -1,3 +1,3 @@
 [submodule "faces"]
 	path = faces
-	url = git@git.assembla.com:visualisers-player-faces.git
+	url = https://git.assembla.com/visualisers-player-faces.git
