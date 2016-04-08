@@ -7,6 +7,7 @@ collection and maintenance of data for the project's MongoDB database.
 """
 import urllib2
 import json
+import os
 from time import sleep
 from collections import OrderedDict
 
@@ -54,9 +55,13 @@ def accent_fold(s):
     return unicode(s).translate(accent_map)
 ###############################################################################
 
-def connect():
-    client = MongoClient()
-    players = client.players.current_gw
+def connect(on_heroku=False):
+    if not on_heroku:
+        client = MongoClient()
+        players = client.players.current_gw
+    else:
+        client = MongoClient(os.environ["MONGOLAB_URI"])
+        players = client.get_default_database().current_gw
     return client, players
 
 def restructure_fixture_data(player_data):
