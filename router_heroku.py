@@ -31,6 +31,7 @@ def re_route():
 
 @post("/player_names")
 def get_player_names():
+    response.set_header("Access-Control-Allow-Origin", "*")
     player_names = profiles.get_player_names(players_col)
     response.content_type = "application/json"
     return json.dumps(player_names)
@@ -50,6 +51,7 @@ def get_player_profile():
 
 @post("/graph_data")
 def get_graph_data():
+    response.set_header("Access-Control-Allow-Origin", "*")
     attr, metric, start, end, player_name = (request.forms.attr, request.forms.metric,
                                 request.forms.start, request.forms.end,
                                 request.forms.player_name)
