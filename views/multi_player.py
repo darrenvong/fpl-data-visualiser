@@ -45,7 +45,7 @@ def get_table_contents(col, form_dict):
             projection[VALUE_TO_DATA_KEY[k]] = 1
     
     selected_filters = get_selected_filters(form_dict)
-    # 'value' refers to the key used in the BSON for each player's data in MongoDB
+    # 'value' refers to the name of the attribute filters available to the user on the GUI
     for value in VALUE_TO_DATA_KEY.iterkeys():
         if value in selected_filters:
             if value == "points":

@@ -103,27 +103,6 @@ ProfileGraph.prototype.update = function(start, end) {
   }
 };
 
-// Toggles the visibility of a serie. Returns true if the toggle shows the serie, otherwise false.
-ProfileGraph.prototype.toggle = function(attr, isBreakdown) {
-  if (isBreakdown) { //Either defined or true
-    var seriesToCheck = ["othersBreakdown","goalsBreakdown","assistsBreakdown","cleanSheetsBreakdown"];
-    for (let i=0; i < seriesToCheck.length; i++) {
-      var serie = this.graph.get(seriesToCheck[i]);
-      if (serie.visible)
-        serie.hide();
-      else
-        serie.show();
-    }
-  }
-  else {
-    var serie = this.graph.get(attr);
-    if (serie.visible)
-      serie.hide();
-    else
-      serie.show();    
-  }
-};
-
 //Trap: index starts from 0, so index (i-1) = week i (week 1 = index 0 etc)
 ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
   var requiredData = this.getData(attr, metric, start, end);
@@ -300,6 +279,7 @@ ProfileGraph.prototype.isValid = function() {
     consistency: "Consistency"
   };
 
+  // Problematic code here. To be fixed...
   if ((selectedMetrics.includes("home_vs_away") || selectedMetrics.includes("consistency")) && $(".points_switch:checked").length === 1)
     isBoxOrPieActive = true;
 

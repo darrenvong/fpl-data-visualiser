@@ -39,6 +39,7 @@
     % VALUE_TO_DATA_KEY = multi_player.VALUE_TO_DATA_KEY
     {{ !general.get_navbar() }}
     
+
     <!-- Main "body" of the page -->
     <div class="container profile-body">
       <div class="row">

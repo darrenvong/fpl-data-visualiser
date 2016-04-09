@@ -13,23 +13,23 @@ function HeadToHeadGraph(options) {
     cleanSheets: new Array(38)
   };
 
-  var NAME_ATTR_MAP = {
+  var ATTR_ID_MAP = {
     Points: "points",
     Goals: "goals",
     Assists: "assists",
     "Clean sheets": "cleanSheets"
   };
   var thisGraph = this;
-  for (let attr in NAME_ATTR_MAP) {
+  for (let attr in ATTR_ID_MAP) {
     options.series.push({
       name: thisGraph.player1Name+"'s "+attr,
-      id: "player1_"+NAME_ATTR_MAP[attr],
+      id: "player1_"+ATTR_ID_MAP[attr],
       pointStart: 1,
       showInLegend: false
     });
     options.series.push({
       name: thisGraph.player2Name+"'s "+attr,
-      id: "player2_"+NAME_ATTR_MAP[attr],
+      id: "player2_"+ATTR_ID_MAP[attr],
       pointStart: 1,
       showInLegend: false
     });
@@ -101,10 +101,6 @@ HeadToHeadGraph.prototype.update = function(start, end) {
     }
     
   }
-};
-
-HeadToHeadGraph.prototype.toggle = function(start, end) {
-  // body...
 };
 
 HeadToHeadGraph.prototype.updateData = function(attr, start, end, metric) {

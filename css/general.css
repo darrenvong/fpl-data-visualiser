@@ -24,6 +24,11 @@ nav.navbar {
   background-color: #fff;
 }
 
+.popover-title {
+  background-color: rgba(219,233,242,0.3);
+  border: 0;
+}
+
 body {
   padding-bottom: 20px;
 }
