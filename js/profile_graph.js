@@ -267,29 +267,33 @@ ProfileGraph.prototype.getData = function(attr, metric, start, end, name) {
  **/
 ProfileGraph.prototype.isValid = function() {
   var valid = true;
-  var isBoxOrPieActive = false;
+  var firstBoxOrPieSelected = null; //N.B. selected is not the same as having the "Active" box checked
   var dropdownsSelector = "div.performance_metrics:not(.hidden) > .form-group select.form-control";
-  var selectedMetrics = [];
+  var selectedOptions = [];
+
   $(dropdownsSelector).each(function() {
-    var metric = $(this).val().split("-")[1];
-    selectedMetrics.push(metric);
+    var selected = $(this).val().split("-");
+    selectedOptions.push(selected);
   });
+
   var metric_msg_map = {
     home_vs_away: "Home vs Away",
     consistency: "Consistency"
   };
 
-  // Problematic code here. To be fixed...
-  if ((selectedMetrics.includes("home_vs_away") || selectedMetrics.includes("consistency")) && $(".points_switch:checked").length === 1)
-    isBoxOrPieActive = true;
-
-  if (isBoxOrPieActive && $("input[type=checkbox]:not(.points_switch):checked").length >= 1) {
-      let metric = (selectedMetrics.includes("home_vs_away")) ? "home_vs_away" : "consistency";
+  for (let i = 0; i < selectedOptions.length; i++) {
+    //selectedOptions[i][0] is the attribute, selectedOptions[i][1] is the metric
+    let activeSelfCheck = "input."+selectedOptions[i][0]+"_switch[type=checkbox]:checked";
+    //Attribute itself is active with box plot or pie chart selected and the total number of selected (active) checkboxes is not just itself
+    if ($(activeSelfCheck).length === 1 && (selectedOptions[i][1] === "home_vs_away" || selectedOptions[i][1] === "consistency")
+      && $("input[type=checkbox]:checked").length > 1) {
+      let metric = (selectedOptions[i][1] === "home_vs_away") ? "home_vs_away" : "consistency";
       var message = ('<b>'+metric_msg_map[metric]+'</b> cannot be active at the same time with other options. '+
         'Please uncheck the "Active" box next to other drop down menu(s) or uncheck the "Active" box next to the dropdown with <b>'+metric_msg_map[metric]+
-        '</b> selected before trying to select this option again.');
+        '</b> selected before trying to update the graph.');
       $(".alert-danger").html('<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;'+message);
-      return !valid;
+      valid = false;
+    }
   }
 
   return valid;

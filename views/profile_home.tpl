@@ -43,14 +43,14 @@
     <div class="container profile-body">
       <div class="row">
         <div class="col-md-12 center-searchbar">
-          <form method="post">
+          <form method="post" action="profile">
             <label for="player-names">Player's name: </label>
             <input id="player-names" class="form-control" name="player_name" type="search" size="30" placeholder="Type part of a player's name to begin">
             <button type="submit" class="btn btn-default large-searchbar-btn">
               <span class="sr-only">Search</span>
               <span class="glyphicon glyphicon-search"></span>
             </button>
-            <p class="help-block text-warning hidden"><span class="glyphicon glyphicon-alert"></span> Player not found!</p>
+            <p class="help-block text-warning {{'hidden' if not noResultsFound else ''}}"><span class="glyphicon glyphicon-alert"></span> Player not found!</p>
           </form>
         </div> <!-- div.col-md-12 -->
       </div>

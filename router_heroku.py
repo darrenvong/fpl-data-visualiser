@@ -11,7 +11,7 @@ from sys import argv
 
 from bottle import route, post, static_file, template, redirect, request, response, run
 
-from views import home, helpers, head_to_head, profiles, multi_player
+from views import home, helpers, head_to_head, profiles, player_filter
 
 client, players_col = helpers.connect(on_heroku=True)
 
@@ -38,15 +38,15 @@ def get_player_names():
 
 @route("/profile")
 def profile():
-    return template("profile_home")
+    return template("profile_home", noResultsFound=False)
 
 @post("/profile")
 def get_player_profile():
     player_name = helpers.accent_fold(request.forms.getunicode("player_name")).capitalize()
     try:
         contents = profiles.get_profile_contents(player_name, players_col)
-    except StopIteration: # Should never be reached
-        raise RuntimeError("There's an error with the player search function")
+    except StopIteration: # Should never be reached when js is enabled in browser
+        return template("profile_home", noResultsFound=True)
     return template("profile", contents=contents)
 
 @post("/graph_data")
@@ -59,7 +59,7 @@ def get_graph_data():
 
 @route("/head_to_head")
 def head_to_head_home():
-    return template("h2h_home")
+    return template("h2h_home", noResultsFound=False)
 
 @post("/head_to_head")
 def get_head_to_head_page():
@@ -69,17 +69,17 @@ def get_head_to_head_page():
         player1_profile, player2_profile = head_to_head.get_players_profiles(
                                                             player1, player2, players_col)
     except StopIteration:
-        raise RuntimeError("There's an error with the player search bar's functionality")
+        return template("h2h_home", noResultsFound=True)
     return template("head_to_head", p1_profile=player1_profile, p2_profile=player2_profile)
 
-@route("/multi_player")
+@route("/player_filter")
 def multi_player_home():
-    return template("multi_player_home",current_gw=helpers.get_current_gameweek(players_col))
+    return template("player_filter_home",current_gw=helpers.get_current_gameweek(players_col))
 
-@post("/multi_player")
+@post("/player_filter")
 def multi_player_comp():
-    player_stats, selected_filters = multi_player.get_table_contents(players_col, request.forms)
-    return template("multi_player", player_stats=player_stats,
+    player_stats, selected_filters = player_filter.get_table_contents(players_col, request.forms)
+    return template("player_filter", player_stats=player_stats,
                     current_gw=helpers.get_current_gameweek(players_col),
                     selected_filters=selected_filters, start=request.forms.start,
                     end=request.forms.end, position=request.forms.position)

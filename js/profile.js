@@ -39,7 +39,7 @@ var initOptions = {
       },
       pie: {
         tooltip: {
-          headerFormat: '<b>{point.key}</b><br>',
+          headerFormat: '<b>{series.name}</b><br>',
           pointFormat: '<span>{point.percentage:.0f}%</span>'
         }
       },

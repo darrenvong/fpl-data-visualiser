@@ -30,7 +30,7 @@ def get_navbar():
               <ul class="dropdown-menu">
                 <li><a href="profile">Player profiles</a></li>
                 <li><a href="head_to_head">Head-to-head comparator</a></li>
-                <li><a href="multi_player">Multi-attribute player filter</a></li>
+                <li><a href="player_filter">Player filter</a></li>
               </ul>
             </li>
           </ul>

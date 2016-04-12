@@ -56,7 +56,7 @@
             <input type="hidden" class="player1_alias" name="player1">
             <input type="hidden" class="player2_alias" name="player2">
             <button id="home_compare_btn" class="btn btn-default center-block" type="submit">Compare!</button>
-            <p class="help-block text-warning profile-page hidden"><span class="glyphicon glyphicon-alert"></span> Player not found!</p>
+            <p class="help-block text-warning profile-page {{'hidden' if not noResultsFound else ''}}"><span class="glyphicon glyphicon-alert"></span> Player not found!</p>
           </form>
         </div> <!-- middle column -->
         <div class="col-md-3 right">

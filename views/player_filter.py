@@ -6,38 +6,36 @@
 
 from bson import SON
 
-import helpers
-
 # Map the names obtained from the multi-player's page form to the keys
 # found in player's data stored in MongoDB
 VALUE_TO_DATA_KEY = {
-    "points": "total_points",
+    "points": "points",
     "selectedBy": "selected_by",
     "form": "form",
     "price": "now_cost",
-    "goals": "goals_scored",
+    "goals": "goals",
     "assists": "assists",
     "netTransfers": "net_transfers",
-    "minutesPlayed": "minutes"
+    "minutesPlayed": "mins_played",
+    "cleanSheets": "clean_sheet"
 }
-
-DATA_KEY_TO_DISPLAYED_ATTR = dict([(v, helpers.capitalise_camel_case_words(k))
-                                   for k, v in VALUE_TO_DATA_KEY.iteritems()])
 
 def get_table_contents(col, form_dict):
     query = None
-    projection = {"_id": 0, "fixture_history": 1, "web_name": 1, "normalised_name": 1}
+    projection = {"_id": 0, "fixture_history": 1, "web_name": 1,
+                  "normalised_name": 1, "team_name": 1}
     internal_map_keys = VALUE_TO_DATA_KEY.keys()
     for k, v in form_dict.iteritems():
         if k == "position":
             if v != "All":
                 query = {"type_name": v} # Not the generic "All", so use it as a query filter
-                regroup = {"_id": "$normalised_name", "web_name": {"$first": "$web_name"}}
+                regroup = {"_id": "$normalised_name", "web_name": {"$first": "$web_name"},
+                           "team_name": {"$first": "$team_name"}}
             else:
                 # Too generic, so project the player's position to see where in the pitch they play
                 projection["type_name"] = 1
                 regroup = {"_id": "$normalised_name", "position": {"$first": "$type_name"},
-                           "web_name": {"$first": "$web_name"}}
+                           "web_name": {"$first": "$web_name"}, "team_name": {"$first": "$team_name"}}
         elif k == "netTransfers":
             projection[VALUE_TO_DATA_KEY[k]] = {"$subtract":
                                                 ["$transfers_in_event", "$transfers_out_event"]}
@@ -45,23 +43,24 @@ def get_table_contents(col, form_dict):
             projection[VALUE_TO_DATA_KEY[k]] = 1
     
     selected_filters = get_selected_filters(form_dict)
-    # 'value' refers to the name of the attribute filters available to the user on the GUI
-    for value in VALUE_TO_DATA_KEY.iterkeys():
-        if value in selected_filters:
-            if value == "points":
-                regroup[VALUE_TO_DATA_KEY[value]] = {"$sum": "$fixture_history.points"}
-                regroup["points_detailed"] = {"$push": {"gameweek": "$fixture_history.gameweek",
-                                                        "pts": "$fixture_history.points"}}
+    # attributes that are affected by game week range filter
+    gw_affectables = ["points", "goals", "assists", "minutesPlayed", "cleanSheets"]
+    
+    # 'attr' refers to the name of the attribute filters available to the user on the GUI
+    for attr in VALUE_TO_DATA_KEY.iterkeys():
+        if attr in selected_filters:
+            if attr in gw_affectables:
+                regroup[VALUE_TO_DATA_KEY[attr]] = {"$sum": "$fixture_history."+VALUE_TO_DATA_KEY[attr]}
             else:
-                regroup[VALUE_TO_DATA_KEY[value]] = {"$first": "$"+VALUE_TO_DATA_KEY[value]}
+                regroup[VALUE_TO_DATA_KEY[attr]] = {"$first": "$"+VALUE_TO_DATA_KEY[attr]}
     
     pipeline = [{"$project": projection}, {"$unwind": "$fixture_history"},
                 {"$match": {"fixture_history.gameweek":
                             {"$gte": int(form_dict.start), "$lte": int(form_dict.end)+0.5}}},
                 {"$group": regroup},
-                {"$sort": SON([("total_points", -1), ("form", -1), ("selected_by", -1),
-                            ("goals_scored", -1), ("assists", -1), ("now_cost", 1),
-                            ("net_transfers", -1), ("minutes", -1)])},
+                {"$sort": SON([("points", -1), ("form", -1), ("selected_by", -1), ("clean_sheet", -1),
+                            ("goals", -1), ("assists", -1), ("now_cost", 1),
+                            ("net_transfers", -1), ("mins_played", -1)])},
                 {"$limit": int(form_dict.num_players)}]
     if query is not None:
         pipeline.insert(0, {"$match": query})
