@@ -1,0 +1,25 @@
+$(function() {
+  if ($("#position").val() === "Goalkeeper" || $("#position").val() === "Defender") {
+      if ($("div.cs").hasClass("hidden")) // i.e. it is hidden
+        $("div.cs").removeClass("hidden");
+  }
+
+  $("#update").click(function(e) {
+    var formElement = e.target.form;
+    formElement.elements["num_players"].value = $("#num_players").val();
+    // Don't submit form if user hasn't specified any filtering at all
+    if ($('.filter-block input[type=checkbox]:checked').length === 0)
+      e.preventDefault();
+  });
+
+  $("#position").change(function() {
+    if ($(this).val() === "Goalkeeper" || $(this).val() === "Defender") {
+      if ($("div.cs").hasClass("hidden")) // i.e. it is hidden
+        $("div.cs").toggleClass("hidden");
+    }
+    else { // Forward, Midfielder or All selected
+      if (!$("div.cs").hasClass("hidden"))
+        $("div.cs").toggleClass("hidden");
+    }
+  });
+});
