@@ -49,8 +49,8 @@ var initOptions = {
       boxplot: {
         tooltip: {
           headerFormat: "",
-          pointFormat: ("<b>Min:</b> {point.low}<br/><b>LQ:</b> {point.q1}<br/>"+
-            "<b>Median:</b> {point.median}<br/><b>UQ:</b> {point.q3}<br/><b>Max:</b> {point.high}<br/>")
+          pointFormat: ("<b>Min:</b> {point.low}<br/><b>Lower Quartile:</b> {point.q1}<br/>"+
+            "<b>Median:</b> {point.median}<br/><b>Upper Quartile:</b> {point.q3}<br/><b>Max:</b> {point.high}<br/>")
         }
       }
     },
@@ -115,5 +115,8 @@ $(document).ready(function() {
 
   graph = new ProfileGraph(initOptions);
 
-  $("#update_graph").click(addUpdateGraphHandler);
+  $("#update_graph").click(function() {
+    var gameWeekEndPoints = addUpdateGraphHandler();
+    graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
+  });
 });

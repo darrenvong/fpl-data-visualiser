@@ -26,7 +26,7 @@ function ProfileGraph(options) {
   this.initOptions = options;
 
   Highcharts.setOptions({
-    lang: {loading: 'Click on <span class="glyphicon glyphicon-chevron-down"></span> to reveal the various plot options to begin!'}
+    lang: {loading: 'Click on <b><span class="glyphicon glyphicon-chevron-down"></span> button above</b> to reveal the plot options to begin!'}
   });
 
   this.graph = new Highcharts.Chart(options);
@@ -86,6 +86,7 @@ ProfileGraph.prototype.update = function(start, end) {
         }
         else {
           thisGraph.graph.showLoading("Loading graph...");
+          thisGraph.graph.setTitle({text: null}, {text: "Click on the keys in the legend to toggle the visibility of their corresponding graph line/bar"},false);
           if (metric === "over_time" || metric === "cum_total")
             thisGraph.drawLineGraph(attr, metric, start, end);
           else if (metric === "home_vs_away")

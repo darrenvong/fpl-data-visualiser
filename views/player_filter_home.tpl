@@ -72,6 +72,9 @@
             </div>
             <span class="help-block">Notes: the "Game week" range has an effect on <b>Points</b>, <b>Goals</b>, <b>Assists</b>, <b>Clean sheets</b> and <b>Minutes played</b> only.</span>
             <span class="help-block">The sort order of importance is the order in which the attributes are listed below, reading from top to bottom.</span>
+            <div class="alert alert-danger hidden" role="alert">
+              <span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;Please select at least one item below before clicking "Update".
+            </div>
             <div class="form-group filter-block">
               <label>Sort by: </label>
               <div class="checkbox">

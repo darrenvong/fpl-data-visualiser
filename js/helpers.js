@@ -49,14 +49,14 @@ function addUpdateGraphHandler() {
     return;
   }
 
-  graph.update(start, end);
+  return [start, end];
 }
 
 function toggleAlertBox(valid) {
   var alertBox = $(".alert-danger");
 
   if (valid) {
-    // Graph at valid state, yet the alert is not hidden, so hide it
+    // Item is at valid state, yet the alert is not hidden, so hide it
     if (!alertBox.hasClass("hidden"))
       alertBox.toggleClass("hidden");
   }

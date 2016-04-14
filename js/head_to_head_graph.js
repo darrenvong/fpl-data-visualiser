@@ -87,6 +87,7 @@ HeadToHeadGraph.prototype.update = function(start, end) {
         if ($('.'+attr+'_switch:checked').length === 0) //Active checkbox not checked
           return;
 
+        thisGraph.graph.setTitle({text: null}, {text: "Click on the keys in the legend to toggle the visibility of their corresponding graph line/bar"},false);
         if (thisRadio.val() === "line") {
           thisGraph.drawLineGraph(attr, start, end);
         }

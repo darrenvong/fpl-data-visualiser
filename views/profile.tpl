@@ -56,7 +56,7 @@
           </figure>
           <p id="player_name" class="text-center"><b>{{contents["web_name"]}}</b></p>
           <table class="table table-bordered table-hover">
-            <caption class="profile_caption">Click on a row to toggle the options for projecting more details to the graph.</caption>
+            <caption class="profile_caption">Click on a row to reveal/hide more data for <b>Points</b> and <b>Price</b></caption>
             <thead>
               <tr class="thead-row-color">
                 <th>Attribute</th>
@@ -178,7 +178,6 @@
                     <option value="goals-over_time"> Over selected game weeks</option>
                     <option value="goals-home_vs_away"> Home vs Away</option>
                     <option value="goals-cum_total"> Cumulative total</option>
-                    <!-- <option value="goals-moving_average"> Moving average</option> -->
                 </select>
                 <label class="checkbox-inline">
                   <input type="checkbox" class="goals_switch" aria-label="Hides the 'Goals' attribute from the graph"> Active
@@ -191,7 +190,6 @@
                     <option value="assists-over_time"> Over selected game weeks</option>
                     <option value="assists-home_vs_away"> Home vs Away</option>
                     <option value="assists-cum_total"> Cumulative total</option>
-                    <!-- <option value="assists-moving_average"> Moving average</option> -->
                 </select>
                 <label class="checkbox-inline">
                   <input type="checkbox" class="assists_switch" aria-label="Hides the 'Assists' attribute from the graph"> Active
@@ -205,7 +203,6 @@
                     <option value="cleanSheets-over_time"> Over selected game weeks</option>
                     <option value="cleanSheets-home_vs_away"> Home vs Away</option>
                     <option value="cleanSheets-cum_total"> Cumulative total</option>
-                    <!-- <option value="cleanSheets-moving_average"> Moving average</option> -->
                 </select>
                 <label class="checkbox-inline">
                   <input type="checkbox" class="cleanSheets_switch" aria-label="Hides the 'Clean sheets' attribute from the graph"> Active
@@ -233,9 +230,9 @@
                 </label>
                 <a role="button" class="btn" data-toggle="popover" title="Minutes Played" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
               </div> <!-- #minutesPlayed_group -->
-              <div class="alert alert-danger hidden" role="alert"><span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;Invalid combination!</div>
             </div>
           </form>
+            <div class="alert alert-danger hidden" role="alert"><span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;Invalid combination!</div>
             <div id="graph_container"></div>
         </div> <!-- end of col-md-7 (aka the right column) -->
       </div>
