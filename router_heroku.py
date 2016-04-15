@@ -89,4 +89,4 @@ def get_resources(path):
     return static_file(path, root="./")
 
 if __name__ == "__main__":
-    run(host='0.0.0.0', port=argv[1], reloader=True, debug=True)
+    run(host='0.0.0.0', port=argv[1], reloader=True, debug=True, server="cherrypy")

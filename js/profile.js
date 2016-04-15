@@ -96,6 +96,7 @@ $(document).ready(function() {
   $("#more_options").click(function() {
     $(".performance_metrics").toggleClass("hidden");
     centElement($('.form-group'),$('form.form-inline'));
+    $("span:first-child","#more_options").toggleClass("glyphicon-chevron-down glyphicon-chevron-up");
   });
 
   centElement($('.form-group'),$('form.form-inline'));
@@ -106,8 +107,6 @@ $(document).ready(function() {
   });
 
   hideErrorPrompts("#player-names");
-
-  $('[data-toggle="popover"]').popover();
   
   $(window).resize(function() {
     centElement($('.form-group'),$('form.form-inline')); 

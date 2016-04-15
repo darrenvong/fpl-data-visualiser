@@ -14,6 +14,7 @@ from collections import OrderedDict
 from bson import SON
 from bson.json_util import dumps, loads
 from pymongo import MongoClient, UpdateOne
+from pymongo.errors import OperationFailure
 
 import profiles
 
@@ -71,6 +72,10 @@ def restructure_fixture_data(player_data):
         for i in xrange(20):
             fixture_object[FIXTURE_KEY_MAP[i]] = fixture[i]
         fixture_object["ground"] = fixture_object["opponent_result"][4]
+        # Handles double game week issues
+        if len(fixture_objects_list) > 0:
+            if fixture_objects_list[-1]["gameweek"] == fixture_object["gameweek"]:
+                fixture_object["gameweek"] += 0.1 # So that both matches data can be plotted
         fixture_objects_list.append(fixture_object)
     player_data["fixture_history"] = fixture_objects_list
     return player_data
@@ -120,6 +125,9 @@ def enforce_injective_name_mapping(col):
     result = col.bulk_write(updates)
     print result.inserted_count, result.modified_count
 
+AGENT_NAME = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0"
+headers = {"User-Agent": AGENT_NAME}
+
 def scrape_players(outFile=False):
     """Collects players data from the Fantasy Premier League unofficial API.
     If outFile is set to True, the collected data is written to a JSON file instead.
@@ -131,8 +139,6 @@ def scrape_players(outFile=False):
     i = 1
     players = []
     allFetched = False
-    AGENT_NAME = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0"
-    headers = {"User-Agent": AGENT_NAME}
     if outFile: output_file = open("FPLdata.json", "wb")
     
     while not allFetched:
@@ -188,7 +194,20 @@ def insert_players(col, players):
     
     if col.count() > 0: 
         current_gw = get_current_gameweek(col)
-        col.rename("gw%d" % current_gw)
+        existing_names = col.database.collection_names(include_system_collections=False)
+        validNameFound = False
+        while not validNameFound:
+            if "gw%d" % current_gw in existing_names:
+                current_gw += 0.1
+                try:
+                    col.rename("gw%0.1f" % current_gw)
+                    validNameFound = True
+                # Namespace clashes for when I'm too keen and updated db more than once
+                except OperationFailure:
+                    continue
+            else:
+                col.rename("gw%d" % current_gw)
+                validNameFound = True
     
     col.insert_many(players_list)
 
@@ -204,9 +223,29 @@ def capitalise_camel_case_words(s):
     
     return result.capitalize()
 
+def list_missing_imgs(col):
+    photo_urls = [photo for photo in col.find({}, {"_id": 0, "photo": 1})]
+    missing_photos = [p["photo"] for p in photo_urls if not os.path.isfile("../faces/"+p["photo"])]
+    return missing_photos
+
+def get_missing_photos(missing_urls):
+    face_url = "http://cdn.ismfg.net/static/plfpl/img/shirts/photos/"
+    for i, player_pic in enumerate(missing_urls, start=1):
+        with open(player_pic, "wb") as face:
+            try:
+                request = urllib2.Request(face_url+player_pic, None, headers)
+                feed = urllib2.urlopen(request)
+                face.write(feed.read())
+            except:
+                print "Can't find picture "+player_pic
+        if i%50 == 0:
+            print "%d done!" % i
+            sleep(3)
+
 if __name__ == '__main__':
     c, col = connect()
-    insert_players(col, scrape_players())
-    enforce_injective_name_mapping(col)
+    list_missing_imgs(col)
+#     insert_players(col, scrape_players())
+#     enforce_injective_name_mapping(col)
     c.close()
     # print capitalise_camel_case_words("thisIsAReallyLongFuckingString")

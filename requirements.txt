@@ -2,6 +2,7 @@ backports.ssl-match-hostname==3.4.0.2
 beautifulsoup4==4.4.1
 bottle==0.12.9
 certifi==2015.4.28
+CherryPy==5.1.0
 decorator==4.0.2
 functools32==3.2.3.post2
 Jinja2==2.8

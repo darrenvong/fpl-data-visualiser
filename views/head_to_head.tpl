@@ -89,7 +89,7 @@
                 <span class="glyphicon glyphicon-refresh"></span>
               </button>
             </div>
-            <div class="attributes hidden">
+            <div class="attributes">
               <div class="form-group" id="points">
                 <label class="labels">Points</label>
                 <label class="radio-inline">
@@ -104,7 +104,35 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="points_switch" value="on" aria-label="Hides the 'points' attribute from graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Points" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a role="button" class="btn" data-toggle="modal" data-target="#points_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <!-- Points Modal help message -->
+                <div class="modal fade" id="points_help" tabindex="-1" role="dialog" aria-labelledby="points_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="points_modal_title">Points</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>
+                          <b>Line graph: </b>shows the points scored by both players in each game between the selected game weeks.
+                        </p>
+                        <p>
+                          <b>Bar graph: </b>Same as the line graph. It is available purely to offer another way for you to compare the player's data.
+                        </p>
+                        <p>
+                          <b>Box plot: </b>they show the range of points scored by the player as in an individual profile. 
+                          However, now that there are two players placed against each other, it is a good way to quickly visualise who scores more
+                          points between the game weeks selected. The player either with a higher median score line or with a box placed
+                          at a higher position is generally your winner.
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of Points modal help -->
               </div>
               <div class="form-group" id="goals">
                 <label class="labels">Goals</label>
@@ -117,7 +145,29 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="goals_switch" value="on" aria-label="Hides the 'goals' attribute from graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Goals" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a role="button" class="btn" data-toggle="modal" data-target="#goals_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <!-- Goals Modal help message -->
+                <div class="modal fade" id="goals_help" tabindex="-1" role="dialog" aria-labelledby="goals_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="goals_modal_title">Goals</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>
+                          <b>Line graph: </b>shows the number of goals the players have scored in each game between the selected game weeks.
+                        </p>
+                        <p>
+                          <b>Bar graph: </b>Same as the line graph. It is available purely to offer another way for you to compare the player's data.
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of Goals modal help -->
               </div>
               <div class="form-group" id="assists">
                 <label class="labels">Assists</label>
@@ -130,7 +180,29 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="assists_switch" value="on" aria-label="Hides the 'assists' attribute from graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Assists" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a role="button" class="btn" data-toggle="modal" data-target="#assists_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <!-- Assists Modal help message -->
+                <div class="modal fade" id="assists_help" tabindex="-1" role="dialog" aria-labelledby="assists_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="assists_modal_title">Assists</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>
+                          <b>Line graph: </b>shows the number of assists the players have provided in each game between the selected game weeks.
+                        </p>
+                        <p>
+                          <b>Bar graph: </b>Same as the line graph. It is available purely to offer another way for you to compare the player's data.
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of Assists modal help -->
               </div>
               <div class="form-group" id="cleanSheets">
                 <label class="labels">Clean sheets</label>
@@ -143,7 +215,29 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="cleanSheets_switch" value="on" aria-label="Hides the 'clean sheets' attribute from graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Clean sheets" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a role="button" class="btn" data-toggle="modal" data-target="#cleanSheets_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <!-- Clean sheets Modal help message -->
+                <div class="modal fade" id="cleanSheets_help" tabindex="-1" role="dialog" aria-labelledby="cleanSheets_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="cleanSheets_modal_title">Clean sheets</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>
+                          <b>Line graph: </b>shows the number of clean sheets the players have contributed towards in each game between the selected game weeks.
+                        </p>
+                        <p>
+                          <b>Bar graph: </b>Same as the line graph. It is available purely to offer another way for you to compare the player's data.
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of Clean sheets modal help -->
               </div>
             </div>
           </form>

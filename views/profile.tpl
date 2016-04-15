@@ -141,12 +141,15 @@
                 % end
               </select>
               <button type="button" class="btn btn-default" id="more_options">
-                <span class="sr-only">More options</span>
-                <span class="glyphicon glyphicon-chevron-down"></span>
+                <span class="glyphicon glyphicon-chevron-up"></span>
+                <span class="sr-only">Hide options</span>
               </button>
-              <button type="button" class="btn btn-default" id="update_graph"><span class="glyphicon glyphicon-refresh"></span> Update graph</button>
+              <button type="button" class="btn btn-default" id="update_graph">
+                <span class="glyphicon glyphicon-refresh"></span>
+                <span>Update graph</span>
+              </button>
             </div>
-            <div class="performance_metrics hidden">
+            <div class="performance_metrics">
               <div class="form-group" id="points_group">
                 <label class="labels">Points:</label>
                 <select class="form-control sm-screen">
@@ -159,7 +162,38 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="points_switch" aria-label="Hides the 'Points' attribute from the graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Points" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a role="button" class="btn" data-toggle="modal" data-target="#points_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <!-- Points Modal help message -->
+                <div class="modal fade" id="points_help" tabindex="-1" role="dialog" aria-labelledby="points_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="points_modal_title">Points</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>
+                          <b>Over selected game weeks: </b>shows the points the player scored in each game between the selected game weeks.
+                        </p>
+                        <p>
+                          <b>Home vs Away: </b>shows the percentage of points the player scored at the home ground and away ground.
+                        </p>
+                        <p>
+                          <b>Consistency: </b>a box plot showing the range of points scored by the player. In general, the 'taller' the box, the less consistent a player's score is and you want to look for players with a 'short' box and high <em>median</em> line.
+                        </p>
+                        <p>
+                          <b>Cumulative total: </b>shows how the player's total point score increases after each game week.
+                        </p>
+                        <p>
+                          <b>Point scoring events breakdown: </b>shows a breakdown of the key events which contribute to the player's point score in each game.
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of Points modal help -->
               </div> <!-- #points_group -->
               <div class="form-group" id="price_group">
                 <label class="labels">Price:</label>
@@ -170,7 +204,29 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="price_switch" aria-label="Hides the 'Price' attribute from the graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Price" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a role="button" class="btn" data-toggle="modal" data-target="#price_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <!-- Price Modal help message -->
+                <div class="modal fade" id="price_help" tabindex="-1" role="dialog" aria-labelledby="price_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="price_modal_title">Price</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>
+                          <b>Over selected game weeks: </b>shows the price of the player at each game week between the selected game weeks.
+                        </p>
+                        <p>
+                          <b>Changes over selected game weeks: </b>shows how much the player's price has increased/decreased by at each game week.
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of price modal help -->
               </div> <!-- #price_group -->
               <div class="form-group" id="goals_group">
                 <label class="labels">Goals:</label>
@@ -182,7 +238,28 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="goals_switch" aria-label="Hides the 'Goals' attribute from the graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Goals" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a role="button" class="btn" data-toggle="modal" data-target="#goals_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <!-- Goals Modal help message -->
+                <div class="modal fade" id="goals_help" tabindex="-1" role="dialog" aria-labelledby="goals_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="goals_modal_title">Goals</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p><b>Over selected game weeks: </b>shows the number of goals the player's scored
+                  in each game between the selected game weeks.</p>
+                        <p><b>Home vs Away: </b>
+                  shows the percentage of goals the player scored at the home ground and away ground.</p>
+                  <p><b>Cumulative total: </b>shows how the number of goals the player scored increases after each game week.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of assists modal help -->
               </div> <!-- #goals_group -->
               <div class="form-group" id="assists_group">
                 <label class="labels">Assists:</label>
@@ -194,8 +271,29 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="assists_switch" aria-label="Hides the 'Assists' attribute from the graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Assists" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
-              </div> <!-- #assist_group -->
+                <a role="button" class="btn" data-toggle="modal" data-target="#assists_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <!-- Assists Modal help message -->
+                <div class="modal fade" id="assists_help" tabindex="-1" role="dialog" aria-labelledby="assist_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="assist_modal_title">Assists</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p><b>Over selected game weeks: </b>shows the number of assists the player's provided
+                  in each game between the selected game weeks.</p>
+                        <p><b>Home vs Away: </b>
+                  shows the percentage of assists the player provided at the home ground and away ground.</p>
+                  <p><b>Cumulative total: </b>shows how the number of assists the player provided increases after each game week.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of assists modal help -->
+              </div> <!-- #assists_group -->
               % if contents["type_name"] == "Goalkeeper" or contents["type_name"] == "Defender":
               <div class="form-group" id="cleanSheets_group">
                 <label class="labels">Clean sheets:</label>
@@ -207,7 +305,28 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="cleanSheets_switch" aria-label="Hides the 'Clean sheets' attribute from the graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Clean Sheets" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a role="button" class="btn" data-toggle="modal" data-target="#cleanSheets_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <!-- Clean sheets Modal help message -->
+                <div class="modal fade" id="cleanSheets_help" tabindex="-1" role="dialog" aria-labelledby="cleanSheets_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="cleanSheets_modal_title">Clean sheets</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p><b>Over selected game weeks: </b>shows whether or not the player contributed towards his team's clean sheet (i.e. no goals conceded)
+                  in each game between the selected game weeks.</p>
+                        <p><b>Home vs Away: </b>
+                  shows the percentage of clean sheets the player has contributed towards in games played at the home ground and the away ground.</p>
+                        <p><b>Cumulative total: </b>shows how the number of clean sheets the player contributed increases after each game week.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of clean sheets modal help -->
               </div> <!-- #cleanSheets_group -->
               % end
               <div class="form-group" id="netTransfers_group">
@@ -218,7 +337,26 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="netTransfers_switch" aria-label="Hides the 'Net transfers' attribute from the graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Net Transfers" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a role="button" class="btn" data-toggle="modal" data-target="#netTransfers_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+
+                <!-- Net transfers Modal help message -->
+                <div class="modal fade" id="netTransfers_help" tabindex="-1" role="dialog" aria-labelledby="netTransfers_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="netTransfers_modal_title">Net transfers</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p><b>Over selected game weeks: </b>shows the net number of transfers in and out of
+                          Fantasy Premier League manager's teams in each game week between the selected game weeks.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of minutes played modal help -->
               </div> <!-- #netTransfers_group -->
               <div class="form-group" id="minutesPlayed_group">
                 <label class="labels">Minutes played:</label>
@@ -228,7 +366,25 @@
                 <label class="checkbox-inline">
                   <input type="checkbox" class="minutesPlayed_switch" aria-label="Hides the 'Minutes played' attribute from the graph"> Active
                 </label>
-                <a role="button" class="btn" data-toggle="popover" title="Minutes Played" data-content="Lorem ipsum..." data-trigger="hover" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a role="button" class="btn" data-toggle="modal" data-target="#minutesPlayed_help"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <!-- Minutes played Modal help message -->
+                <div class="modal fade" id="minutesPlayed_help" tabindex="-1" role="dialog" aria-labelledby="minutesPlayed_modal_title">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="minutesPlayed_modal_title">Minutes played</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p><b>Over selected game weeks: </b>shows the minutes played by the player
+                          in each game between the selected game weeks.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- end of minutes played modal help -->
               </div> <!-- #minutesPlayed_group -->
             </div>
           </form>

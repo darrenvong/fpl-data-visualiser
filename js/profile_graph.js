@@ -26,7 +26,7 @@ function ProfileGraph(options) {
   this.initOptions = options;
 
   Highcharts.setOptions({
-    lang: {loading: 'Click on <b><span class="glyphicon glyphicon-chevron-down"></span> button above</b> to reveal the plot options to begin!'}
+    lang: {loading: 'Tick one of the checkboxes in the options above then click "Update Graph" to begin!'}
   });
 
   this.graph = new Highcharts.Chart(options);
@@ -76,7 +76,7 @@ ProfileGraph.prototype.update = function(start, end) {
     var options = $("div.performance_metrics");
     //Reference to the current graph instance for use inside the function call after this line
     var thisGraph = this;
-    if (!options.hasClass("hidden")) {
+    if (!options.hasClass("hidden") && $("input[type=checkbox]:checked").length !== 0) {
       $("div.performance_metrics > .form-group").each(function() {
         var attrMetricArray = $("select.form-control", this).val().split("-");
         var attr = attrMetricArray[0];
@@ -86,8 +86,10 @@ ProfileGraph.prototype.update = function(start, end) {
         }
         else {
           thisGraph.graph.showLoading("Loading graph...");
-          thisGraph.graph.setTitle({text: null}, {text: "Click on the keys in the legend to toggle the visibility of their corresponding graph line/bar"},false);
-          if (metric === "over_time" || metric === "cum_total")
+          thisGraph.graph.setTitle({text: null}, {text: "Click on any of the keys in the legend to toggle its corresponding graph line/bar's visibility"},false);
+          if ((metric === "over_time" && attr === "cleanSheets") || metric === "changes")
+            thisGraph.drawBarGraph(attr, metric, start, end);          
+          else if (metric === "over_time" || metric === "cum_total")
             thisGraph.drawLineGraph(attr, metric, start, end);
           else if (metric === "home_vs_away")
             thisGraph.drawPieChart(attr, metric, start, end);
@@ -95,8 +97,6 @@ ProfileGraph.prototype.update = function(start, end) {
             thisGraph.drawBoxPlot(attr, metric, start, end);
           else if (metric === "events_breakdown")
             thisGraph.drawCompoundBarGraph(attr, metric, start, end);
-          else if (metric === "changes")
-            thisGraph.drawBarGraph(attr, metric, start, end);          
           thisGraph.graph.hideLoading();
         }
       });
@@ -127,6 +127,17 @@ ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
       data: requiredData,
       pointStart: 1,
       type: "line",
+      tooltip: (attr === "points")? ({
+        headerFormat: '{point.key}<br>',
+        pointFormatter: function() {
+          return 'Week '+Math.floor(this.x)+'<br><b>'+this.series.name+': </b>'+this.y;
+        }
+      }) : ({
+        headerFormat: '',
+        pointFormatter: function() {
+          return 'Week '+Math.floor(this.x)+'<br><b>'+this.series.name+': </b>'+this.y;
+        }
+      }),
       showInLegend: true
     }, false);
   }
@@ -143,11 +154,24 @@ ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
 
 ProfileGraph.prototype.drawPieChart = function(attr, metric, start, end) {
   var requiredData = this.getData(attr, metric, start, end);
-  this.graph.get(attr).update({
-    data: requiredData,
-    type: "pie",
-    showInLegend: false
-  }, false);
+  if (attr === "cleanSheets") {
+    this.graph.get(attr).update({
+      data: requiredData,
+      type: "pie",
+      tooltip: {
+        headerFormat: '<b>{series.name}</b><br>',
+        pointFormat: '<span>{point.percentage:.0f}%</span>'
+      },
+      showInLegend: false
+    }, false);    
+  }
+  else {
+    this.graph.get(attr).update({
+      data: requiredData,
+      type: "pie",
+      showInLegend: false
+    }, false);  
+  }
   this.graph.xAxis[0].update({
     visible: false
   }, false);
@@ -212,13 +236,18 @@ ProfileGraph.prototype.drawBarGraph = function(attr, metric, start, end) {
   this.graph.get(attr).update({
     data: requiredData,
     type: "column",
-    tooltip: {
+    tooltip: (attr === "price")? ({
       headerFormat: '',
       // pointFormat: '<b>Changes:</b> {point.y}M'
       pointFormatter: function() {
         return 'Week '+Math.floor(this.x)+'<br><b>Changes:</b> '+this.y+'M';
+      }      
+    }) : ({
+      headerFormat: '',
+      pointFormatter: function() {
+        return 'Week '+Math.floor(this.x)+'<br><b>'+this.series.name+': </b>'+this.y;
       }
-    },
+    }),
     pointStart: 1,
     showInLegend: true
   }, false);
