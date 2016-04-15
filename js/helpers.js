@@ -45,7 +45,10 @@ function addUpdateGraphHandler() {
   var start = parseInt($("#startTime").val());
   var end = parseInt($("#endTime").val());
   if (start > end) {
-    alert("Can't have start time later than end time!");
+    toggleAlertBox(false);
+    var message = ("The start game week cannot be later than the end game week. "+
+      "Please check your game week time selection.");
+    $(".alert-danger").html('<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;'+message);
     return;
   }
 

@@ -33,20 +33,33 @@ PlayerSearchBar.prototype.onSearch = function(e, selectors, multipleFields) {
   var hasErrors;
   for (let i=0; i < selectors.length; i++) {
     let inputVal = capitalise( normalise( $(selectors[i]).val().trim() ) );
+    var errMsg = $(".help-block.text-warning");
+    var bar = $(selectors[i]);
+    let hasError = false; //For individual bar
     if (inputVal === "") {
       e.preventDefault();
-      hasErrors = true;
+      if (errMsg.hasClass("hidden")) {
+        if (selectors.length === 1) {
+          $(".help-block.text-warning").toggleClass("hidden").html(
+            '<span class="glyphicon glyphicon-alert"></span> Please type in something before trying to search.');          
+        }
+        else {
+          $(".help-block.text-warning").toggleClass("hidden").html(
+            '<span class="glyphicon glyphicon-alert"></span> Please complete all fields before trying to search.'); 
+        }
+      }
+      hasErrors = hasError = true;
     }
     else if (!this.playerNames.includes(inputVal)) {
       e.preventDefault();
-      var errMsg = $(".help-block.text-warning");
-      if (errMsg.hasClass("hidden"))
-        $(".help-block.text-warning").toggleClass("hidden"); // Reveals error message
+      if (errMsg.hasClass("hidden")) // Reveals error message
+        $(".help-block.text-warning").toggleClass("hidden").html('<span class="glyphicon glyphicon-alert"></span> Player not found!');
+      hasErrors = hasError = true;
+    }
 
-      var bar = $(selectors[i]);
+    if (hasError) {
       if (!bar.hasClass("error"))
-        $(selectors[i]).toggleClass("error"); // Makes the search box border glow in red
-      hasErrors = true;
+        $(selectors[i]).toggleClass("error"); // Makes the search box border glow in red      
     }
   }
 

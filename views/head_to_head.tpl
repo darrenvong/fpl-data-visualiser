@@ -45,7 +45,7 @@
           <form method="post" id="player1_field">
             <div class="input-group">
               <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-              <input id="player1" class="form-control" name="player1" type="search">
+              <input id="player1" class="form-control" name="player1" type="search" placeholder="Type something to begin">
               <input type="hidden" class="player2_alias" name="player2">
             </div>
           </form>
@@ -82,11 +82,11 @@
               </select>
               <button type="button" class="btn btn-default" id="more_options">
                 <span class="sr-only">More options</span>
-                <span class="glyphicon glyphicon-chevron-down"></span>
+                <span class="glyphicon glyphicon-chevron-up"></span>
               </button>
               <button type="button" class="btn btn-default" id="update_graph">
-                <span class="sr-only">Update graph</span>                
                 <span class="glyphicon glyphicon-refresh"></span>
+                <span class="lg-screen">Update graph</span>
               </button>
             </div>
             <div class="attributes">
@@ -118,7 +118,7 @@
                           <b>Line graph: </b>shows the points scored by both players in each game between the selected game weeks.
                         </p>
                         <p>
-                          <b>Bar graph: </b>Same as the line graph. It is available purely to offer another way for you to compare the player's data.
+                          <b>Bar graph: </b>same as the line graph. It is available purely to offer another way for you to compare the player's data.
                         </p>
                         <p>
                           <b>Box plot: </b>they show the range of points scored by the player as in an individual profile. 
@@ -159,7 +159,7 @@
                           <b>Line graph: </b>shows the number of goals the players have scored in each game between the selected game weeks.
                         </p>
                         <p>
-                          <b>Bar graph: </b>Same as the line graph. It is available purely to offer another way for you to compare the player's data.
+                          <b>Bar graph: </b>same as the line graph. It is available purely to offer another way for you to compare the player's data.
                         </p>
                       </div>
                       <div class="modal-footer">
@@ -194,7 +194,7 @@
                           <b>Line graph: </b>shows the number of assists the players have provided in each game between the selected game weeks.
                         </p>
                         <p>
-                          <b>Bar graph: </b>Same as the line graph. It is available purely to offer another way for you to compare the player's data.
+                          <b>Bar graph: </b>same as the line graph. It is available purely to offer another way for you to compare the player's data.
                         </p>
                       </div>
                       <div class="modal-footer">
@@ -204,6 +204,7 @@
                   </div>
                 </div> <!-- end of Assists modal help -->
               </div>
+              % if p1_profile["type_name"] == "Goalkeeper" or p1_profile["type_name"] == "Defender" or p2_profile["type_name"] == "Goalkeeper" or p2_profile["type_name"] == "Defender":
               <div class="form-group" id="cleanSheets">
                 <label class="labels">Clean sheets</label>
                 <label class="radio-inline">
@@ -229,7 +230,7 @@
                           <b>Line graph: </b>shows the number of clean sheets the players have contributed towards in each game between the selected game weeks.
                         </p>
                         <p>
-                          <b>Bar graph: </b>Same as the line graph. It is available purely to offer another way for you to compare the player's data.
+                          <b>Bar graph: </b>same as the line graph. It is available purely to offer another way for you to compare the player's data.
                         </p>
                       </div>
                       <div class="modal-footer">
@@ -239,7 +240,8 @@
                   </div>
                 </div> <!-- end of Clean sheets modal help -->
               </div>
-            </div>
+              % end
+            </div> <!-- / div.attributes -->
           </form>
           <div class="alert alert-danger hidden" role="alert"><span class="glyphicon glyphicon-alert"></span>
             &nbsp;&nbsp;When "Box plot" is selected and the "Active" box of <b>Points</b> is checked, other "Active" boxes cannot be checked. Please either uncheck all of the other "Active" boxes, or deselect "Box plot" from <b>Points</b> to continue.
@@ -249,7 +251,7 @@
         <div class="col-md-3 right">
           <form method="post" id="player2_field">
             <div class="input-group">
-              <input id="player2" class="form-control" name="player2" type="search">
+              <input id="player2" class="form-control" name="player2" type="search" placeholder="Type something to begin">
               <input type="hidden" class="player1_alias" name="player1">
               <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
             </div>

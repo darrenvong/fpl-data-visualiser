@@ -31,7 +31,6 @@ var initOptions = {
         },
         tooltip: {
           headerFormat: '{point.key}<br>',
-          // pointFormat: 'Week {point.x}<br><b>{series.name}: </b>{point.y}'
           pointFormatter: function() {
             return 'Week '+Math.floor(this.x)+'<br><b>'+this.series.name+': </b>'+this.y;
           }
@@ -40,7 +39,20 @@ var initOptions = {
       pie: {
         tooltip: {
           headerFormat: '<b>{series.name}</b><br>',
-          pointFormat: '<span>{point.percentage:.0f}%</span>'
+          pointFormatter: function() {
+            var data = this.series.data;
+            if (data[0].percentage > data[1].percentage) { //"Home" portion of pie is greater than "Away"
+              var largerPortion = {name: data[0].name, percentage: Math.round(data[0].percentage)};
+            }
+            else {
+              var largerPortion = {name: data[1].name, percentage: Math.round(data[1].percentage)};
+            }
+
+            if (this.name === largerPortion.name)
+              return '<span>'+largerPortion.percentage+'%</span>';
+            else
+              return '<span>'+(100-largerPortion.percentage)+'%</span>';
+          }
         }
       },
       column: {
@@ -49,8 +61,10 @@ var initOptions = {
       boxplot: {
         tooltip: {
           headerFormat: "",
-          pointFormat: ("<b>Min:</b> {point.low}<br/><b>Lower Quartile:</b> {point.q1}<br/>"+
-            "<b>Median:</b> {point.median}<br/><b>Upper Quartile:</b> {point.q3}<br/><b>Max:</b> {point.high}<br/>")
+          pointFormatter: function() {
+            return ("<b>Min:</b> "+this.low+"<br><b>Lower Quartile:</b> "+this.q1+"<br><b>Median:</b> "+
+              this.median+"<br><b>Upper Quartile:</b> "+this.q3+"<br><b>Max:</b> "+this.high);
+          }
         }
       }
     },
@@ -116,6 +130,7 @@ $(document).ready(function() {
 
   $("#update_graph").click(function() {
     var gameWeekEndPoints = addUpdateGraphHandler();
-    graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
+    if (gameWeekEndPoints)
+      graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
   });
 });

@@ -7,6 +7,7 @@ $(document).ready(function() {
   $("#more_options").click(function() {
     $(".attributes").toggleClass("hidden");
     centElement($('.form-group'),$('form.form-inline'));
+    $("span:last-child", this).toggleClass("glyphicon-chevron-up glyphicon-chevron-down");
   });
 
   var searchBars = new PlayerSearchBar("#player1, #player2");
@@ -88,7 +89,8 @@ $(document).ready(function() {
 
   $("#update_graph").click(function() {
     var gameWeekEndPoints = addUpdateGraphHandler();
-    graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
+    if (gameWeekEndPoints)
+      graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
   });
 
   $('[data-toggle="popover"]').popover();

@@ -1,6 +1,10 @@
 function HeadToHeadGraph(options) {
+  // Screen is wide enough so the "Update Graph" label is actually displayed together with icon
   Highcharts.setOptions({
-    lang: {loading: 'Click on <span class="glyphicon glyphicon-chevron-down"></span> to reveal the various plot options to begin!'}
+    lang: {
+      loading: ('Tick one of the checkboxes next to "Active" in the options above then click '+
+        ((window.innerWidth>500)? '"Update Graph"': '<span class="glyphicon glyphicon-refresh"></span>')+' button to begin!')
+    }
   });
 
   this.player1Name = $(".left figcaption").text();
@@ -101,6 +105,11 @@ HeadToHeadGraph.prototype.update = function(start, end) {
       this.graph.hideLoading();
     }
     
+  }
+  else {
+    var message = ('&nbsp;&nbsp;When "Box plot" is selected and the "Active" box of <b>Points</b> is checked, other "Active" boxes cannot be checked. '+
+      'Please either uncheck all of the other "Active" boxes, or deselect "Box plot" from <b>Points</b> to continue.');
+    $(".alert-danger").html('<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;'+message);
   }
 };
 

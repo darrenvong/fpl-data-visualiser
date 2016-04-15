@@ -46,7 +46,7 @@
           <form method="post" id="player1_field">
             <div class="input-group">
               <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-              <input id="player1" class="form-control" name="player1" type="search">
+              <input id="player1" class="form-control" name="player1" type="search" placeholder="Type something to begin">
               <input class="player2_alias" name="player2" type="hidden">
             </div>
           </form>
@@ -62,7 +62,7 @@
         <div class="col-md-3 right">
           <form method="post" id="player2_field">
             <div class="input-group">
-              <input id="player2" class="form-control" name="player2" type="search">
+              <input id="player2" class="form-control" name="player2" type="search" placeholder="Type something to begin">
               <input class="player1_alias" name="player1" type="hidden">
               <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
             </div>

@@ -13,6 +13,14 @@ function ProfileGraph(options) {
     "Clean sheets breakdown": "cleanSheetsBreakdown"
   };
 
+  this.ID_ATTR_MAP = (function(m) {
+    var inverseMap = {}
+    for (let attr in m) {
+      inverseMap[m[attr]] = attr;
+    }
+    return inverseMap;
+  })(ATTR_ID_MAP);
+
   for (let attr in ATTR_ID_MAP) {
     let MAP_REF = ATTR_ID_MAP;
     options.series.push({
@@ -26,7 +34,7 @@ function ProfileGraph(options) {
   this.initOptions = options;
 
   Highcharts.setOptions({
-    lang: {loading: 'Tick one of the checkboxes in the options above then click "Update Graph" to begin!'}
+    lang: {loading: 'Tick one of the checkboxes next to "Active" in the options above then click "Update Graph" to begin!'}
   });
 
   this.graph = new Highcharts.Chart(options);
@@ -114,7 +122,6 @@ ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
       type: "line",
       tooltip: {
         headerFormat: '',
-        // pointFormat: '<b>Price:</b> £{point.y}M'
         pointFormatter: function() {
           return 'Week '+Math.floor(this.x)+'<br><b>Price:</b> £'+this.y+'M';
         }
@@ -154,30 +161,36 @@ ProfileGraph.prototype.drawLineGraph = function(attr, metric, start, end) {
 
 ProfileGraph.prototype.drawPieChart = function(attr, metric, start, end) {
   var requiredData = this.getData(attr, metric, start, end);
-  if (attr === "cleanSheets") {
-    this.graph.get(attr).update({
-      data: requiredData,
-      type: "pie",
-      tooltip: {
-        headerFormat: '<b>{series.name}</b><br>',
-        pointFormat: '<span>{point.percentage:.0f}%</span>'
-      },
-      showInLegend: false
-    }, false);    
-  }
-  else {
-    this.graph.get(attr).update({
-      data: requiredData,
-      type: "pie",
-      showInLegend: false
-    }, false);  
-  }
+  this.graph.get(attr).update({
+    data: requiredData,
+    type: "pie",
+    tooltip: {
+      headerFormat: '<b>{series.name}</b><br>',
+      pointFormatter: function() {
+        var data = this.series.data;
+        if (data[0].percentage > data[1].percentage) { //"Home" portion of pie is greater than "Away"
+          var largerPortion = {name: data[0].name, percentage: Math.round(data[0].percentage)};
+        }
+        else {
+          var largerPortion = {name: data[1].name, percentage: Math.round(data[1].percentage)};
+        }
+
+        if (this.name === largerPortion.name)
+          return '<span>'+largerPortion.percentage+'%</span>';
+        else
+          return '<span>'+(100-largerPortion.percentage)+'%</span>';
+      }
+    },
+    showInLegend: false
+  }, false);
+  var attr_name_map = this.ID_ATTR_MAP;
   this.graph.xAxis[0].update({
     visible: false
   }, false);
   this.graph.yAxis[0].update({
     visible: false
   }, false);
+  this.graph.setTitle({text: attr_name_map[attr]+" at Home vs Away"});
   this.graph.redraw();
 };
 
@@ -187,12 +200,17 @@ ProfileGraph.prototype.drawBoxPlot = function(attr, metric, start, end) {
     data: requiredData,
     type: "boxplot",
     pointStart: 1,
+    tooltip: {
+      headerFormat: "",
+      pointFormatter: function() {
+        return ("<b>Min:</b> "+this.low+"<br><b>Lower Quartile:</b> "+this.q1+"<br><b>Median:</b> "+
+          this.median+"<br><b>Upper Quartile:</b> "+this.q3+"<br><b>Max:</b> "+this.high);
+      }
+    },
     showInLegend: false
   }, false);
   this.graph.xAxis[0].update({
-    categories: [null, $("#player_name").text()],
-    visible: false,
-    title: {text: "Players"}
+    visible: false
   }, false);
   this.graph.yAxis[0].update({
     visible: true
@@ -210,7 +228,6 @@ ProfileGraph.prototype.drawCompoundBarGraph = function(attr, metric, start, end)
       type: "column",
       tooltip: {
         headerFormat: '',
-        // pointFormat: '<b>Points:</b> {point.y}'
         pointFormatter: function() {
           var seriesName = this.series.name.replace(" breakdown", "");
           return "Week "+Math.floor(this.x)+"<br>Event:<b> "+seriesName+"</b><br><b>Points:</b> "+this.y;
@@ -262,10 +279,10 @@ ProfileGraph.prototype.drawBarGraph = function(attr, metric, start, end) {
   this.graph.redraw();
 };
 
-ProfileGraph.prototype.getData = function(attr, metric, start, end, name) {
-  var myData = this.data[attr][start-1][end-1][metric];
-  if (myData) {
-    return myData;
+ProfileGraph.prototype.getData = function(attr, metric, start, end) {
+  var requiredData = this.data[attr][start-1][end-1];
+  if (requiredData[metric]) {
+    return requiredData[metric];
   }
   else {
     var thisData = this.data;
@@ -276,16 +293,14 @@ ProfileGraph.prototype.getData = function(attr, metric, start, end, name) {
         metric: metric,
         start: start,
         end: end,
-        player_name: name || $("img.img-responsive").attr("alt") //Added flexibility for inheritance
+        player_name: $("img.img-responsive").attr("alt")
       },
       success: function(data) {
-        var startEndMemBlock = thisData[attr][start-1][end-1];
-        startEndMemBlock[metric] = data[metric];
-        myData = data[metric];
+        requiredData[metric] = data[metric];
       },
       async: false
     });
-    return myData;
+    return requiredData[metric];
   }
 };
 

@@ -44,15 +44,6 @@ def get_home_vs_away_data(col, player_name, start, end, attr):
         d["name"] = d.pop("_id")
     return data
 
-def get_consistency_data(col, player_name, start, end, attr):
-    pipeline = helpers.init(player_name, start, end)
-    projection = [{"$group": {"_id": None, attr: {"$push": "$fixture_history."+INTERNAL_ATTR_MAP[attr]}}}]
-    pipeline.extend(projection)
-    attr_vals = np.array(col.aggregate(pipeline).next()[attr])
-    data = [attr_vals.min(), np.percentile(attr_vals, 25, interpolation="midpoint"), np.median(attr_vals),
-            np.percentile(attr_vals, 75, interpolation="midpoint"), attr_vals.max()]
-    return [data]
-
 def get_cumulative_total_data(col, player_name, start, end, attr):
     pipeline = helpers.init(player_name, start, end)
     
