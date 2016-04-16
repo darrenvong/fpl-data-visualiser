@@ -1,4 +1,7 @@
-var graph;
+/** The top level function call (i.e. the main method) for the head to head comp page
+ ** @author: Darren Vong
+**/
+
 $(document).ready(function() {
   centElement($('.form-group'),$('form.form-inline'));
   $(window).resize(function() {
@@ -85,7 +88,7 @@ $(document).ready(function() {
         enabled: false //Removes the highchart.com label at bottom right of graph
     }
   };
-  graph = new HeadToHeadGraph(initOptions);
+  var graph = new HeadToHeadGraph(initOptions);
 
   $("#update_graph").click(function() {
     var gameWeekEndPoints = addUpdateGraphHandler();

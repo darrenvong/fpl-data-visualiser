@@ -244,8 +244,8 @@ def get_missing_photos(missing_urls):
 
 if __name__ == '__main__':
     c, col = connect()
-    list_missing_imgs(col)
-#     insert_players(col, scrape_players())
-#     enforce_injective_name_mapping(col)
+#     list_missing_imgs(col)
+    insert_players(col, scrape_players())
+    enforce_injective_name_mapping(col)
     c.close()
     # print capitalise_camel_case_words("thisIsAReallyLongFuckingString")
