@@ -8,6 +8,7 @@ generation of the front-end web application's pages.
 import os
 
 from pymongo import MongoClient
+from bson import SON
 
 import profiles
 
@@ -30,7 +31,7 @@ headers = {"User-Agent": AGENT_NAME}
 
 def connect(on_heroku=False):
     if not on_heroku:
-        client = MongoClient()
+        client = MongoClient(document_class=SON)
         players = client.players.current_gw
     else:
         client = MongoClient(os.environ["MONGOLAB_URI"])

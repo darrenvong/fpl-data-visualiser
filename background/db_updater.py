@@ -9,7 +9,7 @@ from bson import SON
 from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 
-from views.helpers import get_current_gameweek
+from views.helpers import get_current_gameweek, connect
 
 def enforce_injective_name_mapping(col):
     pipeline = [{"$group": {"_id": "$normalised_name", "total": {"$sum": 1}}},
@@ -70,3 +70,23 @@ def insert_players(col, players):
                 validNameFound = True
     
     col.insert_many(players_list)
+
+def update_heroku_db(local_client, num_cols=2):
+    """Utility function as an alternative way of updating the MongoLab version of MongoDB.
+    @param local_client: The client connection to a local MongoDB instance.  
+    @keyword num_cols: The number of collections of data to transfer from the local
+    MongoDB database to the MongoLab database. Default is 2 (current gw + prev available gw).
+    """
+    
+    client, col = connect(on_heroku=True)
+    avail_cols = local_client.players.collection_names(include_system_collections=False)
+    avail_cols.sort()
+    # Puts the "current_gw" collection to the end of the list
+    latest = avail_cols.pop(0)
+    avail_cols.append(latest)
+    
+    num_cols *= -1 # So that slice of avail_cols list is taken from the end
+    for col in avail_cols[num_cols:]:
+        players = [p for p in local_client.players[col].find()]
+        result = client.get_default_database()[col].insert_many(players)
+        print len(result.inserted_ids)
