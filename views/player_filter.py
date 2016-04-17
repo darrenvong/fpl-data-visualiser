@@ -54,13 +54,18 @@ def get_table_contents(col, form_dict):
             else:
                 regroup[VALUE_TO_DATA_KEY[attr]] = {"$first": "$"+VALUE_TO_DATA_KEY[attr]}
     
+    sorting_order = [("points", -1), ("form", -1), ("selected_by", -1), ("goals", -1),
+                     ("assists", -1), ("now_cost", 1), ("net_transfers", -1), ("mins_played", -1)]
+    if form_dict.position == "All":
+        sorting_order.insert(5, ("clean_sheet", -1)) # Just after assists
+    elif form_dict.position == "Defender" or form_dict.position == "Goalkeeper":
+        sorting_order.insert(4, ("clean_sheet", -1)) # More important than assists for GK or Defender
+    
     pipeline = [{"$project": projection}, {"$unwind": "$fixture_history"},
                 {"$match": {"fixture_history.gameweek":
                             {"$gte": int(form_dict.start), "$lte": int(form_dict.end)+0.5}}},
                 {"$group": regroup},
-                {"$sort": SON([("points", -1), ("form", -1), ("selected_by", -1), ("clean_sheet", -1),
-                            ("goals", -1), ("assists", -1), ("now_cost", 1),
-                            ("net_transfers", -1), ("mins_played", -1)])},
+                {"$sort": SON(sorting_order)},
                 {"$limit": int(form_dict.num_players)}]
     if query is not None:
         pipeline.insert(0, {"$match": query})

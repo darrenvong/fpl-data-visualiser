@@ -1,7 +1,7 @@
 $(function() {
-  if ($("#position").val() === "Goalkeeper" || $("#position").val() === "Defender") {
-      if ($("div.cs").hasClass("hidden")) // i.e. it is hidden
-        $("div.cs").removeClass("hidden");
+  if ($("#position").val() !== "Midfielder" || $("#position").val() !== "Forward") { // i.e. All, Def or GK selected
+      if ($("div.cs").hasClass("hidden"))
+        $("div.cs").toggleClass("hidden");
   }
 
   $("#update").click(function(e) {
@@ -20,12 +20,12 @@ $(function() {
   });
 
   $("#position").change(function() {
-    if ($(this).val() === "Goalkeeper" || $(this).val() === "Defender") {
-      if ($("div.cs").hasClass("hidden")) // i.e. it is hidden
+    if ($(this).val() === "Midfielder" || $(this).val() === "Forward") {
+      if (!$("div.cs").hasClass("hidden")) // not hidden
         $("div.cs").toggleClass("hidden");
     }
-    else { // Forward, Midfielder or All selected
-      if (!$("div.cs").hasClass("hidden"))
+    else { // Goalkeeper, Defender or All selected
+      if ($("div.cs").hasClass("hidden")) // hidden
         $("div.cs").toggleClass("hidden");
     }
   });

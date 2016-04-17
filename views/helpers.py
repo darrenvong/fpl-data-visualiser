@@ -2,45 +2,14 @@
 
 """
 This module contains group of related auxiliary (helper) functions which aids the
-collection and maintenance of data for the project's MongoDB database.
+generation of the front-end web application's pages.
 @author: Darren Vong
 """
-import urllib2
-import json
 import os
-from time import sleep
-from collections import OrderedDict
 
-from bson import SON
-from bson.json_util import dumps, loads
-from pymongo import MongoClient, UpdateOne
-from pymongo.errors import OperationFailure
+from pymongo import MongoClient
 
 import profiles
-
-# idea adapted from Pringle's (2014) code
-FIXTURE_KEY_MAP = {
-    0 : "date", 
-    1 : "gameweek",
-    2 : "opponent_result", 
-    3 : "mins_played", 
-    4 : "goals",
-    5 : "assists",
-    6 : "clean_sheet",
-    7 : "goals_conceded",
-    8 : "own_goals",
-    9 : "pens_saved",
-    10 : "pens_missed",
-    11 : "yellow_cards",
-    12 : "red_cards",
-    13 : "saves",
-    14 : "bonus_points",
-    15 : "ea_sports_ppi",
-    16 : "bonus_point_system",
-    17 : "net_transfers",
-    18 : "price",
-    19 : "points"
-}
 
 ###############################################################################
 # Extracted from Carlos Buenos (2009-2010) code on accent folding.
@@ -56,6 +25,9 @@ def accent_fold(s):
     return unicode(s).translate(accent_map)
 ###############################################################################
 
+AGENT_NAME = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0"
+headers = {"User-Agent": AGENT_NAME}
+
 def connect(on_heroku=False):
     if not on_heroku:
         client = MongoClient()
@@ -64,152 +36,6 @@ def connect(on_heroku=False):
         client = MongoClient(os.environ["MONGOLAB_URI"])
         players = client.get_default_database().current_gw
     return client, players
-
-def restructure_fixture_data(player_data):
-    fixture_objects_list = []
-    for fixture in player_data["fixture_history"]["all"]:
-        fixture_object = OrderedDict()
-        for i in xrange(20):
-            fixture_object[FIXTURE_KEY_MAP[i]] = fixture[i]
-        fixture_object["ground"] = fixture_object["opponent_result"][4]
-        # Handles double game week issues
-        if len(fixture_objects_list) > 0:
-            if fixture_objects_list[-1]["gameweek"] == fixture_object["gameweek"]:
-                fixture_object["gameweek"] += 0.1 # So that both matches data can be plotted
-        fixture_objects_list.append(fixture_object)
-    player_data["fixture_history"] = fixture_objects_list
-    return player_data
-
-def update_db(col, fix_hist_list):
-    counter = 0
-    for fixture_list in fix_hist_list:
-        query = {"web_name": fixture_list["name"]}
-        update = {"$set": {"fixture_history": fixture_list["fixture_history"]}}
-        result = col.update_one(query, update)
-        counter += result.modified_count
-    print str(counter)+" affected!"
-    
-def normalise_names(player_data):
-    normalised = accent_fold(player_data["web_name"]).capitalize()
-    player_data["normalised_name"] = normalised
-    return player_data
-
-def restructure_players_schema(player_data):
-    player_data = normalise_names( restructure_fixture_data(player_data) )
-    attributes_to_cast = ["selected_by", "selected_by_percent", "form", "points_per_game", "ep_next"]
-    for attr in attributes_to_cast:
-        player_data[attr] = float(player_data[attr])
-    return player_data
-
-def enforce_injective_name_mapping(col):
-    pipeline = [{"$group": {"_id": "$normalised_name", "total": {"$sum": 1}}},
-                {"$match": {"total": {"$gt": 1}}}, {"$sort": SON([("total", -1)])}]
-    inj_names_pointer = col.aggregate(pipeline)
-    new_norm_names = []
-    for non_inj_name_obj in inj_names_pointer:
-        query = {"normalised_name": non_inj_name_obj["_id"]}
-        projection = {"_id": 0, "normalised_name": 1, "first_name": 1}
-        # For each repeated name, find all repetitions and their first names
-        for rep_name in col.find(query, projection):
-            new_norm_names.append({"first_name": rep_name["first_name"],
-                                   "normalised_name": rep_name["normalised_name"],
-                                   "new_normalised_name": (rep_name["first_name"]+
-                                                           u" "+rep_name["normalised_name"].lower())
-                                  })
-    
-    # Update the database with the new normalised names (aka first name + normalised surname)
-    updates = [UpdateOne({"normalised_name": p["normalised_name"],
-                          "first_name": p["first_name"]},
-                         {"$set": {"normalised_name": p["new_normalised_name"]}})
-               for p in new_norm_names]
-    result = col.bulk_write(updates)
-    print result.inserted_count, result.modified_count
-
-AGENT_NAME = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0"
-headers = {"User-Agent": AGENT_NAME}
-
-def scrape_players(outFile=False):
-    """Collects players data from the Fantasy Premier League unofficial API.
-    If outFile is set to True, the collected data is written to a JSON file instead.
-    @return: players - a list of players data collected. This list is empty if outFile
-    is set to True.
-    """
-    
-    address = "http://fantasy.premierleague.com/web/api/elements/"
-    i = 1
-    players = []
-    allFetched = False
-    if outFile: output_file = open("FPLdata.json", "wb")
-    
-    while not allFetched:
-        try:
-            request = urllib2.Request(address+str(i)+"/", None, headers)
-            feed = urllib2.urlopen(request)
-            player_data = json.load(feed, object_pairs_hook=OrderedDict)
-            player_data = restructure_players_schema(player_data)
-            if outFile:
-                json_string_data = dumps(player_data)
-                output_file.write(json_string_data+"\n")
-            else:
-                players.append(player_data)
-        except urllib2.HTTPError:
-            print "All players fetched"
-            allFetched = True
-        except urllib2.URLError:
-            print "No internet connection available.", \
-                "Please try again later when you are connected to the internet!"
-            sleep(10)
-            continue
-        except ValueError:
-            print "Invalid JSON, try again!"
-            continue
-        else:
-            i += 1
-        
-        if i%5 == 0:
-            print "%d players scraped" % (i-1)
-            if outFile: output_file.flush()
-            sleep(3)
-       
-    if outFile: output_file.close()
-    print "Data collection... done!"
-    return players
-
-def insert_players(col, players):
-    """Insert the players data into the database.
-    @param col: the MongoDB database collection to insert the player into.
-    @param players: this may either be provided as a Python list of players, or a string path
-    which points to the JSON file containing the players' data. If a string path is used,
-    the keyword argument file_input must be set to True. 
-    """
-    
-    if isinstance(players, (str, unicode)): # Read from file if file path string is given
-        with open(players, "rb") as data:
-            players_list = [loads(p) for p in data]
-    elif isinstance(players, list):
-        players_list = players
-    else:
-        raise RuntimeError("Unknown type passed to param players - "+
-                           "should be a list or string path instead")
-    
-    if col.count() > 0: 
-        current_gw = get_current_gameweek(col)
-        existing_names = col.database.collection_names(include_system_collections=False)
-        validNameFound = False
-        while not validNameFound:
-            if "gw%d" % current_gw in existing_names:
-                current_gw += 0.1
-                try:
-                    col.rename("gw%0.1f" % current_gw)
-                    validNameFound = True
-                # Namespace clashes for when I'm too keen and updated db more than once
-                except OperationFailure:
-                    continue
-            else:
-                col.rename("gw%d" % current_gw)
-                validNameFound = True
-    
-    col.insert_many(players_list)
 
 def get_current_gameweek(col):
     # Using Vardy here as he's started since gameweek 1 and has had no blank gameweeks
@@ -223,29 +49,5 @@ def capitalise_camel_case_words(s):
     
     return result.capitalize()
 
-def list_missing_imgs(col):
-    photo_urls = [photo for photo in col.find({}, {"_id": 0, "photo": 1})]
-    missing_photos = [p["photo"] for p in photo_urls if not os.path.isfile("../faces/"+p["photo"])]
-    return missing_photos
-
-def get_missing_photos(missing_urls):
-    face_url = "http://cdn.ismfg.net/static/plfpl/img/shirts/photos/"
-    for i, player_pic in enumerate(missing_urls, start=1):
-        with open(player_pic, "wb") as face:
-            try:
-                request = urllib2.Request(face_url+player_pic, None, headers)
-                feed = urllib2.urlopen(request)
-                face.write(feed.read())
-            except:
-                print "Can't find picture "+player_pic
-        if i%50 == 0:
-            print "%d done!" % i
-            sleep(3)
-
 if __name__ == '__main__':
-    c, col = connect()
-#     list_missing_imgs(col)
-    insert_players(col, scrape_players())
-    enforce_injective_name_mapping(col)
-    c.close()
-    # print capitalise_camel_case_words("thisIsAReallyLongFuckingString")
+    print capitalise_camel_case_words("thisIsAReallyLongFuckingString")
