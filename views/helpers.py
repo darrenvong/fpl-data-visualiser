@@ -34,7 +34,7 @@ def connect(on_heroku=False):
         client = MongoClient(document_class=SON)
         players = client.players.current_gw
     else:
-        client = MongoClient(os.environ["MONGOLAB_URI"])
+        client = MongoClient(os.environ["MONGODB_URI"])
         players = client.get_default_database().current_gw
     return client, players
 
