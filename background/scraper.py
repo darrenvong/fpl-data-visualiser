@@ -90,7 +90,7 @@ def scrape_players(outFile=False):
             player_data = json.load(feed, object_pairs_hook=OrderedDict)
             player_data = restructure_players_schema(player_data)
             if outFile:
-                json_string_data = json.dumps(player_data, ensure_ascii=False)
+                json_string_data = json.dumps(player_data)
                 output_file.write(json_string_data+"\n")
             else:
                 players.append(player_data)
