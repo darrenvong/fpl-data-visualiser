@@ -40,7 +40,7 @@ def profile():
 
 @post("/profile")
 def get_player_profile():
-    player_name = helpers.accent_fold(request.forms.player_name).capitalize().strip()
+    player_name = helpers.accent_fold(request.forms.player_name).strip().capitalize()
     try:
         contents = profiles.get_profile_contents(player_name, players_col)
     except StopIteration: # Should never be reached when js is enabled in browser
@@ -60,8 +60,8 @@ def head_to_head_home():
 
 @post("/head_to_head")
 def get_head_to_head_page():
-    player1 = helpers.accent_fold(request.forms.player1).capitalize().strip()
-    player2 = helpers.accent_fold(request.forms.player2).capitalize().strip()
+    player1 = helpers.accent_fold(request.forms.player1).strip().capitalize()
+    player2 = helpers.accent_fold(request.forms.player2).strip().capitalize()
     try:
         player1_profile, player2_profile = head_to_head.get_players_profiles(
                                                             player1, player2, players_col)
