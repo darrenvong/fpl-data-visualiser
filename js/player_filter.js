@@ -16,6 +16,12 @@ $(function() {
     var formElement = e.target.form;
     formElement.elements["num_players"].value = $("#num_players").val();
     
+    // Uncheck the "Clean sheets" checkbox if it is hidden
+    var csBlock = $("div.cs");
+    var csCheckbox = $("input", csBlock);
+    if (csBlock.hasClass("hidden") && csCheckbox.prop("checked"))
+      csCheckbox.prop("checked", false);
+
     // Don't submit form if user hasn't specified any filtering at all
     if ($('.filter-block input[type=checkbox]:checked').length === 0) {
       e.preventDefault();
@@ -24,12 +30,6 @@ $(function() {
       toggleAlertBox(false);
       if (!addUpdateGraphHandler())
         e.preventDefault();
-    }
-    else { //Everything is fine, about to submit change
-      var csBlock = $("div.cs");
-      var csCheckbox = $("input", csBlock);
-      if (csBlock.hasClass("hidden") && csCheckbox.prop("checked"))
-        csCheckbox.prop("checked", false);
     }
   });
 
