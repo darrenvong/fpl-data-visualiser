@@ -5,7 +5,6 @@
 """
 from string import capwords
 
-import helpers
 import profile_graph_api
 
 def get_profile_contents(player_name, col):
@@ -53,8 +52,3 @@ def get_graph_data(metric, start, end, col, player_name, attr):
     elif metric == "changes": # Currently only applicable to prices
         return dict(changes=profile_graph_api.get_changes_data(
                                                     col, player_name, start, end, attr))
-
-if __name__ == '__main__':
-    client, players = helpers.connect()
-    print get_profile_contents(u"Mahrez", players)
-    client.close()

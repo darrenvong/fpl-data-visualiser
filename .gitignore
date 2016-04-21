@@ -3,3 +3,6 @@
 .settings
 *.pyc
 /js/Old profile code.js
+/background/out
+/background/compile_js.py
+chromedriver.exe
