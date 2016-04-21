@@ -21,7 +21,6 @@ def get_navbar():
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="index">Home</a></li>
-            <!-- <li><a href="#">About</a></li> -->
             <li class="dropdown">
               <a href="#" id="tools-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 Tools
