@@ -136,7 +136,9 @@ $(document).ready(function() {
       let message = 'Please tick one of the checkboxes above before clicking "Update graph" again.';
       inactiveError(e, message);
     }
-    else if (addUpdateGraphHandler()) // Don't update graph if start game week is later than end game week
+
+    var gameWeekEndPoints = addUpdateGraphHandler();
+    if (gameWeekEndPoints) // Don't update graph if start game week is later than end game week
       graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
   });
 });

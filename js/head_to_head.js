@@ -98,7 +98,9 @@ $(document).ready(function() {
       let message = 'Please tick one of the checkboxes above before clicking "Update graph" again.';
       inactiveError(e, message);
     }
-    if (addUpdateGraphHandler())
+
+    var gameWeekEndPoints = addUpdateGraphHandler();
+    if (gameWeekEndPoints)
       graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
   });
 
