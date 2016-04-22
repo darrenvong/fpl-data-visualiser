@@ -28,7 +28,7 @@ $(function() {
       inactiveError(e, message);
       return;
     }
-    else if (!addUpdateGraphHandler()) // Don't submit form if start game week is later than end game week
+    else if (!checkGameweek()) // Don't submit form if start game week is later than end game week
       e.preventDefault();
   });
 

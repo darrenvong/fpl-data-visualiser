@@ -122,9 +122,9 @@
                         </p>
                         <p>
                           <b>Box plot: </b>they show the range of points scored by the player as in an individual profile. 
-                          However, now that there are two players placed against each other, it is a good way to quickly visualise who scores more
-                          points between the game weeks selected. The player either with a higher median score line or with a box placed
-                          at a higher position is generally your winner.
+                          However, with two players placed against each other, it is a good way to quickly visualise and compare who scores more
+                          points between the game weeks selected. The player either with a higher median score line and/or
+                          with a higher placed, 'short' box is generally your winner.
                         </p>
                       </div>
                       <div class="modal-footer">

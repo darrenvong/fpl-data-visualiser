@@ -41,7 +41,7 @@ function hideErrorPrompts(searchBar) {
   });
 }
 
-function addUpdateGraphHandler() {
+function checkGameweek() {
   var start = parseInt($("#startTime").val());
   var end = parseInt($("#endTime").val());
   if (start > end) {
@@ -53,6 +53,26 @@ function addUpdateGraphHandler() {
   }
 
   return [start, end];
+}
+
+/**
+ ** Event handling function (logic) for when the "Update graph" button is clicked.
+ ** @param e: the button click event fired upon clicking the update graph button
+ ** @param control: the element which contains the interface for controlling how to update the graph on the page
+ ** @param graph: reference to the page's graph object
+ **/
+function updateGraphHandler(e, control, graph) {
+  if (control.hasClass("hidden")) // Don't update graph if the controls are hidden
+    return;
+  else if ($("input[type=checkbox]:checked").length === 0) { // Don't update if no "Active" boxes are checked
+    let message = 'Please tick one of the checkboxes above before clicking "Update graph" again.';
+    inactiveError(e, message);
+  }
+  else { // Don't update if the start game week is later than end game week
+    let gameWeekEndPoints = checkGameweek();
+    if (gameWeekEndPoints)
+      graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
+  }
 }
 
 function toggleAlertBox(valid) {

@@ -91,18 +91,6 @@ $(document).ready(function() {
   var graph = new HeadToHeadGraph(initOptions);
 
   $("#update_graph").click(function(e) {
-    if ($("div.attributes").hasClass("hidden")) {
-      return;
-    }
-    else if ($("input[type=checkbox]:checked").length === 0) { // Don't update graph if no "Active" checkboxes are ticked
-      let message = 'Please tick one of the checkboxes above before clicking "Update graph" again.';
-      inactiveError(e, message);
-    }
-
-    var gameWeekEndPoints = addUpdateGraphHandler();
-    if (gameWeekEndPoints)
-      graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
+    updateGraphHandler(e, $("div.attributes"), graph);
   });
-
-  $('[data-toggle="popover"]').popover();
 });
