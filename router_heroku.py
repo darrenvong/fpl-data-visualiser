@@ -16,6 +16,7 @@ from views import home, helpers, head_to_head, profiles, player_filter
 client, players_col = helpers.connect(on_heroku=True)
 
 @route("/")
+@route("/index")
 def root():
     hot_players = home.get_hot_players(players_col)
     pound_stretchers = home.pound_stretchers(players_col)
