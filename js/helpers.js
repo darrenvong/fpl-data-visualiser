@@ -71,3 +71,14 @@ function toggleAlertBox(valid) {
     }
   }
 }
+
+/**
+ ** Prompt to display to user when no "Active" checkboxes have been checked before trying to update the graph or player filter search
+ ** @param e: the button click event fired upon clicking the update (graph) button
+ ** @param msg: the message to display
+ **/
+function inactiveError(e, msg) {
+  e.preventDefault();
+  $(".alert-danger").html('<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;'+msg);
+  toggleAlertBox(false);
+}

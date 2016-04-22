@@ -24,13 +24,12 @@ $(function() {
 
     // Don't submit form if user hasn't specified any filtering at all
     if ($('.filter-block input[type=checkbox]:checked').length === 0) {
-      e.preventDefault();
-      $(".alert-danger").html('<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;'+
-        'Please select at least one item below before clicking "Update".');
-      toggleAlertBox(false);
-      if (!addUpdateGraphHandler())
-        e.preventDefault();
+      let message = 'Please select at least one item below before clicking "Update".';
+      inactiveError(e, message);
+      return;
     }
+    else if (!addUpdateGraphHandler()) // Don't submit form if start game week is later than end game week
+      e.preventDefault();
   });
 
   $("#position").change(checkPosition);

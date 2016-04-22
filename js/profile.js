@@ -127,9 +127,16 @@ $(document).ready(function() {
 
   var graph = new ProfileGraph(initOptions);
 
-  $("#update_graph").click(function() {
-    var gameWeekEndPoints = addUpdateGraphHandler();
-    if (gameWeekEndPoints)
+  $("#update_graph").click(function(e) {
+    // Don't update graph if the control interface is hidden
+    if ($("div.performance_metrics").hasClass("hidden")) {
+      return;
+    }
+    else if ($("input[type=checkbox]:checked").length === 0) { // Don't update graph if no "Active" checkboxes are ticked
+      let message = 'Please tick one of the checkboxes above before clicking "Update graph" again.';
+      inactiveError(e, message);
+    }
+    else if (addUpdateGraphHandler()) // Don't update graph if start game week is later than end game week
       graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
   });
 });
