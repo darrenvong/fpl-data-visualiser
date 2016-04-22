@@ -16,11 +16,11 @@ def get_navbar():
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index">Data Visualiser</a>
+          <a class="navbar-brand" href="/">Data Visualiser</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li class="dropdown">
               <a href="#" id="tools-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 Tools
@@ -32,6 +32,9 @@ def get_navbar():
                 <li><a href="player_filter">Player filter</a></li>
               </ul>
             </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://goo.gl/nySkHU">Feedback Questionnaire</a></li>
           </ul>
         </div>
       </div>

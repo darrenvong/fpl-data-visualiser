@@ -14,19 +14,13 @@ from views import home, helpers, head_to_head, profiles, player_filter
 
 client, players_col = helpers.connect()
 
-@route("/index")
+@route("/")
 def root():
     hot_players = home.get_hot_players(players_col)
     pound_stretchers = home.pound_stretchers(players_col)
     popular_players = home.most_popular(players_col)
     return template("index", hot_players=hot_players, pound_stretchers=pound_stretchers,
                     popular_players=popular_players)
-
-@route("/")
-def re_route():
-    """Redirects the 'true' root to the /index end point where a root page is
-    actually defined."""
-    redirect("/index")
 
 @post("/player_names")
 def get_player_names():
