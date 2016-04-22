@@ -9,21 +9,22 @@ from bson import SON
 from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 
-from views.helpers import get_current_gameweek, connect
+from views.helpers import get_current_gameweek, connect, accent_fold
 
 def enforce_injective_name_mapping(col):
     pipeline = [{"$group": {"_id": "$normalised_name", "total": {"$sum": 1}}},
                 {"$match": {"total": {"$gt": 1}}}, {"$sort": SON([("total", -1)])}]
-    inj_names_pointer = col.aggregate(pipeline)
+    repeated_names = col.aggregate(pipeline)
     new_norm_names = []
-    for non_inj_name_obj in inj_names_pointer:
+    for non_inj_name_obj in repeated_names:
         query = {"normalised_name": non_inj_name_obj["_id"]}
         projection = {"_id": 0, "normalised_name": 1, "first_name": 1}
         # For each repeated name, find all repetitions and their first names
         for rep_name in col.find(query, projection):
+            norm_first_name = accent_fold(rep_name["first_name"]).capitalize()
             new_norm_names.append({"first_name": rep_name["first_name"],
                                    "normalised_name": rep_name["normalised_name"],
-                                   "new_normalised_name": (rep_name["first_name"]+
+                                   "new_normalised_name": (norm_first_name+
                                                            u" "+rep_name["normalised_name"].lower())
                                   })
     

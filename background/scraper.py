@@ -10,7 +10,7 @@ from collections import OrderedDict
 
 from views.helpers import accent_fold, headers
 
-# idea adapted from Pringle's (2014) code
+# idea adapted from Pringle's (2015) code
 FIXTURE_KEY_MAP = {
     0 : "date", 
     1 : "gameweek",
