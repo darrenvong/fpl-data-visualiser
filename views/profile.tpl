@@ -69,7 +69,7 @@
                 <td>{{contents["total_points"]}}</td>
               </tr>
               <tr id="points_extra" class="no-extra-info hidden">
-                <td><span class="extras">per minute</span></td>
+                <td><span class="extras">minutes taken per point scored</span></td>
                 <td>{{round( contents["minutes"]/float(contents["total_points"]), 1 ) if contents["total_points"] != 0 else 0}}</td>
               </tr>
               <tr id="price">
@@ -179,7 +179,9 @@
                           <b>Home vs Away: </b>shows the percentage of points the player scored at the home ground and away ground.
                         </p>
                         <p>
-                          <b>Consistency: </b>a box plot showing the range of points scored by the player. In general, the 'taller' the box, the less consistent a player's score is and you want to look for players with a 'short' box and high <em>median</em> line.
+                          <b>Consistency: </b>a box plot showing the range of points scored by the player.
+                          In general, the 'taller' the box, the less consistent a player's score is and
+                          you want to look for players with a 'short' box and high <em>median</em> line.
                         </p>
                         <p>
                           <b>Cumulative total: </b>shows how the player's total point score increases after each game week.

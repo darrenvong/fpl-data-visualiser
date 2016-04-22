@@ -127,9 +127,7 @@ $(document).ready(function() {
 
   var graph = new ProfileGraph(initOptions);
 
-  $("#update_graph").click(function() {
-    var gameWeekEndPoints = addUpdateGraphHandler();
-    if (gameWeekEndPoints)
-      graph.update(gameWeekEndPoints[0], gameWeekEndPoints[1]);
+  $("#update_graph").click(function(e) {
+    updateGraphHandler(e, $("div.performance_metrics"), graph);
   });
 });
