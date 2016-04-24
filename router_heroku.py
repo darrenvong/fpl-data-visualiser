@@ -69,11 +69,16 @@ def get_head_to_head_page():
 
 @route("/player_filter")
 def multi_player_home():
-    return template("player_filter_home",current_gw=helpers.get_current_gameweek(players_col))
+    return template("player_filter_home",current_gw=helpers.get_current_gameweek(players_col),
+                    noResultsFound=False)
 
 @post("/player_filter")
 def multi_player_comp():
-    player_stats, selected_filters = player_filter.get_table_contents(players_col, request.forms)
+    try:
+        player_stats, selected_filters = player_filter.get_table_contents(players_col, request.forms)
+    except:
+        return template("player_filter_home", current_gw=helpers.get_current_gameweek(players_col),
+                        noResultsFound=True)
     return template("player_filter", player_stats=player_stats,
                     current_gw=helpers.get_current_gameweek(players_col),
                     selected_filters=selected_filters, start=request.forms.start,

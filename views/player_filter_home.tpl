@@ -71,7 +71,7 @@
               </select>
             </div>
             <span class="help-block">Notes: the "Game week" range has an effect on <b>Points</b>, <b>Goals</b>, <b>Assists</b>, <b>Clean sheets</b> and <b>Minutes played</b> only.</span>
-            <div class="alert alert-danger hidden" role="alert">
+            <div class="alert alert-danger {{'hidden' if not noResultsFound else ''}}" role="alert">
               <span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;Please select at least one item below before clicking "Update".
             </div>
             <div class="form-group filter-block">
