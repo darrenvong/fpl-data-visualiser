@@ -2,7 +2,7 @@
 
 """
 A set of unit tests for testing if the profiles module is working properly
-@author: Darren
+@author: Darren Vong
 """
 import unittest
 

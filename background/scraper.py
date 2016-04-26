@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
+This module is responsible for collecting the raw player's data from the
+Fantasy Premier League API and transforming such data to a more easily
+understandable and workable data structure in the 'fixture_history'
+field for each player.
 @author: Darren Vong
 """
 import urllib2

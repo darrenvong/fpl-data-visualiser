@@ -51,4 +51,4 @@ def capitalise_camel_case_words(s):
     return result.capitalize()
 
 if __name__ == '__main__':
-    print capitalise_camel_case_words("thisIsAReallyLongFuckingString")
+    print capitalise_camel_case_words("thisIsAReallyLongString")

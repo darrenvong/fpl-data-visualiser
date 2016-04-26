@@ -3,11 +3,8 @@
 """
 @author: Darren Vong
 """
-
 from pymongo import DESCENDING
 from bson import SON
-
-import helpers
 
 def get_hot_players(col):
     query = {"total_points": {"$gt": 0}}
@@ -58,16 +55,3 @@ def generate_tables(players_list, table_type="pound_stretchers"):
             table_html += u"<td>"+transfer_sign+unicode(player["net_transfers"])+u"</td>\n"
         table_html += u"</tr>\n"
     return table_html
-
-if __name__ == "__main__":
-    _, players = helpers.connect()
-    hot, ps, mp = get_hot_players(players), pound_stretchers(players), most_popular(players)
-    hot_table = generate_tables(hot, "hot_players")
-    ps_table = generate_tables(ps)
-    mp_table = generate_tables(mp, "popular_players")
-    print hot_table
-    print
-    print ps_table
-    print
-    print mp_table
-    
