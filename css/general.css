@@ -10,8 +10,10 @@ nav.navbar {
 }
 
 /* So that drop down menu on nav bar appears on mouse hover */
-.dropdown:hover .dropdown-menu {
-  display: block;
+@media (min-width: 768px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }  
 }
 
 .icon-bar {
