@@ -20,11 +20,22 @@ ATTR_TO_PROFILE_KEY = OrderedDict([
 ])
 
 def get_players_profiles(player1, player2, col):
+    """Finds the two players' profiles searched for.
+    @param player1: name of the first player's profile to search for
+    @param player2: name of the second player's profile to search for
+    @param col: the MongoDB database collection to search the profiles from
+    @return a tuple containing both players' profile data held in a dictionary.
+    """
     player1_profile = profiles.get_profile_contents(player1, col)
     player2_profile = profiles.get_profile_contents(player2, col)
     return player1_profile, player2_profile
 
 def generate_table(p1_profile, p2_profile):
+    """Generates a head-to-head comparison table using the player profiles data.
+    @param p1_profile: the first player's profile
+    @param p2_profile: the second player's profile
+    @return the HTML for generating most of the table body in the head-to-head page template
+    """
     table = u""
     for attr in ATTR_TO_PROFILE_KEY.iterkeys():
         table += generate_row(p1_profile, p2_profile, attr)
@@ -32,6 +43,12 @@ def generate_table(p1_profile, p2_profile):
     return table 
 
 def generate_row(p1_profile, p2_profile, attr):
+    """Generates a row of the head-to-head comparison table for the attribute specified.
+    @param p1_profile: the first player's profile
+    @param p2_profile: the second player's profile
+    @param attr: the attribute to use to generate this row of the table
+    @return the row in HTML for the attribute
+    """
     integer_val_attr = ["Points", "Goals", "Assists", "Yellow cards", "Clean sheets"]
     if attr in integer_val_attr:
         p1_val = int(p1_profile[ATTR_TO_PROFILE_KEY[attr]])
