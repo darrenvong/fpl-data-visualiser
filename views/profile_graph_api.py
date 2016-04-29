@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
+This module consists of all the backend logic for calling the relevant graph data API functions
+depending on the attribute specified.
 @author: Darren Vong
 """
 from api import points, price, goals, assists, clean_sheets, net_transfers, mins_played

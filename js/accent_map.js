@@ -1,6 +1,6 @@
 /* Extracted from Carlos Buenos (2009-2010) code on accent folding.
 /* The accent map with the original code may be found
-/* at https://github.com/aristus/accent-folding/blob/master/accent-fold.js
+/* at https://github.com/aristus/accent-folding/
 */
 var accent_map = {
 'ẚ':'a',

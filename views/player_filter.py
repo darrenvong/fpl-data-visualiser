@@ -21,6 +21,16 @@ VALUE_TO_DATA_KEY = {
 }
 
 def get_table_contents(col, form_dict):
+    """Finds the top players matching the filters selected by the user via the UI.
+    The selected filters info are held in the form_dict dictionary which gets populated by
+    Bottle when the user clicks "Update" on the UI and sends a POST request to the server.
+    @param col: the database collection to perform the filter query on
+    @param form_dict: a dictionary-like object provided by Bottle holding the values of each
+    HTTP request parameters, where a single parameter represents a value selected by the user on the UI
+    @return a tuple containing the matched players together with attributes data corresponding
+    to the filters selected by the user
+    """
+    
     query = None
     projection = {"_id": 0, "fixture_history": 1, "web_name": 1,
                   "normalised_name": 1, "team_name": 1}
@@ -73,9 +83,23 @@ def get_table_contents(col, form_dict):
     return [player for player in cursor], selected_filters
 
 def get_selected_filters(form_dict):
+    """Auxiliary function for identifying which filters the user has selected since the form_dict
+    from Bottle also contains other non filter values such as position and the number of players the user wish
+    to see on the page.
+    @param form_dict: the dictionary-like object from Bottle holding the values of each
+    HTTP request parameters. See get_table_contents's docstring for explanation.
+    @return a list containing the name of the filters that have been selected by the user
+    """
+    
     return [f for f in form_dict.iterkeys() if f not in ["start", "end", "position", "num_players"]]
 
 def get_previous_position_state(state_val):
+    """Retrieves the "Position" selected by the user in a filter search on the previous move
+    and select that accordingly on this page (which displays the results of their filter search).
+    @param state_val: the last selected "Position" value
+    @return the HTML for generating the "Position" drop-down menu with state_val selected in the player filter template
+    """
+    
     init_pos_options = """<option value='All'>All</option>
                 <option value='Goalkeeper'>Goalkeepers</option>
                 <option value='Defender'>Defenders</option>

@@ -26,6 +26,7 @@ def get_players_profiles(player1, player2, col):
     @param col: the MongoDB database collection to search the profiles from
     @return a tuple containing both players' profile data held in a dictionary.
     """
+    
     player1_profile = profiles.get_profile_contents(player1, col)
     player2_profile = profiles.get_profile_contents(player2, col)
     return player1_profile, player2_profile
@@ -36,6 +37,7 @@ def generate_table(p1_profile, p2_profile):
     @param p2_profile: the second player's profile
     @return the HTML for generating most of the table body in the head-to-head page template
     """
+    
     table = u""
     for attr in ATTR_TO_PROFILE_KEY.iterkeys():
         table += generate_row(p1_profile, p2_profile, attr)
@@ -49,6 +51,7 @@ def generate_row(p1_profile, p2_profile, attr):
     @param attr: the attribute to use to generate this row of the table
     @return the row in HTML for the attribute
     """
+    
     integer_val_attr = ["Points", "Goals", "Assists", "Yellow cards", "Clean sheets"]
     if attr in integer_val_attr:
         p1_val = int(p1_profile[ATTR_TO_PROFILE_KEY[attr]])
@@ -65,6 +68,17 @@ def generate_row(p1_profile, p2_profile, attr):
     return row
 
 def row_template(p1_val, p2_val, attr, prefix=u"", suffix=u""):
+    """Auxiliary function for generate_row above - this function contains the logic
+    for deciding which value cell is highlighted (by adding the *-success CSS classes)
+    depending on the value and the attribute specified.
+    @param p1_val: the attribute value of the first player
+    @param p2_val: the attribute value of the second player
+    @param attr: the attribute to use for the table row
+    @keyword prefix: the characters to insert before the value of the attribute
+    @keyword suffix: the characters to insert after the value of the attribute
+    @return the row in HTML for the attribute with the superior value highlighted
+    """
+    
     row = u""
     if p1_val > p2_val:
         row = u"<tr class='"+ATTR_TO_PROFILE_KEY[attr]+u"'>\n"
