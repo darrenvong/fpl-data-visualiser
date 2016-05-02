@@ -56,6 +56,3 @@ def capitalise_camel_case_words(s):
         result = result+char if char.islower() else result+" "+char
     
     return result.capitalize()
-
-if __name__ == '__main__':
-    print capitalise_camel_case_words("thisIsAReallyLongString")
