@@ -4,7 +4,7 @@
 A module containing generic data gatherer (from a MongoDB database) functions
 for an 'extensible' attribute on the profile page. 'Extensible' here means the
 attribute has more information that can be projected onto the graph on the profile page.
-@author: Darren
+@author: Darren Vong
 """
 import numpy as np
 
@@ -30,7 +30,6 @@ def get_over_time_data(col, player_name, start, end, attr):
     res_length = len(data["gameweeks"])
     data = [{"x": data["gameweeks"][i], "y": data[attr][i], "name": data["results"][i]}
             for i in xrange(res_length)]
-#     data = helpers.pairs_to_lists(zip(data["gameweeks"], data[attr]))
     return data
 
 def get_home_vs_away_data(col, player_name, start, end, attr):
@@ -55,9 +54,3 @@ def get_cumulative_total_data(col, player_name, start, end, attr):
     cum_sums = np.cumsum(data[attr])
     data = map(list, zip(data["gameweeks"], cum_sums))
     return data
-
-if __name__ == "__main__":
-    from pymongo import MongoClient
-    c = MongoClient()
-    col = c.players.current_gw
-    print get_over_time_data(col, "Vardy", 24, 31, "points")

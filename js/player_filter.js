@@ -1,3 +1,7 @@
+/** The top level function call (i.e. the main method) for the player filter page
+ ** @author: Darren Vong
+ **/
+
 $(function() {
 
   function checkPosition() {

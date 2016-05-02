@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: Darren
+A module of auxiliary functions that are commonly used across the API's modules that
+models an attribute.
+@author: Darren Vong
 """
 def to_indices(start, end):
     """Helper function for converting game week numbers in terms of index nums

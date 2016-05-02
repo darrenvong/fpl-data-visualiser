@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: Darren
+This module models the "Minutes played" attribute in a player profile or head-to-head
+comparator's page table and provides functions for getting data of all the relevant
+metrics available to "Minutes played".
+@author: Darren Vong
 """
 import attribute
 

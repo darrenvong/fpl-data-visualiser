@@ -5,7 +5,7 @@ This module is responsible for any dynamic contents required for the home page
 of the system. 
 @author: Darren Vong
 """
-from pymongo import DESCENDING
+from pymongo import DESCENDING, ASCENDING
 from bson import SON
 
 def get_hot_players(col):
@@ -19,7 +19,8 @@ def get_hot_players(col):
     query = {"total_points": {"$gt": 0}}
     projection = {"_id": 0, "web_name": 1, "team_name": 1, "now_cost": 1, "total_points": 1,
                   "form": 1}
-    cursor = col.find(query, projection, sort=[("form", DESCENDING)], limit=5)
+    cursor = col.find(query, projection, sort=[("form", DESCENDING),("total_points", DESCENDING),
+                ("now_cost", ASCENDING)], limit=5)
     return [player for player in cursor]
 
 def pound_stretchers(col):

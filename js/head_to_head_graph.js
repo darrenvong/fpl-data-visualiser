@@ -1,3 +1,7 @@
+/** A pseudoclass representing the graph object on the 'Head-to-head comparator' page.
+ ** @author: Darren Vong
+ **/
+
 function HeadToHeadGraph(options) {
   // Screen is wide enough so the "Update Graph" label is actually displayed together with icon
   Highcharts.setOptions({

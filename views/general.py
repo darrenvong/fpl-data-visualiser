@@ -33,9 +33,6 @@ def get_navbar():
               </ul>
             </li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://goo.gl/nySkHU">Feedback Questionnaire</a></li>
-          </ul>
         </div>
       </div>
     </nav>"""

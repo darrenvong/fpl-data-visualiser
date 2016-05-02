@@ -1,6 +1,6 @@
 /** The top level function call (i.e. the main method) for a player profiles' page
  ** @author: Darren Vong
-**/
+ **/
 
 $(document).ready(function() {
   var initOptions = {

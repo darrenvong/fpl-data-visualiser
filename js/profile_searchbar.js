@@ -1,3 +1,8 @@
+/** A pseudoclass representing the player search bar used across the 'Player profiles' and
+ ** 'Head-to-head comparator' pages.
+ ** @author: Darren Vong
+ **/
+
 function PlayerSearchBar(selector) {
   this.playerNames = [];
   var thisClass = this;

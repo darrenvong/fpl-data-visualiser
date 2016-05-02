@@ -1,3 +1,7 @@
+/** A set of common utility functions that are useful across all pages of the system
+ ** @author: Darren Vong
+ **/
+
 /* Converts diacritic input into its non-diacritic equivalent. Diacritics are accents/marks
 in a letter/alphabet which stresses how words should be pronounced.
 e.g. the letter "è" with the grave accent would be same as "e"

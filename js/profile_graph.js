@@ -1,3 +1,7 @@
+/** A pseudoclass representing the graph object on the 'Player profiles' page.
+ ** @author: Darren Vong
+ **/
+
 function ProfileGraph(options) {
   var ATTR_ID_MAP = {
     "Points": "points",

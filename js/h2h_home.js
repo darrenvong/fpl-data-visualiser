@@ -1,3 +1,8 @@
+/** The top level function call (i.e. the main method) for the head-to-head
+ ** comparator's home page.
+ ** @author: Darren Vong
+ **/
+
 $(function() {
   var searchBars = new PlayerSearchBar("#player1, #player2");
   $("button[type='submit']").click(function(e) {
