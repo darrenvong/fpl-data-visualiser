@@ -410,7 +410,6 @@
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script src="js/highcharts.js"></script>
     <script src="js/highcharts-more.js"></script>
-    <script src="js/math.min.js"></script>
     <script src="js/min/accent_map.min.js"></script>
     <script src="js/min/unstick_buttons.min.js"></script>
     <script src="js/min/helpers.min.js"></script>
