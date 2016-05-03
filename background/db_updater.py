@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
+This module consists of functions responsible for storing data collected into
+the system's MongoDB database, as well as ensuring all web names
+of players are unique (injective). 
 @author: Darren Vong
 """
 from json import loads

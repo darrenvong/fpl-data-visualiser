@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
+A background utility module for identifying (and in turn, retrieves, 
+if functions are called in order) the missing player photos.
 @author: Darren Vong
 """
 import urllib2
