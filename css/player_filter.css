@@ -1,3 +1,7 @@
+/** Stylesheet for the player filter page.
+ ** @author: Darren Vong
+ **/
+
 div.filter-block {
   max-height: 300px;
   border: 1px solid rgb(204,204,204);

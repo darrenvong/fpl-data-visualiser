@@ -1,3 +1,7 @@
+/** Shared styling for all pages of the FPL data visualiser.
+ ** @author: Darren Vong
+ **/
+
 nav.navbar {
   margin-bottom: 0px;
   background-color: #dbe9f2;

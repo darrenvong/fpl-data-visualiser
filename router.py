@@ -7,14 +7,16 @@ appropriate contents (HTML pages).
 @author: Darren Vong
 """
 import json
+from sys import argv
 
 from bottle import route, post, static_file, template, redirect, request, response, run
 
 from views import home, helpers, head_to_head, profiles, player_filter
 
-client, players_col = helpers.connect()
+client, players_col = helpers.connect() if len(argv) == 1 else helpers.connect(on_heroku=True)
 
 @route("/")
+@route("/index")
 def root():
     hot_players = home.get_hot_players(players_col)
     pound_stretchers = home.pound_stretchers(players_col)
@@ -24,6 +26,7 @@ def root():
 
 @post("/player_names")
 def get_player_names():
+    response.set_header("Access-Control-Allow-Origin", "*")
     player_names = profiles.get_player_names(players_col)
     response.content_type = "application/json"
     return json.dumps(player_names)
@@ -43,6 +46,7 @@ def get_player_profile():
 
 @post("/graph_data")
 def get_graph_data():
+    response.set_header("Access-Control-Allow-Origin", "*")
     attr, metric, start, end, player_name = (request.forms.attr, request.forms.metric,
                                 request.forms.start, request.forms.end,
                                 request.forms.player_name)
@@ -85,4 +89,7 @@ def get_resources(path):
     return static_file(path, root="./")
 
 if __name__ == "__main__":
-    run(host='localhost', port=80, reloader=True, debug=True)
+    if len(argv) > 1: # Deploying on Heroku
+        run(host='0.0.0.0', port=argv[1], reloader=True, debug=True, server="cherrypy")
+    else: # Running locally
+        run(host='localhost', port=80, reloader=True, debug=True)

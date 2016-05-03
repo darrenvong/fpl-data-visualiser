@@ -1,3 +1,7 @@
+/** Stylesheet for the head-to-head comparator page.
+ ** @author: Darren Vong
+ **/
+
 figure {
   padding: 20px 0px;
 }
@@ -6,7 +10,6 @@ div.form-group {
   margin: 10px 0px;
   position: relative;
 }
-
 
 label.labels {
   width: 60px;
@@ -38,7 +41,6 @@ div#graph_container {
 #gameweek {
   display: inline-block;
 }
-
 
 @media (max-width: 767px) {
   .sm-screen {

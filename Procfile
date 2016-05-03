@@ -1,1 +1,1 @@
-web: python router_heroku.py $PORT
+web: python router.py $PORT
