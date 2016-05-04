@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
+This module is responsible for generating any dynamic contents required for the player filter page
+of the system.
 @author: Darren Vong
 """
 
