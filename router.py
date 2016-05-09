@@ -84,6 +84,10 @@ def multi_player_comp():
                     selected_filters=selected_filters, start=request.forms.start,
                     end=request.forms.end, position=request.forms.position)
 
+@route("/results")
+def results():
+    return template("results")
+
 @route("<path:path>")
 def get_resources(path):
     return static_file(path, root="./")
