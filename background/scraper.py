@@ -69,7 +69,7 @@ def normalise_names(player_data):
 
 def restructure_players_schema(player_data):
     player_data = normalise_names( restructure_fixture_data(player_data) )
-    attributes_to_cast = ["selected_by", "selected_by_percent", "form", "points_per_game", "ep_next"]
+    attributes_to_cast = ["selected_by", "selected_by_percent", "form", "points_per_game"]
     for attr in attributes_to_cast:
         player_data[attr] = float(player_data[attr])
     return player_data
@@ -109,6 +109,10 @@ def scrape_players(outFile=False):
         except ValueError:
             print "Invalid JSON, try again!"
             continue
+        except:
+            print "The offending player is", player_data
+            raise RuntimeError("Something gone wrong with the collection of player data. "+
+                               "Insertion of data in DB should terminate!")
         else:
             i += 1
         
