@@ -66,9 +66,7 @@ function checkGameweek() {
  ** @param graph: reference to the page's graph object
  **/
 function updateGraphHandler(e, control, graph) {
-  if (control.hasClass("hidden")) // Don't update graph if the controls are hidden
-    return;
-  else if ($("input[type=checkbox]:checked").length === 0) { // Don't update if no "Active" boxes are checked
+  if ($("input[type=checkbox]:checked").length === 0) { // Don't update if no "Active" boxes are checked
     let message = 'Please tick one of the checkboxes above before clicking "Update graph" again.';
     inactiveError(e, message);
   }

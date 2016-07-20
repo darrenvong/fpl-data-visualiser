@@ -88,7 +88,7 @@ ProfileGraph.prototype.update = function(start, end) {
     var options = $("div.performance_metrics");
     //Reference to the current graph instance for use inside the function call after this line
     var thisGraph = this;
-    if (!options.hasClass("hidden") && $("input[type=checkbox]:checked").length !== 0) {
+    if ($("input[type=checkbox]:checked").length !== 0) {
       $("div.performance_metrics > .form-group").each(function() {
         var attrMetricArray = $("select.form-control", this).val().split("-");
         var attr = attrMetricArray[0];
@@ -317,7 +317,7 @@ ProfileGraph.prototype.getData = function(attr, metric, start, end) {
 ProfileGraph.prototype.isValid = function() {
   var valid = true;
   var firstBoxOrPieSelected = null; //N.B. selected is not the same as having the "Active" box checked
-  var dropdownsSelector = "div.performance_metrics:not(.hidden) > .form-group select.form-control";
+  var dropdownsSelector = "div.performance_metrics > .form-group select.form-control";
   var selectedOptions = [];
 
   $(dropdownsSelector).each(function() {

@@ -25,7 +25,7 @@
     <link href="css/head_to_head.css" rel="stylesheet">
 
     <!-- Polyfill fixes by Mozilla Developer Network (2016), https://developer.mozilla.org/ -->
-    <script src="js/min/polyfills.min.js"></script>
+    <script src="js/polyfills.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -304,12 +304,11 @@
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script src="js/highcharts.js"></script>
     <script src="js/highcharts-more.js"></script>
-    <script src="js/min/unstick_buttons.min.js"></script>
-    <script src="js/min/accent_map.min.js"></script>
-    <script src="js/min/helpers.min.js"></script>
-    <script src="js/min/profile_searchbar.min.js"></script>
-    <!-- // <script src="js/profile_graph.js"></script> -->
-    <script src="js/min/head_to_head_graph.min.js"></script>
-    <script src="js/min/head_to_head.min.js"></script>
+    <script src="js/unstick_buttons.js"></script>
+    <script src="js/accent_map.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/profile_searchbar.js"></script>
+    <script src="js/head_to_head_graph.js"></script>
+    <script src="js/head_to_head.js"></script>
   </body>
 </html>

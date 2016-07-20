@@ -22,7 +22,7 @@
     <link href="css/home.css" rel="stylesheet">
 
     <!-- Polyfill fixes by Mozilla Developer Network (2016), https://developer.mozilla.org/ -->
-    <script src="js/min/polyfills.min.js"></script>
+    <script src="js/polyfills.js"></script>
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -112,6 +112,6 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
-    <script src="js/min/unstick_buttons.min.js"></script>
+    <script src="js/unstick_buttons.js"></script>
   </body>
 </html>

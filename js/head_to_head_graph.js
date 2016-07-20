@@ -82,7 +82,7 @@ HeadToHeadGraph.prototype.update = function(start, end) {
     var options = $("div.attributes");
     var metric = "over_time";
     var thisGraph = this;
-    if (!options.hasClass("hidden") && $("input[type=checkbox]:checked").length !== 0) {
+    if ($("input[type=checkbox]:checked").length !== 0) {
       this.graph.showLoading("Loading graph...");
       this.graph.series.forEach(function(s) {
         s.setData([], false);
